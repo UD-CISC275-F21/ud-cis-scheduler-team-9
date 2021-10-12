@@ -9,8 +9,8 @@ function App(): JSX.Element {
                 <img src={logo} className="App-logo" alt="logo" />
                 UD CIS Scheduler
                 <p>
-                    "Hello World\n"
-                    Izahe' East
+                    &quot;Hello World&quot; <br></br>
+                    Izahe&apos; East was here<br></br>
                     Edit <code>src/App.tsx</code> and save to reload.
                 </p>
             </header>
