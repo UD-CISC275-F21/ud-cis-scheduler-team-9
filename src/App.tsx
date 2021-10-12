@@ -9,8 +9,8 @@ function App(): JSX.Element {
                 <img src={logo} className="App-logo" alt="logo" />
                 UD CIS Scheduler
                 <p>
-                    "Hello World\n"
-                    "Braxton-Add-Name branch made\n"
+                    Hello World <br/>
+                    Braxton-Add-Name branch made <br/>
                     Edit <code>src/App.tsx</code> and save to reload.
                 </p>
             </header>
