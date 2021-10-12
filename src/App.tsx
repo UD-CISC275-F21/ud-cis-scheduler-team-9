@@ -13,6 +13,7 @@ function App(): JSX.Element {
                     Hello World <br/>
                     Braxton-Add-Name branch made <br/>
                     Izahe East was here<br/>
+                    Patrick Brady<br/>
 
                     Edit <code>src/App.tsx</code> and save to reload.
                 </p>
