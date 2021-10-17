@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { ControlPanel } from "./Components/ControlPanel";
 
 function App(): JSX.Element {
@@ -16,7 +15,6 @@ function App(): JSX.Element {
                 <ControlPanel showModal={setVisible}></ControlPanel>
             </Row>
             <Row>
-
             </Row>
         </Container>
     );
