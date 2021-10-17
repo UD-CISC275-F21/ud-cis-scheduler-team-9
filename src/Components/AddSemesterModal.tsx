@@ -23,6 +23,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         var totalCredits = creditTotal;
         var expectedTuition = tuition;
         addSemester({semester, courseList, totalCredits, expectedTuition});
+        hide;
     }
 
 
