@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { Modal, Col, Row, ModalBody, Form } from "react-bootstrap";
+import { useState } from "react";
+import { Modal, Col, Row, ModalBody, Form, Button} from "react-bootstrap";
 import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
-import ModalHeader from "react-bootstrap/esm/ModalHeader";
-import Button from "@restart/ui/esm/Button";
+import ModalHeader from "react-bootstrap/ModalHeader";
 
 export function AddSemesterModal({ addSemester, setVisible, visible}:{
     addSemester: (s: Semester)=>void,
