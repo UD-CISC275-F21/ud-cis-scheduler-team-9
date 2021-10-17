@@ -2,7 +2,7 @@ import Button from "@restart/ui/esm/Button";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 
-export function ControlPanel(){
+export function ControlPanel({showModal}: {showModal: (b:boolean)=>void}): JSX.Element{
 
     return (
         <Col>
@@ -18,7 +18,7 @@ export function ControlPanel(){
             </Row>
             <Row>
                 <Col>
-                    <Button className="button" id="add-semester-button" onClick={()=>showModal()}>Add</Button>
+                    <Button className="button" id="add-semester-button" onClick={()=>showModal(true)}>Add</Button>
                 </Col>
             </Row>
         </Col>

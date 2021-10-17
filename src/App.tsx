@@ -1,24 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import { Col, Container, Row } from "react-bootstrap";
+import { ControlPanel } from "./Components/ControlPanel";
 
 function App(): JSX.Element {
+    const [visible, setVisible] = useState<boolean>(false);
+
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                UD CIS Scheduler
-                <p>
-                    Hello World <br />
-                    Braxton-Add-Name branch made <br />
-                    Izahe East was here
-                    <br />
-                    Patrick Brady
-                    <br />
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-            </header>
-        </div>
+        <Container className="App">
+            <Row>
+
+            </Row>
+            <Row>
+                <ControlPanel showModal={setVisible}></ControlPanel>
+            </Row>
+            <Row>
+
+            </Row>
+        </Container>
     );
 }
 
