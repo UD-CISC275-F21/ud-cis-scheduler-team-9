@@ -19,9 +19,9 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     const hide = ()=>setVisible(false);
 
     function save(){
-        let semester = season;
-        let totalCredits = creditTotal;
-        let expectedTuition = tuition;
+        const semester = season;
+        const totalCredits = creditTotal;
+        const expectedTuition = tuition;
         addSemester({semester, courseList, totalCredits, expectedTuition});
         hide;
     }
