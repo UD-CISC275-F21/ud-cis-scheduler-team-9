@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Col, Row, ModalBody } from "react-bootstrap";
+import { Modal, Col, Row, ModalBody, Form } from "react-bootstrap";
 import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
@@ -17,6 +17,20 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
 
 
     const hide = ()=>setVisible(false);
+
+    /* implement with drag function
+    function addCourse(course: Course){
+        setCourseList([...courseList, course]); 
+    }*/
+
+    function handleSearch(event: {preventDefault: () => void; }){
+        event.preventDefault();
+        //these set calls below are just place holders for the code to build
+        setSeason(0);
+        setCreditTotal(0);
+        setTuition(0);
+        setCourseList([]);
+    }
 
     function save(){
         const semester = season;
@@ -37,7 +51,22 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         >
             <ModalHeader closeButton onClick={hide}>AddSemester</ModalHeader>
             <ModalBody>
-                <Row></Row>
+                <Row>
+                    <Form onSubmit={handleSearch}>
+                        <Form.Group>
+                            <Form.Label>
+                                Course ID
+                            </Form.Label>
+                        </Form.Group>
+                        <Form.Control as="textarea" rows={1}
+                        autoCapitalize = "on"
+                        >                         
+                        </Form.Control>
+                        <Button className="button" type="submit" id="search-button">
+                            Search
+                        </Button>
+                    </Form>
+                </Row>
                 <Row>
                     <Col>
                     </Col>
