@@ -1,6 +1,5 @@
-import Button from "@restart/ui/esm/Button";
 import React from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Button } from "react-bootstrap";
 
 export function ControlPanel({showModal}: {showModal: (b:boolean)=>void}): JSX.Element{
 
