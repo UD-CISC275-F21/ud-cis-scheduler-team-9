@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Col, Row, ModalBody } from "react-bootstrap";
-import { Semester } from "../interface/semester";
+import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
+import Button from "@restart/ui/esm/Button";
 
-export function AddSemester({setVisible, plan, semester, visible}:{
+export function AddSemesterModal({ addSemester, setVisible, visible}:{
+    addSemester: (s: Semester)=>void,
     setVisible: (v:boolean)=>void,
-    plan: (Semester[]), 
-    semester: (Course[]),
     visible: (boolean)}): JSX.Element {
 
+    const [season, setSeason] = useState<Season>(0);
+    const [courseList, setCourseList] = useState<Course[]>([]);
+    const [creditTotal, setCreditTotal] = useState<number>(0);
+    const [tuition, setTuition] = useState<number>(0);
+
+
     const hide = ()=>setVisible(false);
+
+    function save(){
+        var semester = season
+        var totalCredits = creditTotal;
+        var expectedTuition = tuition;
+        addSemester({semester, courseList, totalCredits, expectedTuition});
+    }
 
 
     return (
@@ -29,6 +42,9 @@ export function AddSemester({setVisible, plan, semester, visible}:{
                     </Col>
                     <Col>
                     </Col>
+                </Row>
+                <Row>
+                    <Button onClick={save}></Button>
                 </Row>
                 <Row></Row>
             </ModalBody>
