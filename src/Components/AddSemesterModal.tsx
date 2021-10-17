@@ -59,7 +59,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                             </Form.Label>
                         </Form.Group>
                         <Form.Control as="textarea" rows={1}
-                        autoCapitalize = "on"
+                            autoCapitalize = "on"
                         >                         
                         </Form.Control>
                         <Button className="button" type="submit" id="search-button">
