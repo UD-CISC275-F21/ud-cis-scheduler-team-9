@@ -5,7 +5,7 @@ export interface Course {
     courseID: number,
     description: string,
     credits: number,
-    prereqs: Course[],
-    coreqs: Course[],
+    preReqs: Course[],
+    coReqs: Course[],
     semestersOffered: Season[]
 }
