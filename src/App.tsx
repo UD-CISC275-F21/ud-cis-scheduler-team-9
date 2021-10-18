@@ -16,7 +16,7 @@ function App(): JSX.Element {
     return (
         <Container className="App">
             <Row>
-
+                
             </Row>
             <Row>
                 <ControlPanel showModal={setVisible}></ControlPanel>
