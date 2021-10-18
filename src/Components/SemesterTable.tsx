@@ -1,7 +1,7 @@
-import React from 'react';
-import { Col, Table } from 'react-bootstrap';
-import { Course } from '../interface/course';
-import { Semester } from '../interface/semester';
+import React from "react";
+import { Col, Table } from "react-bootstrap";
+import { Course } from "../interface/course";
+import { Semester } from "../interface/semester";
 
 export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
 
@@ -10,7 +10,8 @@ export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
             <tr key={index}>
                 <td id="course-name">{course.department+course.courseID}</td>
             </tr>
-    )}
+        );
+    }
 
     return (
         <Col>
@@ -25,5 +26,5 @@ export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
                 </tbody>
             </Table>
         </Col>
-    )
+    );
 }
