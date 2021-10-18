@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Col, Row, ModalBody, Form, Button} from "react-bootstrap";
+import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl} from "react-bootstrap";
 import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
@@ -42,8 +42,8 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         // in the future it will just search for a class to display before they decide to drag it into the table or not
         // 
         //These set calls below are just place holders so the code will build
-        setSeason(1);
-        setYear(2022);
+        //setSeason(1);
+        //setYear(2022);
         setCreditTotal(0);
         setExpectedTuition(0);
 
@@ -62,6 +62,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
 
     function saveSemester(){
         addSemester({season, year, courseList, creditTotal, expectedTuition});
+        clearData();
         hide();
     }
 
@@ -79,6 +80,41 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         determineCreditTotal(courseList);
     }*/
 
+    function determineYear(){
+        const today = new Date();
+        return today.getFullYear();
+    }
+
+    function determineSeason(word: string){
+        if(word === "Fall"){
+            setSeason(0);
+        } else if(word === "Winter"){
+            setSeason(1);
+        } else if(word === "Spring"){
+            setSeason(2);
+        } else if(word === "Summer"){
+            setSeason(3);
+        }
+    }
+
+    function clearData(){
+        // Semester Data
+        setSeason(0);
+        setYear(0);
+        setCourseList([]);
+        setCreditTotal(0);
+        setExpectedTuition(0);
+        
+        //Course Data
+        setDepartment("");
+        setCourseID(0);
+        setDescription("");
+        setCredits(0);
+        setPreReqs([]);
+        setCoReqs([]);
+        setSemestersOffered([]);
+    }
+
     return (
         <Modal
             show={visible}
@@ -86,8 +122,9 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
             backdrop="static"
             keyboard={false}
             datatestid="add-semester-modal"
+            size="lg"
         >
-            <ModalHeader closeButton onClick={hide}></ModalHeader>
+            <ModalHeader closeButton onClick={clearData}></ModalHeader>
             <ModalBody>
                 <Row>
                     <Form className="d-flex" id="search-course-formm" onSubmit={handleSearch}>
@@ -105,7 +142,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                             <Form.Label>
                                 Course ID
                             </Form.Label>
-                            <Form.Control as="input" type="number"
+                            <Form.Control id="course-id" as="input" type="number"
                                 min={100}
                                 onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setCourseID(ev.target.valueAsNumber)}/>
                         </Form.Group>
@@ -113,6 +150,21 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                             Search
                         </Button>
                     </Form>
+                </Row>
+                <br/>
+                <Row>
+                    <Col>
+                        <FormCheck inline type="radio" value="Fall" name="season" label="Fall" checked={season === 0} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck inline type="radio" value="Winter" name="season" label="Winter" checked={season === 1} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck inline type="radio" value="Spring" name="season" label="Spring" checked={season === 2} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck inline type="radio" value="Summer" name="season" label="Summer" checked={season === 3} onChange={(e) => determineSeason(e.target.value)}/>
+                    </Col>
+                    <Col>
+                        <FormControl id="year-input" as="input" type="number"
+                            min={determineYear()}
+                            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setYear(ev.target.valueAsNumber)}
+                        />
+                    </Col>
                 </Row>
                 <Row>
                     <SemesterTable semester={{season, year, courseList, creditTotal, expectedTuition}}></SemesterTable>
