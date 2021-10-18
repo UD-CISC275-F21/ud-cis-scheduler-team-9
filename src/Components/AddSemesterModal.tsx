@@ -11,6 +11,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     visible: (boolean)}): JSX.Element {
 
     const [season, setSeason] = useState<Season>(0);
+    const [year, setYear] = useState<number>(2022);
     const [courseList, setCourseList] = useState<Course[]>([]);
     const [creditTotal, setCreditTotal] = useState<number>(0);
     const [expectedTuition, setExpectedTuition] = useState<number>(0);
@@ -42,13 +43,16 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         // 
         //These set calls below are just place holders so the code will build
         setSeason(1);
+        setYear(2022);
         setCreditTotal(0);
         setExpectedTuition(0);
+
         setDescription("");
         setCredits(0);
         setPreReqs([]);
         setCoReqs([]);
         setSemestersOffered([1]);
+
         setCourseList([...courseList, {department, courseID, description, credits, preReqs, coReqs, semestersOffered}]);
     }
 
@@ -57,12 +61,22 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     }
 
     function saveSemester(){
-        addSemester({season, courseList, creditTotal, expectedTuition});
+        addSemester({season, year, courseList, creditTotal, expectedTuition});
         hide();
     }
 
+    /*function determineCreditTotal({list}: {list: Course[]}) {
+        var i = 0;
+        var total = 0;
+        while(i != list.length){
+            total += list[i].credits;
+            i++
+        }
+    }*/
+
     /*function addCourse(course: Course){
         setCourseList([...courseList, course]);
+        determineCreditTotal(courseList);
     }*/
 
     return (
@@ -101,7 +115,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                     </Form>
                 </Row>
                 <Row>
-                    <SemesterTable semester={{season, courseList, creditTotal, expectedTuition}}></SemesterTable>
+                    <SemesterTable semester={{season, year, courseList, creditTotal, expectedTuition}}></SemesterTable>
                 </Row>
                 <Row>
                     <Col>
