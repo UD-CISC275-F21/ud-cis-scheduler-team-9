@@ -28,6 +28,20 @@
   color: #61dafb;
 }
 
+#search-course-button {
+  margin-top: 2em;
+  margin-left: 1em;
+}
+
+#save-semester-button {
+  margin-top: 1em;
+}
+
+#department-name {
+  text-transform: uppercase;
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -14,6 +14,9 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     const [creditTotal, setCreditTotal] = useState<number>(0);
     const [tuition, setTuition] = useState<number>(0);
 
+    const [department, setDepartment] = useState<string>("");
+    const [courseID, setCourseID] = useState<number>(0);
+
 
     const hide = ()=>setVisible(false);
 
@@ -21,6 +24,10 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     function addCourse(course: Course){
         setCourseList([...courseList, course]); 
     }*/
+
+    function validateForm() {
+        return department.length > 0 && courseID >= 100;
+    }
 
     function handleSearch(event: {preventDefault: () => void; }){
         event.preventDefault();
@@ -32,13 +39,10 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     }
 
     function save(){
-        const semester = season;
-        const totalCredits = creditTotal;
         const expectedTuition = tuition;
-        addSemester({semester, courseList, totalCredits, expectedTuition});
-        hide;
+        addSemester({season, courseList, creditTotal, expectedTuition});
+        hide();
     }
-
 
     return (
         <Modal
@@ -51,17 +55,26 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
             <ModalHeader closeButton onClick={hide}></ModalHeader>
             <ModalBody>
                 <Row>
-                    <Form onSubmit={handleSearch}>
+                    <Form className="d-flex" id="search-course-formm" onSubmit={handleSearch}>
+                        <Form.Group>
+                            <Form.Label>
+                                Department
+                            </Form.Label>
+                            <Form.Control id="department-name" as="textarea" rows={1} 
+                                minLength={3}
+                                maxLength={4}
+                                onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => setDepartment(ev.target.value)}
+                            />
+                        </Form.Group>
                         <Form.Group>
                             <Form.Label>
                                 Course ID
                             </Form.Label>
+                            <Form.Control as="input" type="number"
+                                min={100}
+                                onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setCourseID(ev.target.valueAsNumber)}/>
                         </Form.Group>
-                        <Form.Control as="textarea" rows={1}
-                            autoCapitalize = "on"
-                        >                         
-                        </Form.Control>
-                        <Button className="button" type="submit" id="search-button">
+                        <Button className="button" type="submit" id="search-course-button" disabled={!validateForm}>
                             Search
                         </Button>
                     </Form>
@@ -73,7 +86,11 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                     </Col>
                 </Row>
                 <Row>
-                    <Button onClick={save}>Save Semester</Button>
+                    <Col></Col>
+                    <Col></Col>
+                    <Col>
+                        <Button className="button" id="save-semester-button" onClick={save}>Save Semester</Button>
+                    </Col>
                 </Row>
                 <Row></Row>
             </ModalBody>
