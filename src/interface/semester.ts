@@ -9,6 +9,7 @@ export enum Season {
 
 export interface Semester {
     season: Season,
+    year: number,
     courseList: Course[],
     creditTotal: number,
     expectedTuition: number
