@@ -37,8 +37,11 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
 
     function handleSearch(event: {preventDefault: () => void; }){
         event.preventDefault();
-        //these set calls below are just place holders for the code to build
-        setSeason(0);
+        // For now this adds the courses to the table via the last call, 
+        // in the future it will just search for a class to display before they decide to drag it into the table or not
+        // 
+        //These set calls below are just place holders so the code will build
+        setSeason(1);
         setCreditTotal(0);
         setExpectedTuition(0);
         setDescription("");
