@@ -38,7 +38,11 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         setCourseList([]);
     }
 
-    function save(){
+    function clearCourseList(){
+        setCourseList([]);
+    }
+
+    function saveSemester(){
         const expectedTuition = tuition;
         addSemester({season, courseList, creditTotal, expectedTuition});
         hide();
@@ -81,15 +85,16 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                 </Row>
                 <Row>
                     <Col>
-                    </Col>
-                    <Col>
+                        <Row>
+                            <Button className="button" id="clear-course-list-button" onClick={clearCourseList}>Clear Semester</Button>
+                        </Row>
                     </Col>
                 </Row>
                 <Row>
                     <Col></Col>
                     <Col></Col>
                     <Col>
-                        <Button className="button" id="save-semester-button" onClick={save}>Save Semester</Button>
+                        <Button className="button" id="save-semester-button" onClick={saveSemester}>Save Semester</Button>
                     </Col>
                 </Row>
                 <Row></Row>
