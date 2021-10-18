@@ -84,14 +84,12 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                     </Form>
                 </Row>
                 <Row>
-                    <Col>
-                        <Row>
-                            <Button className="button" id="clear-course-list-button" onClick={clearCourseList}>Clear Semester</Button>
-                        </Row>
-                    </Col>
+                    
                 </Row>
                 <Row>
-                    <Col></Col>
+                    <Col>
+                        <Button className="button" id="clear-course-list-button" variant="danger" onClick={clearCourseList}>Clear Semester</Button>
+                    </Col>
                     <Col></Col>
                     <Col>
                         <Button className="button" id="save-semester-button" onClick={saveSemester}>Save Semester</Button>

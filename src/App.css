@@ -28,13 +28,13 @@
   color: #61dafb;
 }
 
+Button.button {
+  margin-top: 1em;
+}
+
 #search-course-button {
   margin-top: 2em;
   margin-left: 1em;
-}
-
-#save-semester-button {
-  margin-top: 1em;
 }
 
 #department-name {
