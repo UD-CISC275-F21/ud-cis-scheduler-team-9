@@ -1,8 +1,8 @@
 import { Season } from "./semester";
 
 export interface Course {
-    dept: string,
-    id: number,
+    department: string,
+    courseID: number,
     description: string,
     credits: number,
     prereqs: Course[],
