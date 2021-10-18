@@ -48,7 +48,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
             keyboard={false}
             datatestid="add-semester-modal"
         >
-            <ModalHeader closeButton onClick={hide}>AddSemester</ModalHeader>
+            <ModalHeader closeButton onClick={hide}></ModalHeader>
             <ModalBody>
                 <Row>
                     <Form onSubmit={handleSearch}>
@@ -73,7 +73,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                     </Col>
                 </Row>
                 <Row>
-                    <Button onClick={save}></Button>
+                    <Button onClick={save}>Save Semester</Button>
                 </Row>
                 <Row></Row>
             </ModalBody>
