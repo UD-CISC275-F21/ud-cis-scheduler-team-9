@@ -1,9 +1,6 @@
 import React from "react";
-import { Season, Semester } from "../interface/semester";
-import { Course } from "../interface/course";
+import { Semester } from "../interface/semester";
 import { SemesterTable } from "./SemesterTable";
-import { Col, Table } from "react-bootstrap";
-
 
 
 export const PlanTable = ({semesters}: {semesters: Semester[]}): JSX.Element => {
