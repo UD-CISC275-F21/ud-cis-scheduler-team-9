@@ -4,6 +4,7 @@ import { Button, Container, Row } from "react-bootstrap";
 import { ControlPanel } from "./Components/ControlPanel";
 import { AddSemesterModal } from "./Components/AddSemesterModal";
 import { Semester } from "./interface/semester";
+import { PlanTable } from "./Components/PlanTable";
 
 function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
@@ -29,6 +30,9 @@ function App(): JSX.Element {
             <Row>
                 <AddSemesterModal addSemester={addSemester} setVisible={setVisible} visible={visible}></AddSemesterModal>
                 <Button className="button" id="delete-all-button" onClick = {() => deleteAllSemesters()}> Delete All Semesters</Button>
+            </Row>
+            <Row>
+                <PlanTable semesters = {plan}></PlanTable>
             </Row>
         </Container>
     );
