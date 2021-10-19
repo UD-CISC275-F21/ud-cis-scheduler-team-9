@@ -29,7 +29,7 @@ function App(): JSX.Element {
             </Row>
             <Row>
                 <AddSemesterModal addSemester={addSemester} setVisible={setVisible} visible={visible}></AddSemesterModal>
-                <Button className="button" id="delete-all-button" onClick = {() => deleteAllSemesters()}> Delete All Semesters</Button>
+                <Button className="button" id="delete-all-button" onClick = {() => deleteAllSemesters()}>Delete All Semesters</Button>
             </Row>
             <Row>
                 <PlanTable semesters = {plan}></PlanTable>
