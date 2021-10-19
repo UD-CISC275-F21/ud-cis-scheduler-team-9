@@ -42,8 +42,6 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         // in the future it will just search for a class to display before they decide to drag it into the table or not
         // 
         //These set calls below are just place holders so the code will build
-        //setSeason(1);
-        //setYear(2022);
         setCreditTotal(0);
         setExpectedTuition(0);
 
