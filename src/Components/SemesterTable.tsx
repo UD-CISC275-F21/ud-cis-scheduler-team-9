@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 
@@ -29,19 +29,17 @@ export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
     }
 
     return (
-        <Col>
-            <Table>
-                <thead className="thead-dark">
-                    <tr>
-                        <th scope="col">Course</th>
-                        <th scope="col">Season</th>
-                        <th scope="col">Year</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {semester.courseList.map(renderList)}
-                </tbody>
-            </Table>
-        </Col>
+        <Table id="semester-table">
+            <thead className="thead-dark">
+                <tr>
+                    <th scope="col">Course</th>
+                    <th scope="col">Season</th>
+                    <th scope="col">Year</th>
+                </tr>
+            </thead>
+            <tbody>
+                {semester.courseList.map(renderList)}
+            </tbody>
+        </Table>
     );
 }
