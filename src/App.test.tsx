@@ -9,7 +9,7 @@ test("renders UD CIS Scheduler text", () => {
 
 // ControlPanel tests
 it("has the control panel when the application loads", () => {
-    const element = screen.getByRole('ControlPanel');
+    const element = screen.getByRole("ControlPanel");
     expect(element).toBeInTheDocument();
 });
 
