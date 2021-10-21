@@ -11,7 +11,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     visible: (boolean)}): JSX.Element {
 
     const [season, setSeason] = useState<Season>(0);
-    const [year, setYear] = useState<number>(2022);
+    const [year, setYear] = useState<number>(determineYear());
     const [courseList, setCourseList] = useState<Course[]>([]);
     const [creditTotal, setCreditTotal] = useState<number>(0);
     const [expectedTuition, setExpectedTuition] = useState<number>(0);
@@ -34,7 +34,11 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     }*/
 
     function validateForm() { // Makes sure that no text field is empty before submit
-        return department.length > 0 && courseID >= 100;
+        return department.length > 0 && courseID >= 100 && year >= determineYear();
+    }
+
+    function validateTable() {
+        return courseList.length;
     }
 
     function handleSearch(event: {preventDefault: () => void; }){
@@ -175,7 +179,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                     </Col>
                     <Col></Col>
                     <Col>
-                        <Button className="button" id="save-semester-button" onClick={saveSemester}>Save Semester</Button>
+                        <Button className="button" id="save-semester-button" onClick={saveSemester} disabled={!validateTable()}>Save Semester</Button>
                     </Col>
                 </Row>
                 <Row></Row>
