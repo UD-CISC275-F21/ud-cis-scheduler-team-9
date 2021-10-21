@@ -11,7 +11,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     visible: (boolean)}): JSX.Element {
 
     const [season, setSeason] = useState<Season>(0);
-    const [year, setYear] = useState<number>(2022);
+    const [year, setYear] = useState<number>(determineYear());
     const [courseList, setCourseList] = useState<Course[]>([]);
     const [creditTotal, setCreditTotal] = useState<number>(0);
     const [expectedTuition, setExpectedTuition] = useState<number>(0);
@@ -34,7 +34,11 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     }*/
 
     function validateForm() { // Makes sure that no text field is empty before submit
-        return department.length > 0 && courseID >= 100;
+        return department.length > 0 && courseID >= 100 && year >= determineYear();
+    }
+
+    function validateTable() {
+        return courseList.length;
     }
 
     function handleSearch(event: {preventDefault: () => void; }){
@@ -121,7 +125,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
             onHide={hide}
             backdrop="static"
             keyboard={false}
-            datatestid="add-semester-modal"
+            data-testid="add-semester-modal"
             size="lg"
         >
             <ModalHeader closeButton onClick={clearData}></ModalHeader>
@@ -132,7 +136,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                             <Form.Label>
                                 Department
                             </Form.Label>
-                            <Form.Control id="department-name" as="textarea" rows={1} 
+                            <Form.Control data-testid="department-name-input" id="department-name" as="textarea" rows={1} 
                                 minLength={3}
                                 maxLength={4}
                                 onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => setDepartment(ev.target.value.toUpperCase())}
@@ -142,11 +146,11 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                             <Form.Label>
                                 Course ID
                             </Form.Label>
-                            <Form.Control id="course-id" as="input" type="number"
+                            <Form.Control data-testid="CourseID-input" id="course-id" as="input" type="number"
                                 min={100}
                                 onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setCourseID(ev.target.valueAsNumber)}/>
                         </Form.Group>
-                        <Button className="button" type="submit" id="search-course-button" disabled={!validateForm()}>
+                        <Button className="button" type="submit" data-testid="search-course-button" id="search-course-button" disabled={!validateForm()}>
                             Search
                         </Button>
                     </Form>
@@ -160,7 +164,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                         <FormCheck inline type="radio" value="Summer" name="season" label="Summer" checked={season === 3} onChange={(e) => determineSeason(e.target.value)}/>
                     </Col>
                     <Col>
-                        <FormControl id="year-input" as="input" type="number"
+                        <FormControl data-testid="year-input" id="year-input" as="input" type="number"
                             min={determineYear()}
                             onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setYear(ev.target.valueAsNumber)}
                         />
@@ -169,13 +173,13 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                 <Row>
                     <SemesterTable semester={{season, year, courseList, creditTotal, expectedTuition}}></SemesterTable>
                 </Row>
-                <Row>
+                <Row data-testid="Bottom Row">
                     <Col>
                         <Button className="button" id="clear-course-list-button" variant="danger" onClick={clearCourseList}>Clear Semester</Button>
                     </Col>
                     <Col></Col>
                     <Col>
-                        <Button className="button" id="save-semester-button" onClick={saveSemester}>Save Semester</Button>
+                        <Button className="button" id="save-semester-button" onClick={saveSemester} disabled={!validateTable()}>Save Semester</Button>
                     </Col>
                 </Row>
                 <Row></Row>
