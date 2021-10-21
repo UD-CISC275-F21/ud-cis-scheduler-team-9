@@ -8,13 +8,18 @@ test("renders UD CIS Scheduler text", () => {
 
 
 // ControlPanel tests
+it("has the control panel when the application loads", () => {
+    const element = screen.getByTestId("Control Panel");
+    expect(element).toBeInTheDocument();
+});
+
 it("has the add-semester-button when the application loads", () => {
     const element = screen.getByTestId("add-semester-button");
     expect(element).toBeInTheDocument();
 });
 
 // AddSemesterModal tests
-it("shows the add-semester-modal when the add-semester-button is clicked", async ()=>{
+it("shows the add-semester-modal when the add-semester-button is clicked", async () => {
     const button = screen.getByTestId("add-semester-button");
     button.click();
     const element = await screen.findByTestId("add-semester-modal");
