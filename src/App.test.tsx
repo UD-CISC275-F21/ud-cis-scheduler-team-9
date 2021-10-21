@@ -8,7 +8,7 @@ test("renders UD CIS Scheduler text", () => {
 
 
 // ControlPanel tests
-/*
+
 it("has the control panel when the application loads", () => {
     const element = screen.getByRole("ControlPanel");
     expect(element).toBeInTheDocument();
@@ -26,7 +26,7 @@ it("shows the add-semester-modal when the add-semester-button is clicked", async
     const element = await screen.findByTestId("add-semester-modal");
     expect(element).toBeInTheDocument();
 });
-*/
+
 
 /*it("enables the save semester button", ()=>{
     const element = screen.getByTestId("add-semester-modal");
