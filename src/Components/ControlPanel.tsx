@@ -17,7 +17,7 @@ export function ControlPanel({showModal}: {showModal: (b:boolean)=>void}): JSX.E
             </Row>
             <Row>
                 <Col>
-                    <Button className="button" id="add-semester-button" onClick={()=>showModal(true)}>Add Semester</Button>
+                    <Button className="button" data-test-id="add-semester-button" id="add-semester-button" onClick={()=>showModal(true)}>Add Semester</Button>
                 </Col>
             </Row>
         </Col>

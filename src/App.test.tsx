@@ -8,9 +8,8 @@ test("renders UD CIS Scheduler text", () => {
 
 
 // ControlPanel tests
-it("has the Control Panel when the application loads", () => {
-    const element = screen.getByText("Control Panel");
-
+it("has the add-semester-button when the application loads", () => {
+    const element = screen.getByTestId("add-semester-button");
     expect(element).toBeInTheDocument();
 });
 
