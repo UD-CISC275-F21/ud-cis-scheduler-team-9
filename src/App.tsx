@@ -3,11 +3,7 @@ import "./App.css";
 import {
     Button,
     Container,
-    Row,
-    Card,
-    Table,
-    CloseButton,
-    Col,
+    Row
 } from "react-bootstrap";
 import { ControlPanel } from "./Components/ControlPanel";
 import { AddSemesterModal } from "./Components/AddSemesterModal";
@@ -27,6 +23,12 @@ function App(): JSX.Element {
         console.log("Deleted All Semesters");
     }
 
+    function deleteSemester(deleteIndex: number) {
+        const newPlan = [...plan];
+        newPlan.splice(deleteIndex, 1);
+        setPlan([...newPlan]);
+    }
+
     return (
         <Container className="App">
             <Row>
@@ -40,7 +42,7 @@ function App(): JSX.Element {
                 <Button className="button" id="delete-all-button" onClick = {() => deleteAllSemesters()}>Delete All Semesters</Button>
             </Row>
             <Row>
-                <PlanTable semesters = {plan}></PlanTable>
+                <PlanTable semesters = {plan} deleteSemester = {deleteSemester}></PlanTable>
             </Row>
         </Container>
     );
