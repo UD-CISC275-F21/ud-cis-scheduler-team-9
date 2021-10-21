@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import {
-    Button,
-    Container,
-    Row
-} from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { ControlPanel } from "./Components/ControlPanel";
 import { AddSemesterModal } from "./Components/AddSemesterModal";
 import { Semester } from "./interface/semester";
@@ -35,11 +31,10 @@ function App(): JSX.Element {
                 <br></br>
             </Row>
             <Row>
-                <ControlPanel showModal={setVisible}></ControlPanel>
+                <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
             </Row>
             <Row>
                 <AddSemesterModal addSemester={addSemester} setVisible={setVisible} visible={visible}></AddSemesterModal>
-                <Button className="button" id="delete-all-button" onClick = {() => deleteAllSemesters()}>Delete All Semesters</Button>
             </Row>
             <Row>
                 <PlanTable semesters = {plan} deleteSemester = {deleteSemester}></PlanTable>
