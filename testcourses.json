@@ -1,0 +1,62 @@
+[
+  {
+    "department": "CISC",
+    "courseID": 108,
+    "title": "Introduction to Computer Science I",
+    "description": "Computing and principles of programming with an emphasis on systematic program design. Topics include functional programming, data abstraction, procedural abstraction, use of control and state, recursion, testing, and object-oriented programming concepts. Requires no prior programming experience, open to any major, but intended primarily for majors and minors in computer science or mathematics.",
+    "credits": 3,
+    "preReqs": "",
+    "coReqs": [["MATH115", "MATH117"]],
+    "semestersOffered": "0, 2"
+  },
+  {
+    "department": "CISC",
+    "courseID": 181,
+    "title": "Introduction to Computer Science II",
+    "description": "Principles of computer science illustrated and applied through programming in an object oriented language. Programming projects illustrate computational problems, styles and issues that arise in computer systems development and in all application areas of computation.",
+    "credits": 3,
+    "preReqs": [["CISC108", "CISC106"]],
+    "coReqs": [["MATH221", "MATH241"]],
+    "semestersOffered": "0, 1, 2"
+  },
+  {
+    "department": "MATH",
+    "courseID": 210,
+    "title": "Discrete Mathematics I",
+    "description": "Elements of sets and logic. Relations, functions. Integers. Induction and recursion. Principles and techniques of counting. Graphs. Paths and circuits",
+    "credits": 3,
+    "preReqs": "",
+    "coReqs": [["MATH241", "MATH242", "MATH232"]],
+    "semestersOffered": "0, 1, 2"
+  },
+  {
+    "department": "ENGL",
+    "courseID": 110,
+    "title": "Seminar in Composition",
+    "description": "Introduction to the process of academic writing that centers on the composition of analytical, research-based essays.",
+    "credits": 3,
+    "preReqs": "",
+    "coReqs": "",
+    "semestersOffered": "0, 1, 2, 3"
+  },
+  {
+    "department": "CISC",
+    "courseID": 210,
+    "title": "Introduction to Systems Programming",
+    "description": "Principles of computer systems programming for software and hardware platforms to achieve efficient resource usage. Topics include the C programming language, memory management, and awareness of system constraints and interfacing. Projects include programming embedded systems and interactive objects.",
+    "credits": 3,
+    "preReqs": [["CISC108", "CISC106"]],
+    "coReqs": [["MATH221", "MATH241"]],
+    "semestersOffered": "0, 2"
+  },
+  {
+    "department": "MATH",
+    "courseID": 241,
+    "title": "Analytic Geometry and Calculus A",
+    "description": "Functions, limits, continuity, derivatives. Polynomial, rational, exponential, hyperbolic, logarithmic, trigonometric and inverse trigonometric functions. Definite and indefinite integrals and the Fundamental Theorem of Calculus. Simple differential equations (separable ODE, linear ODE). ODE models leading to exponential growth and decay.",
+    "credits": 3,
+    "preReqs": "",
+    "coReqs": "",
+    "semestersOffered": "0, 1, 2, 3"
+  }
+]
