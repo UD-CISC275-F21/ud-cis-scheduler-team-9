@@ -4,7 +4,7 @@ import { Col, Row, Button } from "react-bootstrap";
 export function ControlPanel({showModal}: {showModal: (b:boolean)=>void}): JSX.Element{
 
     return (
-        <Col>
+        <Col data-testid="Control Panel">
             <Row>
                 <Col>
 
@@ -17,7 +17,7 @@ export function ControlPanel({showModal}: {showModal: (b:boolean)=>void}): JSX.E
             </Row>
             <Row>
                 <Col>
-                    <Button className="button" data-test-id="add-semester-button" id="add-semester-button" onClick={()=>showModal(true)}>Add Semester</Button>
+                    <Button className="button" data-testid="add-semester-button" id="add-semester-button" onClick={()=>showModal(true)}>Add Semester</Button>
                 </Col>
             </Row>
         </Col>
