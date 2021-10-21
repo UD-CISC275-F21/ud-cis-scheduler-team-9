@@ -10,13 +10,19 @@ function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
     const [visible, setVisible] = useState<boolean>(false);
 
-    function addSemester(semester:Semester){
+    function addSemester(semester: Semester) {
         setPlan([...plan, semester]);
     }
 
-    function deleteAllSemesters(){
+    function deleteAllSemesters() {
         setPlan([]);
         console.log("Deleted All Semesters");
+    }
+
+    function deleteSemester(deleteIndex: number) {
+        const newPlan = [...plan];
+        newPlan.splice(deleteIndex, 1);
+        setPlan([...newPlan]);
     }
 
     return (
@@ -31,7 +37,7 @@ function App(): JSX.Element {
                 <AddSemesterModal addSemester={addSemester} setVisible={setVisible} visible={visible}></AddSemesterModal>
             </Row>
             <Row>
-                <PlanTable semesters = {plan}></PlanTable>
+                <PlanTable semesters = {plan} deleteSemester = {deleteSemester}></PlanTable>
             </Row>
         </Container>
     );

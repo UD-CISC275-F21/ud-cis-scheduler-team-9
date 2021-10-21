@@ -1,19 +1,22 @@
 import React from "react";
 import { Semester } from "../interface/semester";
-import { SemesterTable } from "./SemesterTable";
+import { SemesterCard } from "./SemesterCard";
 
 
-export const PlanTable = ({semesters}: {semesters: Semester[]}): JSX.Element => {
+export function PlanTable({ semesters, deleteSemester }: {
+    semesters: Semester[];
+    deleteSemester: (deleteIndex: number) => void;
+}): JSX.Element {
 
-    function renderList(the_semester: Semester){
+    function renderList(the_semester: Semester) {
         return (
-            <SemesterTable semester = {the_semester}></SemesterTable>
+            <SemesterCard semester={the_semester} deleteSemester = {deleteSemester}></SemesterCard>
         );
     }
 
     return (
-        <div className = "plan-table">
+        <div className="plan-table">
             {semesters.map(renderList)}
         </div>
     );
-};
+}
