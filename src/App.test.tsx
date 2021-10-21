@@ -12,7 +12,7 @@ it("has the Control Panel when the application loads", () => {
     const element = screen.getByText("Control Panel");
 
     expect(element).toBeInTheDocument();
-})
+});
 
 // AddSemesterModal tests
 it("shows the add-semester-modal when the add-semester-button is clicked", async ()=>{
@@ -20,7 +20,7 @@ it("shows the add-semester-modal when the add-semester-button is clicked", async
     button.click();
     const element = await screen.findByTestId("add-semester-modal");
     expect(element).toBeInTheDocument();
-})
+});
 
 /*it("enables the save semester button", ()=>{
     const element = screen.getByTestId("add-semester-modal");
