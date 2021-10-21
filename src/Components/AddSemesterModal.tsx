@@ -18,6 +18,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
 
     const [department, setDepartment] = useState<string>("");
     const [courseID, setCourseID] = useState<number>(0);
+    const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [credits, setCredits] = useState<number>(0);
     const [preReqs, setPreReqs] = useState<Course[]>([]);
@@ -42,18 +43,17 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         // in the future it will just search for a class to display before they decide to drag it into the table or not
         // 
         //These set calls below are just place holders so the code will build
-        //setSeason(1);
-        //setYear(2022);
         setCreditTotal(0);
         setExpectedTuition(0);
 
+        setTitle("");
         setDescription("");
         setCredits(0);
         setPreReqs([]);
         setCoReqs([]);
         setSemestersOffered([1]);
 
-        setCourseList([...courseList, {department, courseID, description, credits, preReqs, coReqs, semestersOffered}]);
+        setCourseList([...courseList, {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered}]);
     }
 
     function clearCourseList(){
