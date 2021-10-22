@@ -11,7 +11,7 @@ test("renders UD CIS Scheduler text", () => {
 
 describe("Control Panel", ()=>{
     beforeEach(()=>{
-        render(<App />)
+        render(<App />);
     });
 
     it("has the control panel when the application loads", () => {
@@ -29,7 +29,7 @@ describe("Control Panel", ()=>{
 
 describe("add-semester-modal", ()=>{
     beforeEach(()=>{
-        render(<App />)
+        render(<App />);
     });
 
     it("shows the add-semester-modal when the add-semester-button is clicked", async () => {
