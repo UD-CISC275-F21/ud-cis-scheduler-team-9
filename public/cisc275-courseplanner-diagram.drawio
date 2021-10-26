@@ -1,1 +1,84 @@
-<mxfile host="app.diagrams.net" modified="2021-10-14T20:20:50.783Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36" etag="Q4q2hDM4iOM_OGrnc0sH" version="15.5.2" type="google"><diagram id="CN1BMHofCLAGNxruCUk4" name="Page-1">7Vrbcps6FP0aP9rD1ZfH2E3ah5OZ9DgzfewoZgNqBCJCru1+/ZFAYGTZiT0JwT1DPPGIJXHRWou9t8ADd5FsvzKUxfc0ADJwrGA7cL8MHGc6nopvCexKwJs6JRAxHJSQvQeW+A8o0FLoGgeQawM5pYTjTAdXNE1hxTUMMUY3+rCQEv2sGYrAAJYrREz0Bw54rKblW3v8G+Aors5sW6onQdVgBeQxCuimAbm3A3fBKOVlK9kugEjuKl7K/e5O9NYXxiDl5+zwBDP0cvd9/isc3k1/freSl6/OUInxG5G1mrC6WL6rGMg3OCEoFVvzmDL8h6YcEdFlCSDniHElmu1KRB0PGIftyQu16+kL2wBNgLOdGFLtMFaMKcvIAxfbm70AfiVA3CDf9xSIlOhRfew9L6KhqLmAJts+g6cYZbLJChvOQ0zIghLKil4XLPkpKGP0GaqelBbEnsXaaQFNKhtU1fQ1qXJbY+oMR8U8kQayazaqO6tAqttEkhWgPIagMpsiONlGMtSMMM0nazxKEItw+m/JOpP0ubKxqxqi474YIgD/4wWwT5i5OwVcQ4ElILaKTzq2SegIi0iajwilzziNfkYE5blBWtPPTZ8rMkMRIo4NJegJyAPNMcdUqsFKNuaSdixC7j8H/QkOAnmtc0RwJAECYXP8jYLrcfLEKhqNq0013cJAGVqJST3STACOBJ6Br2LV+/EWUIexRr4Wz+rthkXGpkEUxIAgjn/r6eiYadT5HygWF1uffGhPtJMPXf0INAxz4Ibp6lm8w4e+4cP7m8dvjifmYA3F/02KyE4IKZoN0lAaiO8FIqs1Wedy2MAZEyn7ExOtSLYWDALMxQxEnyUmZA0m4hqtBwYMXkq0RBa0Ag6sz+g6DYrIImPOJsYclsIdsncj7gWZ6/ZB6sOj804PAW+FimlbocIx01ovkSaRbXeukZlQe410jWada2Sm3F4jTSNn0rlGXq/RG+nI71wjs2S4Q8Vu4mOb9et+ZfrhnFRHmepr0ekRio4tRT27NY7GvY9Ln5wWTdes+zJr0kt2mWRXUHZNe80u1KzzMsw1U/wjlQ8rBZUNzg/1uN1msOIghXtcq2cPchhKJJPpU54VLB7uBmEIeZgvXxfI6lIg/bnD0eTlHBFo3JZA1fNZ7eHg/CaQ1P/AKQdBrrWEBPKieV2kVtnk3BKgtQd8nrlqX2YMp1GHdZI7vrY6yevXzcopf02d5PXL6Asl675O8swl2/87574l0NXlXHO9WOfc5TpJriLnniL1enKuuYTrrD553X/Hovinviv3zJXT+6g6eJNuFX+fQeFOp+8NRlu7g31zWWMQyhlGaVS8BL2MzVnxJ9+Ti6it3rvOPpNd/0zDtlYo+mbV0S69w/P5fT3XOLMDo7ZHpdjc/1KpfEO8/7mXe/sf</diagram></mxfile>
+<mxfile host="65bd71144e">
+    <diagram id="CN1BMHofCLAGNxruCUk4" name="Page-1">
+        <mxGraphModel dx="1191" dy="504" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-2" value="" style="swimlane;horizontal=0;startSize=130;" parent="1" vertex="1">
+                    <mxGeometry x="160" y="130" width="550" height="540" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-11" value="" style="shape=rect;fillColor=#e0e0e0;strokeColor=none;" parent="be9aqFQBjf-F8_Q0mqG2-2" vertex="1">
+                    <mxGeometry width="130" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-12" value="" style="html=1;strokeWidth=1;shadow=0;dashed=0;shape=mxgraph.ios7ui.marginRect;rx=3;ry=3;rectMargin=5;strokeColor=none;" parent="be9aqFQBjf-F8_Q0mqG2-11" vertex="1">
+                    <mxGeometry width="130" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-13" value="Search" style="shape=mxgraph.ios7.icons.looking_glass;strokeColor=#e0e0e0;fillColor=none;fontColor=#e0e0e0;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;fontSize=6;fontStyle=0;spacingTop=2;sketch=0;" parent="be9aqFQBjf-F8_Q0mqG2-11" vertex="1">
+                    <mxGeometry x="0.5" y="0.5" width="6" height="6" relative="1" as="geometry">
+                        <mxPoint x="-17" y="-3" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-15" value="MATH241 - Analytic Geometry and Calculus A&lt;br&gt;Credits: 3 | Prereq: | Coreq:" style="rounded=1;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-2" vertex="1">
+                    <mxGeometry y="30" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-21" value="MATH241 - Analytic Geometry and Calculus A&lt;br&gt;Credits: 3 | Prereq: | Coreq:" style="rounded=1;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-2" vertex="1">
+                    <mxGeometry y="110" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-22" value="MATH241 - Analytic Geometry and Calculus A&lt;br&gt;Credits: 3 | Prereq: | Coreq:" style="rounded=1;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-2" vertex="1">
+                    <mxGeometry y="190" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-23" value="MATH241 - Analytic Geometry and Calculus A&lt;br&gt;Credits: 3 | Prereq: | Coreq:" style="rounded=1;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-2" vertex="1">
+                    <mxGeometry y="270" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-24" value="MATH241 - Analytic Geometry and Calculus A&lt;br&gt;Credits: 3 | Prereq: | Coreq:" style="rounded=1;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-2" vertex="1">
+                    <mxGeometry y="350" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-25" value="Fall 2021" style="swimlane;" parent="be9aqFQBjf-F8_Q0mqG2-2" vertex="1">
+                    <mxGeometry x="180" y="80" width="150" height="410" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-26" value="MATH241 - Analytic Geometry and Calculus A&lt;br&gt;Credits: 3 | Prereq: | Coreq:" style="rounded=1;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-25" vertex="1">
+                    <mxGeometry x="10" y="30" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-27" value="MATH241 - Analytic Geometry and Calculus A&lt;br&gt;Credits: 3 | Prereq: | Coreq:" style="rounded=1;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-25" vertex="1">
+                    <mxGeometry x="10" y="110" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-28" value="MATH241 - Analytic Geometry and Calculus A&lt;br&gt;Credits: 3 | Prereq: | Coreq:" style="rounded=1;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-25" vertex="1">
+                    <mxGeometry x="10" y="190" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-34" value="Total Credits:&lt;br&gt;Expected Tuition:&amp;nbsp;&lt;br&gt;effesfsS:" style="rounded=0;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-25" vertex="1">
+                    <mxGeometry x="15" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-40" value="+Add Winter Semester" style="rounded=0;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-25" vertex="1">
+                    <mxGeometry y="380" width="150" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-41" value="Spring 2021" style="swimlane;" parent="be9aqFQBjf-F8_Q0mqG2-2" vertex="1">
+                    <mxGeometry x="360" y="80" width="150" height="410" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-42" value="MATH241 - Analytic Geometry and Calculus A&lt;br&gt;Credits: 3 | Prereq: | Coreq:" style="rounded=1;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-41" vertex="1">
+                    <mxGeometry x="10" y="30" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-43" value="MATH241 - Analytic Geometry and Calculus A&lt;br&gt;Credits: 3 | Prereq: | Coreq:" style="rounded=1;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-41" vertex="1">
+                    <mxGeometry x="10" y="120" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-45" value="Total Credits:&lt;br&gt;Expected Tuition:&amp;nbsp;&lt;br&gt;effesfsS:" style="rounded=0;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-41" vertex="1">
+                    <mxGeometry x="15" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-46" value="+Add Summer Semester" style="rounded=0;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-41" vertex="1">
+                    <mxGeometry y="380" width="150" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-47" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="be9aqFQBjf-F8_Q0mqG2-2" vertex="1">
+                    <mxGeometry x="130" width="10" height="540" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-48" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#000000;" parent="be9aqFQBjf-F8_Q0mqG2-2" vertex="1">
+                    <mxGeometry x="130" y="10" width="10" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-54" value="" style="triangle;whiteSpace=wrap;html=1;fillColor=#999999;rotation=90;" parent="be9aqFQBjf-F8_Q0mqG2-2" vertex="1">
+                    <mxGeometry x="130" y="530" width="10" height="10" as="geometry"/>
+                </mxCell>
+                <mxCell id="be9aqFQBjf-F8_Q0mqG2-53" value="" style="triangle;whiteSpace=wrap;html=1;fillColor=#999999;rotation=-90;" parent="1" vertex="1">
+                    <mxGeometry x="290" y="130" width="10" height="10" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

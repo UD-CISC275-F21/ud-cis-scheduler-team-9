@@ -39,12 +39,9 @@ describe("add-semester-modal", ()=>{
         expect(element).toBeInTheDocument();
     });
 
-
     /*it("enables the save semester button", ()=>{
         const element = screen.getByTestId("add-semester-modal");
         <br/>
         const button = screen.getByTestId("save-semseter-button");
-
-
     })*/
 });
