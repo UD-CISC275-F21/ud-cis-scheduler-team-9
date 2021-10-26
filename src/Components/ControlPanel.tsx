@@ -4,7 +4,7 @@ import { Col, Row, Button } from "react-bootstrap";
 export function ControlPanel({showModal, deleteAllSemesters}: {showModal: (b:boolean)=>void, deleteAllSemesters: () => void}): JSX.Element{
 
     return (
-        <Col data-testid="ControlPanel">
+        <Col data-testid="Control Panel">
             <Row>
                 <Col>
 
