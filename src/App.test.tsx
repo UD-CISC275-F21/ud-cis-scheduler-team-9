@@ -15,7 +15,7 @@ describe("Control Panel", ()=>{
     });
 
     it("has the control panel when the application loads", () => {
-        const element = screen.getByTestId("ControlPanel");
+        const element = screen.getByTestId("Control Panel");
         expect(element).toBeInTheDocument();
     });
 
@@ -39,14 +39,9 @@ describe("add-semester-modal", ()=>{
         expect(element).toBeInTheDocument();
     });
 
-
     /*it("enables the save semester button", ()=>{
         const element = screen.getByTestId("add-semester-modal");
         <br/>
         const button = screen.getByTestId("save-semseter-button");
-
-
     })*/
 });
-
-
