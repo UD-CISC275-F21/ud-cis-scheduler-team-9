@@ -15,7 +15,7 @@ describe("Control Panel", ()=>{
     });
 
     it("has the control panel when the application loads", () => {
-        const element = screen.getByTestId("ControlPanel");
+        const element = screen.getByTestId("Control Panel");
         expect(element).toBeInTheDocument();
     });
 
