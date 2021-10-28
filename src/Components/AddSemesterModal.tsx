@@ -39,9 +39,52 @@ export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible
     }
 
     function validateCourse() {
-        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != [];
+        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != [] && validatePreRequirements();
     }
 
+    function validatePreRequirements(){
+        //might need this later
+        let courses_violated: Course[] = [];
+
+        let prereqs_fufilled = true; 
+        //Iterate through each course in the courseList
+        //We might need a variable to keep track of the records length, .length does not work
+        for (let i = 0; i < Object.keys(courseRecord).length; i++){
+            let valid_course = false;
+
+            //If there are no prerequisites, the course is valid
+            if (courseRecord[i].preReqs.length == 0){
+                valid_course = true;
+            }
+
+            //Then, we look in each prerequisite structure, which holds the keys we are looking for
+            for (let j = 0; j < courseRecord[i].preReqs.length; j++){
+                
+                //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
+                for (let h = 0; h < courseRecord[i].preReqs[j].length; h++){
+                    //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
+                    if (!checkCourse(courseRecord[i].preReqs[j][h]) && valid_course == false){
+                        valid_course = false;
+                        console.log(courseRecord[i].title);
+                        courses_violated = [...courses_violated, courseRecord[i]];
+                    }else{
+                        valid_course = true;
+                    }
+                }
+            }
+            //If the course(s) wasn't found above, then the prerequirements are violated
+            if (!valid_course){
+                prereqs_fufilled = false;
+            }
+        }
+        if (prereqs_fufilled){
+            return true;
+        } else {
+            //added an alert for testing purposes, will edit the modal later
+            alert("Invalid course!");
+            return false;
+        }
+    }
 
     function handleSearch(event: {preventDefault: () => void; }){
         event.preventDefault();
