@@ -57,7 +57,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         setPreReqs([]);
         setCoReqs([]);
         setSemestersOffered([1]);
-        const courseKey: string = department + courseID.toString();
+        const courseKey: string = department + courseID;
         setCourseRecord({...courseRecord, [courseKey]: {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered}});
 
     }
