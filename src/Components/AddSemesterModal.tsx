@@ -12,7 +12,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
 
     const [season, setSeason] = useState<Season>(0);
     const [year, setYear] = useState<number>(determineYear());
-    const [courseList, setCourseList] = useState<Course[]>([]);
+    const [courseRecord, setCourseRecord] = useState<Record<string, Course>>({});
     const [creditTotal, setCreditTotal] = useState<number>(0);
     const [expectedTuition, setExpectedTuition] = useState<number>(0);
 
@@ -21,8 +21,8 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [credits, setCredits] = useState<number>(0);
-    const [preReqs, setPreReqs] = useState<Course[]>([]);
-    const [coReqs, setCoReqs] = useState<Course[]>([]);
+    const [preReqs, setPreReqs] = useState<string[][]>([[]]);
+    const [coReqs, setCoReqs] = useState<string[][]>([[]]);
     const [semestersOffered, setSemestersOffered] = useState<Season[]>([1]);
 
 
@@ -38,8 +38,9 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     }
 
     function validateTable() {
-        return courseList.length;
+        return Object.values(courseRecord).length;
     }
+
 
     function handleSearch(event: {preventDefault: () => void; }){
         event.preventDefault();
@@ -56,16 +57,17 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         setPreReqs([]);
         setCoReqs([]);
         setSemestersOffered([1]);
+        const courseKey: string = department + courseID.toString();
+        setCourseRecord({...courseRecord, [courseKey]: {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered}});
 
-        setCourseList([...courseList, {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered}]);
     }
 
-    function clearCourseList(){
-        setCourseList([]);
+    function clearCourseRecord(){
+        setCourseRecord({});
     }
 
     function saveSemester(){
-        addSemester({season, year, courseList, creditTotal, expectedTuition});
+        addSemester({season, year, courseRecord, creditTotal, expectedTuition});
         clearData();
         hide();
     }
@@ -105,7 +107,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         // Semester Data
         setSeason(0);
         setYear(0);
-        setCourseList([]);
+        setCourseRecord({});
         setCreditTotal(0);
         setExpectedTuition(0);
         
@@ -171,11 +173,11 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                     </Col>
                 </Row>
                 <Row>
-                    <SemesterTable semester={{season, year, courseList, creditTotal, expectedTuition}}></SemesterTable>
+                    <SemesterTable semester={{season, year, courseRecord, creditTotal, expectedTuition}}></SemesterTable>
                 </Row>
                 <Row data-testid="Bottom Row">
                     <Col>
-                        <Button className="button" id="clear-course-list-button" variant="danger" onClick={clearCourseList}>Clear Semester</Button>
+                        <Button className="button" id="clear-course-list-button" variant="danger" onClick={clearCourseRecord}>Clear Semester</Button>
                     </Col>
                     <Col></Col>
                     <Col>
