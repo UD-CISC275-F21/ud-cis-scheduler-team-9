@@ -78,7 +78,6 @@ export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible
         setSemestersOffered(course.semestersOffered);
     }
 
-
     function addCourse(newCourse: Course){ 
         const courseKey: string = department + courseID;
         setCourseRecord({...courseRecord, [courseKey]: newCourse});

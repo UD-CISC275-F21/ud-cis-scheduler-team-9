@@ -1,29 +1,24 @@
 import React from "react";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 
 export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
 
-    function getSeason(){
-        switch(semester.season) {
-        case 0:
-            return "Fall";
-        case 1:
-            return "Winter";
-        case 2:
-            return "Spring";
-        case 3:
-            return "Summer";
-        }
-    }
+
 
     function renderList(course: Course, index: number){
         return (
             <tr key={index}>
                 <td id="course-name">{course.department+course.courseID}</td>
-                <td id="semester-season">{getSeason()}</td>
-                <td id="semester-year">{semester.year}</td>
+                <td id="course-title">{course.title}</td>
+                <td id="course-description">{course.description}</td>
+                <td id="course-credits">{course.credits}</td>
+                <td id="course-edit-button">{
+                    <Button variant="primary">
+                        Edit Course
+                    </Button>
+                }</td>
             </tr>
         );
     }
@@ -33,8 +28,10 @@ export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
             <thead className="thead-dark">
                 <tr>
                     <th scope="col">Course</th>
-                    <th scope="col">Season</th>
-                    <th scope="col">Year</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Credits</th>
+                    <th scope="col">Edit:</th>
                 </tr>
             </thead>
             <tbody>
