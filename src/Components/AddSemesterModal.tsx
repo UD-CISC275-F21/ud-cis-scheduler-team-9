@@ -39,7 +39,7 @@ export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible
     }
 
     function validateCourse() {
-        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != []
+        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != [];
     }
 
 
@@ -50,7 +50,7 @@ export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible
         // 
         //These set calls below are just place holders so the code will build
 
-        let key = department + courseID;
+        const key = department + courseID;
         let course: Course = {
             department: "",
             courseID: 0,
@@ -184,7 +184,7 @@ export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible
                             Search
                         </Button>
                     </Form>
-                    <Button className="button" type="submit" data-testid="add-course-button" id="add-course-button" disabled={!validateCourse()}>
+                    <Button className="button" type="submit" data-testid="add-course-button" id="add-course-button" onClick={()=>addCourse} disabled={!validateCourse()}>
                         Add
                     </Button>
                 </Row>

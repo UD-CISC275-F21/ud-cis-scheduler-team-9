@@ -6,7 +6,7 @@ import { AddSemesterModal } from "./Components/AddSemesterModal";
 import { Course } from "./interface/course";
 import { Semester } from "./interface/semester";
 import { PlanTable } from "./Components/PlanTable";
-import courseCatalog from "./Assets/testcourses.json"
+import courseCatalog from "./Assets/testcourses.json";
 
 function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
@@ -31,7 +31,9 @@ function App(): JSX.Element {
     function checkCourse(course: string): boolean {
         let i;
         for(i = 0; i<plan.length; i++){
-            if(plan[i].courseRecord[course]){return true;}
+            if(plan[i].courseRecord[course]){
+                return true;
+            }
         }
         return false;
     }
