@@ -38,7 +38,7 @@ export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
                 </tr>
             </thead>
             <tbody>
-                {semester.courseList.map(renderList)}
+                {Object.values(semester.courseRecord).map(renderList)}
             </tbody>
         </Table>
     );

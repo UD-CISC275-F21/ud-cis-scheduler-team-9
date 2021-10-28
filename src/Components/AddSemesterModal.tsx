@@ -4,17 +4,17 @@ import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
-import catalog from "../Assets/testcourses.json"
 
-export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible}:{
+export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible, catalog}:{
     addSemester: (s: Semester)=>void,
     checkCourse: (c: string)=>boolean,
     setVisible: (v:boolean)=>void,
-    visible: (boolean)}): JSX.Element {
+    visible: (boolean)
+    catalog: (Record<string, Course>)}): JSX.Element {
 
     const [season, setSeason] = useState<Season>(0);
     const [year, setYear] = useState<number>(determineYear());
-    const [courseList, setCourseList] = useState<Course[]>([]);
+    const [courseRecord, setCourseRecord] = useState<Record<string, Course>>({});
     const [creditTotal, setCreditTotal] = useState<number>(0);
     const [expectedTuition, setExpectedTuition] = useState<number>(0);
 
@@ -23,20 +23,25 @@ export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [credits, setCredits] = useState<number>(0);
-    const [preReqs, setPreReqs] = useState<Course[]>([]);
-    const [coReqs, setCoReqs] = useState<Course[]>([]);
-    const [semestersOffered, setSemestersOffered] = useState<Season[]>([1]);
+    const [preReqs, setPreReqs] = useState<string[][]>([[]]);
+    const [coReqs, setCoReqs] = useState<string[][]>([[]]);
+    const [semestersOffered, setSemestersOffered] = useState<Season[]>([]);
 
 
     const hide = ()=>setVisible(false);
 
-    function validateForm() { // Makes sure that no text field is empty before submit
+    function validateForm(): boolean { // Makes sure that no text field is empty before submit
         return department.length > 0 && courseID >= 100 && year >= determineYear();
     }
 
     function validateTable() {
-        return courseList.length;
+        return Object.values(courseRecord).length;
     }
+
+    function validateCourse() {
+        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != []
+    }
+
 
     function handleSearch(event: {preventDefault: () => void; }){
         event.preventDefault();
@@ -45,40 +50,52 @@ export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible
         // 
         //These set calls below are just place holders so the code will build
 
-        const course = getCourse(department, courseID);
+        let key = department + courseID;
+        let course: Course = {
+            department: "",
+            courseID: 0,
+            title: "",
+            description: "",
+            credits: 0,
+            preReqs: [],
+            coReqs: [],
+            semestersOffered: []
+        };
+        
+        if(checkCourse(key)){
+            course = getCourse(department, courseID);
+        }
+        
 
-        setCreditTotal(0);
+        setCreditTotal(creditTotal);
         setExpectedTuition(0);
 
         setTitle(course.title);
-        setDescription("");
-        setCredits(0);
-        setPreReqs([]);
-        setCoReqs([]);
-        setSemestersOffered([1]);
-
-        setCourseList([...courseList, {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered}]);
+        setDescription(course.description);
+        setCredits(course.credits);
+        setPreReqs(course.preReqs);
+        setCoReqs(course.coReqs);
+        setSemestersOffered(course.semestersOffered);
     }
 
-    /*function addCourse(newCourse: Course){       
-        setCourseList([...courseList, newCourse]);
-    }*/
+
+    function addCourse(newCourse: Course){ 
+        const courseKey: string = department + courseID;
+        setCourseRecord({...courseRecord, [courseKey]: {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered}});
+    }
 
     function getCourse(department: string, id: number): Course{
         const name = department + id;
-        if(checkCourse(name)){
-            const course = catalog[name];
-        }
-    
-        return course;
+        
+        return catalog[name];
     }
 
-    function clearCourseList(){
-        setCourseList([]);
+    function clearCourseRecord(){
+        setCourseRecord({});
     }
 
     function saveSemester(){
-        addSemester({season, year, courseList, creditTotal, expectedTuition});
+        addSemester({season, year, courseRecord, creditTotal, expectedTuition});
         clearData();
         hide();
     }
@@ -118,7 +135,7 @@ export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible
         // Semester Data
         setSeason(0);
         setYear(0);
-        setCourseList([]);
+        setCourseRecord({});
         setCreditTotal(0);
         setExpectedTuition(0);
         
@@ -167,6 +184,9 @@ export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible
                             Search
                         </Button>
                     </Form>
+                    <Button className="button" type="submit" data-testid="add-course-button" id="add-course-button" disabled={!validateCourse()}>
+                        Add
+                    </Button>
                 </Row>
                 <br/>
                 <Row>
@@ -184,11 +204,11 @@ export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible
                     </Col>
                 </Row>
                 <Row>
-                    <SemesterTable semester={{season, year, courseList, creditTotal, expectedTuition}}></SemesterTable>
+                    <SemesterTable semester={{season, year, courseRecord, creditTotal, expectedTuition}}></SemesterTable>
                 </Row>
                 <Row data-testid="Bottom Row">
                     <Col>
-                        <Button className="button" id="clear-course-list-button" variant="danger" onClick={clearCourseList}>Clear Semester</Button>
+                        <Button className="button" id="clear-course-list-button" variant="danger" onClick={clearCourseRecord}>Clear Semester</Button>
                     </Col>
                     <Col></Col>
                     <Col>
