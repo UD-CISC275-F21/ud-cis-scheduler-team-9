@@ -53,8 +53,15 @@ Button.button {
 .flex-container {
     display: flex;
     flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* .iddle-semester-container {
+    justify-content: center;
 }
 
 .right-semester-container {
     justify-content: flex-end;
-}
+} */
+
