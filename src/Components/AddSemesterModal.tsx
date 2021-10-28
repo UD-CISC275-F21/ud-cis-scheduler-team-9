@@ -126,11 +126,6 @@ export function AddSemesterModal({ addSemester, setVisible, visible, catalog}:{
         return total;
     }
 
-    /*function addCourse(course: Course){
-        setCourseList([...courseList, course]);
-        determineCreditTotal(courseList);
-    }*/
-
     function determineYear(){
         const today = new Date();
         return today.getFullYear();
