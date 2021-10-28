@@ -3,12 +3,15 @@ import "./App.css";
 import { Container, Row } from "react-bootstrap";
 import { ControlPanel } from "./Components/ControlPanel";
 import { AddSemesterModal } from "./Components/AddSemesterModal";
+import { Course } from "./interface/course";
 import { Semester } from "./interface/semester";
 import { PlanTable } from "./Components/PlanTable";
+import courseCatalog from "./Assets/testcourses.json";
 
 function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
     const [visible, setVisible] = useState<boolean>(false);
+    const catalog: Record<string, Course> = courseCatalog;
 
     function addSemester(semester: Semester) {
         setPlan([...plan, semester]);
@@ -25,6 +28,16 @@ function App(): JSX.Element {
         setPlan([...newPlan]);
     }
 
+    function checkCourse(course: string): boolean {
+        let i;
+        for(i = 0; i<plan.length; i++){
+            if(plan[i].courseRecord[course]){
+                return true;
+            }
+        }
+        return false;
+    }
+
     return (
         <Container className="App">
             <Row>
@@ -34,7 +47,7 @@ function App(): JSX.Element {
                 <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
             </Row>
             <Row>
-                <AddSemesterModal addSemester={addSemester} setVisible={setVisible} visible={visible}></AddSemesterModal>
+                <AddSemesterModal addSemester={addSemester} checkCourse={checkCourse} setVisible={setVisible} visible={visible} catalog={catalog}></AddSemesterModal>
             </Row>
             <Row>
                 <PlanTable semesters = {plan} deleteSemester = {deleteSemester}></PlanTable>

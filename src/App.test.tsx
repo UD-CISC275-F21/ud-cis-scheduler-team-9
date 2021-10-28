@@ -9,13 +9,13 @@ test("renders UD CIS Scheduler text", () => {
 
 // ControlPanel tests
 
-describe("Control Panel", ()=>{
+describe("control-panel", ()=>{
     beforeEach(()=>{
         render(<App />);
     });
 
     it("has the control panel when the application loads", () => {
-        const element = screen.getByTestId("Control Panel");
+        const element = screen.getByTestId("control-panel");
         expect(element).toBeInTheDocument();
     });
 

@@ -5,10 +5,12 @@ import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
 
-export function AddSemesterModal({ addSemester, setVisible, visible}:{
+export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible, catalog}:{
     addSemester: (s: Semester)=>void,
+    checkCourse: (c: string)=>boolean,
     setVisible: (v:boolean)=>void,
-    visible: (boolean)}): JSX.Element {
+    visible: (boolean)
+    catalog: (Record<string, Course>)}): JSX.Element {
 
     const [season, setSeason] = useState<Season>(0);
     const [year, setYear] = useState<number>(determineYear());
@@ -23,22 +25,21 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
     const [credits, setCredits] = useState<number>(0);
     const [preReqs, setPreReqs] = useState<string[][]>([[]]);
     const [coReqs, setCoReqs] = useState<string[][]>([[]]);
-    const [semestersOffered, setSemestersOffered] = useState<Season[]>([1]);
+    const [semestersOffered, setSemestersOffered] = useState<Season[]>([]);
 
 
     const hide = ()=>setVisible(false);
 
-    /* implement with drag function
-    function addCourse(course: Course){
-        setCourseList([...courseList, course]); 
-    }*/
-
-    function validateForm() { // Makes sure that no text field is empty before submit
+    function validateForm(): boolean { // Makes sure that no text field is empty before submit
         return department.length > 0 && courseID >= 100 && year >= determineYear();
     }
 
     function validateTable() {
         return Object.values(courseRecord).length;
+    }
+
+    function validateCourse() {
+        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != [];
     }
 
 
@@ -48,18 +49,45 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         // in the future it will just search for a class to display before they decide to drag it into the table or not
         // 
         //These set calls below are just place holders so the code will build
-        setCreditTotal(0);
+
+        const key = department + courseID;
+        let course: Course = {
+            department: "",
+            courseID: 0,
+            title: "",
+            description: "",
+            credits: 0,
+            preReqs: [],
+            coReqs: [],
+            semestersOffered: []
+        };
+        
+        if(checkCourse(key)){
+            course = getCourse(department, courseID);
+        }
+        
+
+        setCreditTotal(creditTotal);
         setExpectedTuition(0);
 
-        setTitle("");
-        setDescription("");
-        setCredits(0);
-        setPreReqs([]);
-        setCoReqs([]);
-        setSemestersOffered([1]);
-        const courseKey: string = department + courseID.toString();
-        setCourseRecord({...courseRecord, [courseKey]: {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered}});
+        setTitle(course.title);
+        setDescription(course.description);
+        setCredits(course.credits);
+        setPreReqs(course.preReqs);
+        setCoReqs(course.coReqs);
+        setSemestersOffered(course.semestersOffered);
+    }
 
+
+    function addCourse(newCourse: Course){ 
+        const courseKey: string = department + courseID;
+        setCourseRecord({...courseRecord, [courseKey]: newCourse});
+    }
+
+    function getCourse(department: string, id: number): Course{
+        const name = department + id;
+        
+        return catalog[name];
     }
 
     function clearCourseRecord(){
@@ -156,6 +184,9 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
                             Search
                         </Button>
                     </Form>
+                    <Button className="button" type="submit" data-testid="add-course-button" id="add-course-button" onClick={()=>addCourse} disabled={!validateCourse()}>
+                        Add
+                    </Button>
                 </Row>
                 <br/>
                 <Row>
