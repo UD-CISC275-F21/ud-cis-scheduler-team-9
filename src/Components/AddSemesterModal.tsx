@@ -4,9 +4,11 @@ import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
+import catalog from "../Assets/testcourses.json"
 
-export function AddSemesterModal({ addSemester, setVisible, visible}:{
+export function AddSemesterModal({ addSemester, checkCourse, setVisible, visible}:{
     addSemester: (s: Semester)=>void,
+    checkCourse: (c: string)=>boolean,
     setVisible: (v:boolean)=>void,
     visible: (boolean)}): JSX.Element {
 
@@ -28,11 +30,6 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
 
     const hide = ()=>setVisible(false);
 
-    /* implement with drag function
-    function addCourse(course: Course){
-        setCourseList([...courseList, course]); 
-    }*/
-
     function validateForm() { // Makes sure that no text field is empty before submit
         return department.length > 0 && courseID >= 100 && year >= determineYear();
     }
@@ -47,10 +44,13 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         // in the future it will just search for a class to display before they decide to drag it into the table or not
         // 
         //These set calls below are just place holders so the code will build
+
+        const course = getCourse(department, courseID);
+
         setCreditTotal(0);
         setExpectedTuition(0);
 
-        setTitle("");
+        setTitle(course.title);
         setDescription("");
         setCredits(0);
         setPreReqs([]);
@@ -58,6 +58,19 @@ export function AddSemesterModal({ addSemester, setVisible, visible}:{
         setSemestersOffered([1]);
 
         setCourseList([...courseList, {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered}]);
+    }
+
+    /*function addCourse(newCourse: Course){       
+        setCourseList([...courseList, newCourse]);
+    }*/
+
+    function getCourse(department: string, id: number): Course{
+        const name = department + id;
+        if(checkCourse(name)){
+            const course = catalog[name];
+        }
+    
+        return course;
     }
 
     function clearCourseList(){
