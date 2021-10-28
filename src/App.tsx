@@ -28,16 +28,6 @@ function App(): JSX.Element {
         setPlan([...newPlan]);
     }
 
-    function checkCourse(course: string): boolean {
-        let i;
-        for(i = 0; i<plan.length; i++){
-            if(plan[i].courseRecord[course]){
-                return true;
-            }
-        }
-        return false;
-    }
-
     return (
         <Container className="App">
             <Row>
@@ -47,7 +37,7 @@ function App(): JSX.Element {
                 <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
             </Row>
             <Row>
-                <AddSemesterModal addSemester={addSemester} checkCourse={checkCourse} setVisible={setVisible} visible={visible} catalog={catalog}></AddSemesterModal>
+                <AddSemesterModal addSemester={addSemester} setVisible={setVisible} visible={visible} catalog={catalog}></AddSemesterModal>
             </Row>
             <Row>
                 <PlanTable semesters = {plan} deleteSemester = {deleteSemester}></PlanTable>
