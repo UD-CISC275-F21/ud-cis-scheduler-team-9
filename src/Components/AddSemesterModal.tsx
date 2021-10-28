@@ -117,8 +117,6 @@ export function AddSemesterModal({ addSemester, setVisible, visible, catalog}:{
             arr.push(record[keys[i]]);
         }
         
-        
-
         while(i != arr.length){
             total += arr[i].credits;
             i++;
