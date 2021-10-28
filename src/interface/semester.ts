@@ -10,7 +10,7 @@ export enum Season {
 export interface Semester {
     season: Season,
     year: number,
-    courseList: Course[],
+    courseRecord: Record<string, Course>,
     creditTotal: number,
     expectedTuition: number
 }
