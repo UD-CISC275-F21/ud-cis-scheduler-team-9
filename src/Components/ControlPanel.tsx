@@ -17,7 +17,7 @@ export function ControlPanel({showModal, deleteAllSemesters}: {showModal: (b:boo
             </Row>
             <Row>
                 <Col> 
-                    <Button className="button" variant="danger" id="delete-all-button" onClick = {() => deleteAllSemesters()}>Delete All Semesters</Button>
+                    <Button className="button" variant="danger" id="delete-all-semesters-button" onClick = {() => deleteAllSemesters()}>Delete All Semesters</Button>
                 </Col>
             </Row>
         </Col>

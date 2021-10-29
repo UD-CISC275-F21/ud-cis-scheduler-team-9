@@ -236,7 +236,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                             Search
                         </Button>
                         <Button className="button" type="submit" data-testid="add-course-button" id="add-course-button" onClick={()=>addCourse(courseInfo)} disabled={!validateCourse()}>
-                        Add
+                            Add
                         </Button>
                     </Form>
                 </Row>
