@@ -17,6 +17,7 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
     const [courseRecord, setCourseRecord] = useState<Record<string, Course>>({});
     const [creditTotal, setCreditTotal] = useState<number>(0);
     const [expectedTuition, setExpectedTuition] = useState<number>(0);
+    const semesterInfo = {season, year, courseRecord, creditTotal, expectedTuition};
 
     const [department, setDepartment] = useState<string>("");
     const [courseID, setCourseID] = useState<number>(0);
@@ -122,7 +123,7 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
 
     function addCourse(newCourse: Course){ 
         const courseKey: string = department + courseID;
-        
+
         setCourseRecord({...courseRecord, [courseKey]: newCourse});
         setCreditTotal(determineCreditTotal(courseRecord));
         setExpectedTuition(expectedTuition);
@@ -139,7 +140,7 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
     }
 
     function saveSemester(){
-        addSemester({season, year, courseRecord, creditTotal, expectedTuition});
+        addSemester(semesterInfo);
         clearData();
         hide();
     }
@@ -162,11 +163,6 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
         }
         return total;
     }
-
-    /*function addCourse(course: Course){
-        setCourseList([...courseList, course]);
-        determineCreditTotal(courseList);
-    }*/
 
     function determineYear(){
         const today = new Date();
