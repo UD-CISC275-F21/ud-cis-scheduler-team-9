@@ -5,8 +5,9 @@ import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
 
-export function AddSemesterModal({ addSemester, setVisible, visible, catalog}:{
+export function AddSemesterModal({ addSemester, checkSemester, setVisible, visible, catalog}:{
     addSemester: (s: Semester)=>void,
+    checkSemester: (c: Semester)=>boolean,
     setVisible: (v:boolean)=>void,
     visible: (boolean)
     catalog: (Record<string, Course>)}): JSX.Element {
@@ -36,7 +37,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible, catalog}:{
     }
 
     function validateTable() {
-        return Object.values(courseRecord).length;
+        return Object.values(courseRecord).length > 0 && !checkSemester(semesterInfo);
     }
 
     function validateCourse() {
@@ -145,7 +146,7 @@ export function AddSemesterModal({ addSemester, setVisible, visible, catalog}:{
 
     function displayReqs(s: string[][]){
         let i;
-        if(s != [[]]){
+        if(showCard){
             let phrase = s[0][1];
             for(i = 1; i<s[0].length; i++){
                 phrase = phrase + ", " + s[0][i];
@@ -192,9 +193,11 @@ export function AddSemesterModal({ addSemester, setVisible, visible, catalog}:{
         setCourseID(0);
         setDescription("");
         setCredits(0);
-        setPreReqs([]);
-        setCoReqs([]);
+        setPreReqs([[]]);
+        setCoReqs([[]]);
         setSemestersOffered([]);
+
+        setShowCard(false);
     }
 
     return (

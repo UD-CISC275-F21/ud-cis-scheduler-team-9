@@ -28,6 +28,15 @@ function App(): JSX.Element {
         setPlan([...newPlan]);
     }
 
+    function checkSemester(semesterToCheck: Semester): boolean{
+        let i;
+        for(i = 0; i<plan.length; i++){
+            if(semesterToCheck.year === plan[i].year && semesterToCheck.season === plan[i].season)
+                return true;
+        }
+        return false;
+    }
+
     return (
         <Container className="App">
             <Row>
@@ -37,7 +46,7 @@ function App(): JSX.Element {
                 <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
             </Row>
             <Row>
-                <AddSemesterModal addSemester={addSemester} setVisible={setVisible} visible={visible} catalog={catalog}></AddSemesterModal>
+                <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} visible={visible} catalog={catalog}></AddSemesterModal>
             </Row>
             <Row>
                 <PlanTable semesters = {plan} deleteSemester = {deleteSemester}></PlanTable>
