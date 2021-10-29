@@ -37,8 +37,18 @@ Button.button {
     margin-left: 1em;
 }
 
+#add-course-button {
+    margin-top: 2em;
+    margin-left: 1em;
+}
+
 #department-name {
     text-transform: uppercase;
+}
+
+#course-card {
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 @keyframes App-logo-spin {
@@ -64,4 +74,3 @@ Button.button {
 .right-semester-container {
     justify-content: flex-end;
 } */
-
