@@ -51,15 +51,6 @@ Button.button {
     margin-bottom: 2em;
 }
 
-.flex-container {
-    display: flex;
-    flex-flow: row nowrap;
-}
-
-.right-semester-container {
-    justify-content: flex-end;
-}
-
 @keyframes App-logo-spin {
     from {
         transform: rotate(0deg);
@@ -69,4 +60,17 @@ Button.button {
     }
 }
 
+.flex-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
 
+/* .iddle-semester-container {
+    justify-content: center;
+}
+
+.right-semester-container {
+    justify-content: flex-end;
+} */
