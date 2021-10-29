@@ -74,7 +74,6 @@ export function AddSemesterModal({ addSemester, setVisible, visible, catalog}:{
         setShowCard(true);
     }
 
-
     function addCourse(newCourse: Course){ 
         const courseKey: string = department + courseID;
 
