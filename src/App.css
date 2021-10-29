@@ -37,8 +37,27 @@ Button.button {
     margin-left: 1em;
 }
 
+#add-course-button {
+    margin-top: 2em;
+    margin-left: 1em;
+}
+
 #department-name {
     text-transform: uppercase;
+}
+
+#course-card {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.flex-container {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.right-semester-container {
+    justify-content: flex-end;
 }
 
 @keyframes App-logo-spin {
@@ -50,11 +69,4 @@ Button.button {
     }
 }
 
-.flex-container {
-    display: flex;
-    flex-flow: row nowrap;
-}
 
-.right-semester-container {
-    justify-content: flex-end;
-}
