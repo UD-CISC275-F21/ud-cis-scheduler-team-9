@@ -28,8 +28,6 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
     const [coReqs, setCoReqs] = useState<string[][]>([[]]);
     const [semestersOffered, setSemestersOffered] = useState<Season[]>([]);
     const courseInfo = {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered};
-
-
     const hide = ()=>setVisible(false);
 
     function validateForm(): boolean { // Makes sure that no text field is empty before submit
@@ -41,21 +39,19 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
     }
 
     function validateCourse() {
-        const requirements: boolean = validatePreRequirements();
-        console.log(requirements);
-        return requirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != [];
+        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [] && coReqs != [] && semestersOffered != [];
     }
-
+    /*
     function validatePreRequirements(){
         //might need this later        
         let prereqs_fufilled = true; 
         const courseArray: Course[] = Object.values(courseRecord);
         console.log(Object.keys(courseRecord).length);
+
         //Iterate through each course 
-        for (let i = 0; i < Object.keys(courseRecord).length; i++){
+        for (let i = 0; i < Object.keys(courseRecord).length; i++){ 
             let valid_course = false;
             //If there are no prerequisites, the course is valid
-            console.log(courseArray[i].preReqs.length);
             if (courseArray[i].preReqs.length == 0){
                 console.log("Prereqs is empty?");
                 valid_course = true;
@@ -63,7 +59,6 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
 
             //Then, we look in each prerequisite structure, which holds the keys we are looking for
             for (let j = 0; j < courseArray[i].preReqs.length; j++){
-                //console.log(courseArray[i].preReqs);
                 //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
                 for (let h = 0; h < courseArray[i].preReqs[j].length; h++){
                     
@@ -92,7 +87,7 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
             return false;
         }
     }
-
+    */
     function handleSearch(event: {preventDefault: () => void; }){
         event.preventDefault();
 
@@ -136,7 +131,8 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
     }
 
     function clearCourseRecord(){
-        setCourseRecord({});
+        console.log(Object.values(courseRecord));
+        //setCourseRecord({});
     }
 
     function saveSemester(){
