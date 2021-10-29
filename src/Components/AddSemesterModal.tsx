@@ -154,6 +154,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
             return phrase;
         }
     }
+    
     function displaySemesters(){
         let i = 0;
         let phrase = "";
