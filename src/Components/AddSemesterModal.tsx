@@ -5,9 +5,10 @@ import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
 
-export function AddSemesterModal({ addSemester, setVisible, visible, catalog}:{
+export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible, catalog}:{
     addSemester: (s: Semester)=>void,
     setVisible: (v:boolean)=>void,
+    checkCourse: (c: string)=>boolean,
     visible: (boolean)
     catalog: (Record<string, Course>)}): JSX.Element {
 
@@ -39,35 +40,39 @@ export function AddSemesterModal({ addSemester, setVisible, visible, catalog}:{
     }
 
     function validateCourse() {
-        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != [] && validatePreRequirements();
+        const requirements: boolean = validatePreRequirements();
+        console.log(requirements);
+        return requirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != [];
     }
 
     function validatePreRequirements(){
-        //might need this later
-        let courses_violated: Course[] = [];
-
+        //might need this later        
         let prereqs_fufilled = true; 
-        //Iterate through each course in the courseList
-        //We might need a variable to keep track of the records length, .length does not work
+        const courseArray: Course[] = Object.values(courseRecord);
+        console.log(Object.keys(courseRecord).length);
+        //Iterate through each course 
         for (let i = 0; i < Object.keys(courseRecord).length; i++){
             let valid_course = false;
-
             //If there are no prerequisites, the course is valid
-            if (courseRecord[i].preReqs.length == 0){
+            console.log(courseArray[i].preReqs.length);
+            if (courseArray[i].preReqs.length == 0){
+                console.log("Prereqs is empty?");
                 valid_course = true;
             }
 
             //Then, we look in each prerequisite structure, which holds the keys we are looking for
-            for (let j = 0; j < courseRecord[i].preReqs.length; j++){
-                
+            for (let j = 0; j < courseArray[i].preReqs.length; j++){
+                //console.log(courseArray[i].preReqs);
                 //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
-                for (let h = 0; h < courseRecord[i].preReqs[j].length; h++){
+                for (let h = 0; h < courseArray[i].preReqs[j].length; h++){
+                    
                     //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
-                    if (!checkCourse(courseRecord[i].preReqs[j][h]) && valid_course == false){
+                    console.log(courseArray[i].preReqs[j][h]);
+                    if (!checkCourse(courseArray[i].preReqs[j][h]) && valid_course == false){
+                        console.log("not in plan");
                         valid_course = false;
-                        console.log(courseRecord[i].title);
-                        courses_violated = [...courses_violated, courseRecord[i]];
                     }else{
+                        console.log("in plan");
                         valid_course = true;
                     }
                 }
@@ -78,10 +83,11 @@ export function AddSemesterModal({ addSemester, setVisible, visible, catalog}:{
             }
         }
         if (prereqs_fufilled){
+            console.log("Valid Course.");
             return true;
         } else {
             //added an alert for testing purposes, will edit the modal later
-            alert("Invalid course!");
+            console.log("Invalid Course.");
             return false;
         }
     }
@@ -127,16 +133,6 @@ export function AddSemesterModal({ addSemester, setVisible, visible, catalog}:{
         
         return catalog[name];
     }
-
-    /*function checkCourse(course: string): boolean {
-        let i;
-        for(i = 0; i<plan.length; i++){
-            if(plan[i].courseRecord[course]){
-                return true;
-            }
-        }
-        return false;
-    }*/
 
     function clearCourseRecord(){
         setCourseRecord({});

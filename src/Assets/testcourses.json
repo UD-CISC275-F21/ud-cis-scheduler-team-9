@@ -45,7 +45,7 @@
     "title": "Introduction to Systems Programming",
     "description": "Principles of computer systems programming for software and hardware platforms to achieve efficient resource usage. Topics include the C programming language, memory management, and awareness of system constraints and interfacing. Projects include programming embedded systems and interactive objects.",
     "credits": 3,
-    "preReqs": [["CISC108", "CISC106"]],
+    "preReqs": [["CISC108", "CISC106"], ["MATH222"]],
     "coReqs": [["MATH221", "MATH241"]],
     "semestersOffered": [0, 2]
   },
@@ -55,7 +55,7 @@
     "title": "Analytic Geometry and Calculus A",
     "description": "Functions, limits, continuity, derivatives. Polynomial, rational, exponential, hyperbolic, logarithmic, trigonometric and inverse trigonometric functions. Definite and indefinite integrals and the Fundamental Theorem of Calculus. Simple differential equations (separable ODE, linear ODE). ODE models leading to exponential growth and decay.",
     "credits": 3,  
-    "preReqs": [[""]],
+    "preReqs": [],
     "coReqs": [[""]],
     "semestersOffered": [0, 1, 2, 3]
   }
