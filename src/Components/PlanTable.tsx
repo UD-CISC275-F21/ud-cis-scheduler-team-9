@@ -28,9 +28,11 @@ export function PlanTable({ semesters, deleteSemester }: {
 
     function renderList(the_semester: Semester) {
         return (
-            <SemesterCard semester={the_semester} deleteSemester = {deleteSemester}></SemesterCard>
+            <SemesterCard key={the_semester.season.toString() + the_semester.year.toString()} semester={the_semester} deleteSemester = {deleteSemester}></SemesterCard>
         );
     }
+
+    
 
     return (
         <div className="plan-table" id="plan-table">
