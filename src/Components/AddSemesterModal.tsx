@@ -102,13 +102,15 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
             title: "",
             description: "",
             credits: 0,
-            preReqs: [],
-            coReqs: [],
+            preReqs: [[""]],
+            coReqs: [[""]],
             semestersOffered: []
         };
         
         if(catalog[key]){
             course = getCourse(department, courseID);
+            setShowCard(true);
+            
         }
 
         setTitle(course.title);
@@ -117,8 +119,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         setPreReqs(course.preReqs);
         setCoReqs(course.coReqs);
         setSemestersOffered(course.semestersOffered);
-
-        setShowCard(true);
     }
 
     function addCourse(newCourse: Course){ 
@@ -193,8 +193,8 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     function displayReqs(s: string[][]){
         let i;
         if(showCard){
-            let phrase = s[0][1];
-            for(i = 1; i< s[0].length; i++){
+            let phrase = s[0][0];
+            for(i = 1; i<s[0].length; i++){
                 phrase = phrase + ", " + s[0][i];
             }
             return phrase;
@@ -240,8 +240,8 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         setCourseID(0);
         setDescription("");
         setCredits(0);
-        setPreReqs([[]]);
-        setCoReqs([[]]);
+        setPreReqs([[""]]);
+        setCoReqs([[""]]);
         setSemestersOffered([]);
 
         setShowCard(false);
