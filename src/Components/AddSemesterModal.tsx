@@ -9,7 +9,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     addSemester: (s: Semester)=>void,
     checkSemester: (c: Semester)=>boolean,
     setVisible: (v:boolean)=>void,
-    checkCourse: (c: string)=>boolean,
     visible: (boolean)
     catalog: (Record<string, Course>)}): JSX.Element {
 
@@ -42,11 +41,11 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     }
 
     function validateCourse() {
-        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [] && coReqs != [] && semestersOffered != [];
+        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != [];
     }
+
     /*
     function validatePreRequirements(){
-        //might need this later        
         let prereqs_fufilled = true; 
         const courseArray: Course[] = Object.values(courseRecord);
         console.log(Object.keys(courseRecord).length);
@@ -91,6 +90,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         }
     }
     */
+   
     function handleSearch(event: {preventDefault: () => void; }){
         event.preventDefault();
 
@@ -135,9 +135,18 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         return catalog[name];
     }
 
+    /*function checkCourse(course: string): boolean {
+        let i;
+        for(i = 0; i<plan.length; i++){
+            if(plan[i].courseRecord[course]){
+                return true;
+            }
+        }
+        return false;
+    }*/
+
     function clearCourseRecord(){
-        console.log(Object.values(courseRecord));
-        //setCourseRecord({});
+        setCourseRecord({});
     }
 
     function saveSemester(){
@@ -185,7 +194,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         let i;
         if(showCard){
             let phrase = s[0][1];
-            for(i = 1; i<s[0].length; i++){
+            for(i = 1; i< s[0].length; i++){
                 phrase = phrase + ", " + s[0][i];
             }
             return phrase;
