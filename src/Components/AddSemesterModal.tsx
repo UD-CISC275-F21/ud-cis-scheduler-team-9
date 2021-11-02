@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl} from "react-bootstrap";
+import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl, Card} from "react-bootstrap";
 import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
 
-export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible, catalog}:{
+export function AddSemesterModal({ addSemester, checkSemester, setVisible, visible, catalog}:{
     addSemester: (s: Semester)=>void,
+    checkSemester: (c: Semester)=>boolean,
     setVisible: (v:boolean)=>void,
     checkCourse: (c: string)=>boolean,
     visible: (boolean)
@@ -28,6 +29,8 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
     const [coReqs, setCoReqs] = useState<string[][]>([[]]);
     const [semestersOffered, setSemestersOffered] = useState<Season[]>([]);
     const courseInfo = {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered};
+
+    const [showCard, setShowCard] = useState<boolean>(false);
     const hide = ()=>setVisible(false);
 
     function validateForm(): boolean { // Makes sure that no text field is empty before submit
@@ -35,7 +38,7 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
     }
 
     function validateTable() {
-        return Object.values(courseRecord).length;
+        return Object.values(courseRecord).length > 0 && !checkSemester(semesterInfo);
     }
 
     function validateCourse() {
@@ -114,6 +117,8 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
         setPreReqs(course.preReqs);
         setCoReqs(course.coReqs);
         setSemestersOffered(course.semestersOffered);
+
+        setShowCard(true);
     }
 
     function addCourse(newCourse: Course){ 
@@ -138,6 +143,7 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
     function saveSemester(){
         addSemester(semesterInfo);
         clearData();
+        setShowCard(false);
         hide();
     }
 
@@ -151,8 +157,6 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
             arr.push(record[keys[i]]);
         }
         
-        
-
         while(i != arr.length){
             total += arr[i].credits;
             i++;
@@ -177,6 +181,43 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
         }
     }
 
+    function displayReqs(s: string[][]){
+        let i;
+        if(showCard){
+            let phrase = s[0][1];
+            for(i = 1; i<s[0].length; i++){
+                phrase = phrase + ", " + s[0][i];
+            }
+            return phrase;
+        }
+    }
+    
+    function displaySemesters(){
+        let i = 0;
+        let phrase = "";
+        semestersOffered.forEach((s)=>{
+            switch(s){
+            case 0:
+                phrase = phrase + "Fall";
+                break;
+            case 1:
+                phrase = phrase + "Winter";
+                break;
+            case 2:
+                phrase = phrase + "Spring";
+                break;
+            case 3:
+                phrase = phrase + "Summer";
+                break;
+            }
+            
+            i++;
+            if(i<semestersOffered.length)
+                phrase = phrase + ", ";
+        });
+        return phrase;
+    }
+
     function clearData(){
         // Semester Data
         setSeason(0);
@@ -190,9 +231,11 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
         setCourseID(0);
         setDescription("");
         setCredits(0);
-        setPreReqs([]);
-        setCoReqs([]);
+        setPreReqs([[]]);
+        setCoReqs([[]]);
         setSemestersOffered([]);
+
+        setShowCard(false);
     }
 
     return (
@@ -229,10 +272,10 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
                         <Button className="button" type="submit" data-testid="search-course-button" id="search-course-button" disabled={!validateForm()}>
                             Search
                         </Button>
+                        <Button className="button" type="submit" data-testid="add-course-button" id="add-course-button" onClick={()=>addCourse(courseInfo)} disabled={!validateCourse()}>
+                            Add
+                        </Button>
                     </Form>
-                    <Button className="button" type="submit" data-testid="add-course-button" id="add-course-button" onClick={()=>addCourse(courseInfo)} disabled={!validateCourse()}>
-                        Add
-                    </Button>
                 </Row>
                 <br/>
                 <Row>
@@ -243,11 +286,24 @@ export function AddSemesterModal({ addSemester, setVisible, checkCourse, visible
                         <FormCheck inline type="radio" value="Summer" name="season" label="Summer" checked={season === 3} onChange={(e) => determineSeason(e.target.value)}/>
                     </Col>
                     <Col>
-                        <FormControl data-testid="year-input" id="year-input" as="input" type="number"
+                        <FormControl data-testid="year-input" id="year-input" as="input" type="number" placeholder="Year"
                             min={determineYear()}
                             onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setYear(ev.target.valueAsNumber)}
                         />
                     </Col>
+                </Row>
+                <Row>
+                    {showCard && <Card id="course-card">
+                        <Card.Body>
+                            <Card.Title>{department}{courseID}: {title} 
+                                <Card.Text> Credits: {credits}</Card.Text>
+                            </Card.Title> 
+                            <Card.Text>{description}</Card.Text>
+                            <Card.Text>Prereqs: {displayReqs(preReqs)}</Card.Text> 
+                            <Card.Text>Coreqs: {displayReqs(coReqs)}</Card.Text> 
+                            <Card.Text>Semesters: {displaySemesters()}</Card.Text>
+                        </Card.Body>
+                    </Card>}
                 </Row>
                 <Row>
                     <SemesterTable semester={{season, year, courseRecord, creditTotal, expectedTuition}}></SemesterTable>

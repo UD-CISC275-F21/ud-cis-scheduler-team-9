@@ -37,8 +37,26 @@ Button.button {
     margin-left: 1em;
 }
 
+#add-course-button {
+    margin-top: 2em;
+    margin-left: 1em;
+}
+
+#delete-all-semesters-button {
+    margin-bottom: 2em;
+}
+
 #department-name {
     text-transform: uppercase;
+}
+
+#course-card {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+#plan-table {
+    margin-top: 2em;
 }
 
 @keyframes App-logo-spin {
@@ -57,11 +75,10 @@ Button.button {
     align-items: center;
 }
 
-/* .iddle-semester-container {
+/* .middle-semester-container {
     justify-content: center;
 }
 
 .right-semester-container {
     justify-content: flex-end;
 } */
-
