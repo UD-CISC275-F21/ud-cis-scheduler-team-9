@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { Course } from "../interface/course";
 import { useDrop } from "react-dnd";
 import { Col } from "react-bootstrap";
-import { ClassCard } from "./classCard";
+import { ClassCard } from "./ClassCard";
 
 export function CardPool(): JSX.Element{
 
