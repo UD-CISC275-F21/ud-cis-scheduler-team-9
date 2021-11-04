@@ -20,7 +20,7 @@ describe("control-panel", ()=>{
     });
 
     it("has the add-semester-button when the application loads", () => {
-        const element = screen.getByTestId("add-semester-button");
+        const element = screen.getByTestId("add-semester-modal-button");
         expect(element).toBeInTheDocument();
     });
 });
@@ -33,7 +33,7 @@ describe("add-semester-modal", ()=>{
     });
 
     it("shows the add-semester-modal when the add-semester-button is clicked", async () => {
-        const button = screen.getByTestId("add-semester-button");
+        const button = screen.getByTestId("add-semester-modal-button");
         button.click();
         const element = await screen.findByTestId("add-semester-modal");
         expect(element).toBeInTheDocument();

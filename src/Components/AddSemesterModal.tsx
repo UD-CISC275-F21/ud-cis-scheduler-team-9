@@ -47,7 +47,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     }
 
     function validateCourse() {
-        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != [];
+        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != []  && semestersOffered.includes(season);
     }
 
     useEffect (() => {
@@ -213,13 +213,13 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
 
     function determineSeason(word: string){
         if(word === "Fall"){
-            setSeason(0);
-        } else if(word === "Winter"){
-            setSeason(1);
-        } else if(word === "Spring"){
-            setSeason(2);
-        } else if(word === "Summer"){
             setSeason(3);
+        } else if(word === "Winter"){
+            setSeason(0);
+        } else if(word === "Spring"){
+            setSeason(1);
+        } else if(word === "Summer"){
+            setSeason(2);
         }
     }
 
@@ -240,16 +240,16 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         semestersOffered.forEach((s)=>{
             switch(s){
             case 0:
-                phrase = phrase + "Fall";
-                break;
-            case 1:
                 phrase = phrase + "Winter";
                 break;
-            case 2:
+            case 1:
                 phrase = phrase + "Spring";
                 break;
-            case 3:
+            case 2:
                 phrase = phrase + "Summer";
+                break;
+            case 3:
+                phrase = phrase + "Fall";
                 break;
             }
             
@@ -323,14 +323,15 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                 <br/>
                 <Row>
                     <Col>
-                        <FormCheck inline type="radio" value="Fall" name="season" label="Fall" checked={season === 0} onChange={(e) => determineSeason(e.target.value)}/>
-                        <FormCheck inline type="radio" value="Winter" name="season" label="Winter" checked={season === 1} onChange={(e) => determineSeason(e.target.value)}/>
-                        <FormCheck inline type="radio" value="Spring" name="season" label="Spring" checked={season === 2} onChange={(e) => determineSeason(e.target.value)}/>
-                        <FormCheck inline type="radio" value="Summer" name="season" label="Summer" checked={season === 3} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck inline type="radio" value="Fall" name="season" label="Fall" checked={season === 3} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck inline type="radio" value="Winter" name="season" label="Winter" checked={season === 0} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck inline type="radio" value="Spring" name="season" label="Spring" checked={season === 1} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck inline type="radio" value="Summer" name="season" label="Summer" checked={season === 2} onChange={(e) => determineSeason(e.target.value)}/>
                     </Col>
                     <Col>
                         <FormControl data-testid="year-input" id="year-input" as="input" type="number" placeholder="Year"
                             min={determineYear()}
+                            max={(determineYear() + 6)}
                             onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setYear(ev.target.valueAsNumber)}
                         />
                     </Col>
