@@ -5,7 +5,7 @@ import { SemesterTable } from "./SemesterTable";
 
 export function SemesterCard({ semester, deleteSemester }: {
     semester: Semester;
-    deleteSemester: (deleteIndex: number) => void;
+    deleteSemester: (semester: Semester) => void;
 }): JSX.Element {
 
 
@@ -37,7 +37,7 @@ export function SemesterCard({ semester, deleteSemester }: {
                                 </Col>
                             </div>
                             <div className="right-semester-container">
-                                <Button variant="danger" onClick={() => deleteSemester(0)}>
+                                <Button variant="danger" onClick={() => deleteSemester(semester)}>
                                     Delete Semester
                                 </Button>
                             </div>

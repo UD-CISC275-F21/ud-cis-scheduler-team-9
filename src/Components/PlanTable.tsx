@@ -1,12 +1,12 @@
 import React from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import { Semester } from "../interface/semester";
 import { SemesterCard } from "./SemesterCard";
 
 
 export function PlanTable({ semesters, deleteSemester, showModal }: {
     semesters: Semester[];
-    deleteSemester: (deleteIndex: number) => void;
+    deleteSemester: (semester: Semester) => void;
     showModal: (b:boolean) => void;
 }): JSX.Element {
 
@@ -54,7 +54,13 @@ export function PlanTable({ semesters, deleteSemester, showModal }: {
                         {truncatedSemesterCardArray[0]}       
                     </Col>
                     <Col>
-                        {<Button className="button" data-testid="add-semester-button" id="add-semester-button" onClick={()=>showModal(true)}>Add Semester</Button>}
+                        <Card>
+                            {<Button
+                                className="button"
+                                data-testid="add-semester-button"
+                                id="add-semester-button"
+                                onClick={()=>showModal(true)}>Add Semester</Button>}
+                        </Card>
                     </Col>
                 </Row>
             );
