@@ -1,12 +1,13 @@
 import React from "react";
-import { Col, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { Semester } from "../interface/semester";
 import { SemesterCard } from "./SemesterCard";
 
 
-export function PlanTable({ semesters, deleteSemester }: {
+export function PlanTable({ semesters, deleteSemester, showModal }: {
     semesters: Semester[];
     deleteSemester: (deleteIndex: number) => void;
+    showModal: (b:boolean) => void;
 }): JSX.Element {
 
     /*function sortPlan(){
@@ -35,7 +36,7 @@ export function PlanTable({ semesters, deleteSemester }: {
 
     function listDisplay(truncatedSemesterCardArray: JSX.Element[]): JSX.Element {
 
-        if (!(truncatedSemesterCardArray.length % 0)) {
+        if (!(truncatedSemesterCardArray.length % 2)) {
             return (
                 <Row>
                     <Col>
@@ -53,7 +54,7 @@ export function PlanTable({ semesters, deleteSemester }: {
                         {truncatedSemesterCardArray[0]}       
                     </Col>
                     <Col>
-                        {/* wdwdw */}
+                        {<Button className="button" data-testid="add-semester-button" id="add-semester-button" onClick={()=>showModal(true)}>Add Semester</Button>}
                     </Col>
                 </Row>
             );

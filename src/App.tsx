@@ -49,7 +49,7 @@ function App(): JSX.Element {
                 <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} visible={visible} catalog={catalog}></AddSemesterModal>
             </Row>
             <Row>
-                <PlanTable semesters = {plan} deleteSemester = {deleteSemester}></PlanTable>
+                <PlanTable semesters = {plan} deleteSemester = {deleteSemester} showModal={setVisible}></PlanTable>
             </Row>
         </Container>
     );
