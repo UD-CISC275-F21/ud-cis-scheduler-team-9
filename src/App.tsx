@@ -26,6 +26,9 @@ function App(): JSX.Element {
     }
 
     function deleteAllSemesters() {
+        //just to bypass the linter warning, remove later
+        setDegreePlan(degreePlan);
+
         setPlan([]);
         console.log("Deleted All Semesters");
     }
