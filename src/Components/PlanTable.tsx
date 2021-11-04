@@ -8,23 +8,15 @@ export function PlanTable({ semesters, deleteSemester }: {
     deleteSemester: (deleteIndex: number) => void;
 }): JSX.Element {
 
-    /*function sortPlan(){
-        let i;
-        const today = new Date();
-        const newArr = [];
-        for(i = 0; i<semesters.length; i++){
-            if(semesters[i].year === today.getFullYear()){
-                if(semesters[i].season === 0)
-                    newArr.push(semesters[i]);
-                if(semesters[i].season === 1)
-                    newArr.push(semesters[i]);
-                if(semesters[i].season === 2)
-                    newArr.push(semesters[i]);
-                if(semesters[i].season === 3)
-                    newArr.push(semesters[i]);
-            }
-        }
-    }*/
+    const sortedSemesters = semesters.sort(compareSeason).sort(compareYear);
+
+    function compareYear(a: Semester, b: Semester){
+        return a.year - b.year;
+    }
+
+    function compareSeason(a: Semester, b: Semester){
+        return a.season - b.season;
+    }
 
     function renderList(the_semester: Semester) {
         return (
@@ -34,7 +26,7 @@ export function PlanTable({ semesters, deleteSemester }: {
 
     return (
         <div className="plan-table" id="plan-table">
-            {semesters.map(renderList)}
+            {sortedSemesters.map(renderList)}
         </div>
     );
 }
