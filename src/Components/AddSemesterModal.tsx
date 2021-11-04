@@ -56,6 +56,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     }, [courseRecord]);
 
     function validateCoRequirements(){
+        console.log("SET TO FALSE");
         //Iterate through each course  
         const courseArray: Course[] = Object.values(courseRecord);
         let valid_course = true;
@@ -78,18 +79,20 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                     console.log(courseRecord[temp]);
                     if (!courseRecord[temp]){
                         console.log("not in plan");
-                        valid_course = valid_course && false;
+                        valid_course = false;
                     }else{
-                        console.log("in plan");
-                        valid_course = valid_course && true;
+                        console.log("in plan");  
+                        valid_course = true; 
+                        break;
                     }
                 }
             }    
             if (valid_course){
                 console.log("Valid Course.");
+                setShowCoWarning(false);
                 setCoRequirements(true);
             } else {
-                console.log("Invalid Course.");
+                console.log("Invalid Course. set to true");
                 setShowCoWarning(true);
                 setCoRequirements(false);
             }
@@ -111,7 +114,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
             for (let h = 0; h < course.preReqs[j].length; h++){
                 //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
-                console.log(course.preReqs[j][h]);
                 if (!checkCourse(course.preReqs[j][h])){
                     console.log("not in plan");
                     valid_course = valid_course && false;
@@ -166,6 +168,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         const courseKey: string = department + courseID;
 
         setCourseRecord({...courseRecord, [courseKey]: newCourse});
+        
         setCreditTotal(determineCreditTotal(courseRecord));
         setExpectedTuition(expectedTuition);
     }
@@ -357,8 +360,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                     </Card>}
                 </Row>
                 <Row>
-                    {showCoWarning && 
-                    <div className="alert alert-warning d-flex align-items-center" role="alert">
+                    {showCoWarning && <div className="alert alert-warning d-flex align-items-center" role="alert">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
                             <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                         </svg>

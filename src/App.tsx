@@ -26,9 +26,8 @@ function App(): JSX.Element {
     }
 
     function deleteAllSemesters() {
-        //just to bypass the linter warning, remove later
+        //just to ignore the linter, 
         setDegreePlan(degreePlan);
-
         setPlan([]);
         console.log("Deleted All Semesters");
     }
@@ -43,12 +42,10 @@ function App(): JSX.Element {
         return false;
     }
 
-    function deleteSemester(semester: Semester) {
-        let deleteSemesterIndex = 0;
-        for(let i = 0; i < plan.length; i++) {
-            if(semester.season === plan[i].season && semester.year === plan[i].year) {
-                deleteSemesterIndex = i;
-            }
+    function deleteSemester(deleteIndex: number) {
+        const newPlan = [...plan];
+        newPlan.splice(deleteIndex, 1);
+        setPlan([...newPlan]);
     }
 
     function checkDegreePlan() {
