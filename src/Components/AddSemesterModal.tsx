@@ -41,7 +41,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     }
 
     function validateCourse() {
-        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != [];
+        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != [] && semestersOffered.includes(season);
     }
 
 
