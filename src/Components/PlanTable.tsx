@@ -55,8 +55,8 @@ export function PlanTable({ semesters, deleteSemester, showModal }: {
     const semesterJSX: JSX.Element[] = sortedSemesters.map(renderList);
     semesterJSX.push(<Card><Button
         className="button"
-        data-testid="add-semester-button"
-        id="add-semester-button"
+        data-testid="add-semester-button-plan-table"
+        id="add-semester-button-plan-table"
         onClick={()=>showModal(true)}>Add Semester</Button></Card>);
     const semesterPairs: JSX.Element[][] = [];
 
