@@ -41,10 +41,15 @@ function App(): JSX.Element {
         }
         return false;
     }
-
-    function deleteSemester(deleteIndex: number) {
+    function deleteSemester(semester: Semester) {
+        let deleteSemesterIndex = 0;
+        for(let i = 0; i < plan.length; i++) {
+            if(semester.season === plan[i].season && semester.year === plan[i].year) {
+                deleteSemesterIndex = i;
+            }
+        }
         const newPlan = [...plan];
-        newPlan.splice(deleteIndex, 1);
+        newPlan.splice(deleteSemesterIndex, 1);
         setPlan([...newPlan]);
     }
 
@@ -82,7 +87,7 @@ function App(): JSX.Element {
                 <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} checkCourse = {checkCourse} visible={visible} catalog={catalog}></AddSemesterModal>
             </Row>
             <Row>
-                <PlanTable semesters = {plan} deleteSemester = {deleteSemester}></PlanTable>
+                <PlanTable semesters = {plan} deleteSemester = {deleteSemester} showModal={setVisible}></PlanTable>
             </Row>
             <Row>
                 <RequiredDegreeList degree_list = {requiredCourses}></RequiredDegreeList>

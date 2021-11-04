@@ -12,7 +12,7 @@ export function ControlPanel({showModal, deleteAllSemesters}: {showModal: (b:boo
             </Row>
             <Row>
                 <Col>
-                    <Button className="button" data-testid="add-semester-button" id="add-semester-button" onClick={()=>showModal(true)}>Add Semester</Button>
+                    <Button className="button" data-testid="add-semester-modal-button" id="add-semester-modal-button" onClick={()=>showModal(true)}>Add Semester</Button>
                 </Col>
             </Row>
             <Row>
