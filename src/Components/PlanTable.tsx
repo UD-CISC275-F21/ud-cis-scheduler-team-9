@@ -54,13 +54,6 @@ export function PlanTable({ semesters, deleteSemester, showModal }: {
                         {truncatedSemesterCardArray[0]}       
                     </Col>
                     <Col>
-                        <Card>
-                            {<Button
-                                className="button"
-                                data-testid="add-semester-button"
-                                id="add-semester-button"
-                                onClick={()=>showModal(true)}>Add Semester</Button>}
-                        </Card>
                     </Col>
                 </Row>
             );
@@ -68,11 +61,17 @@ export function PlanTable({ semesters, deleteSemester, showModal }: {
     }
 
     const semesterJSX: JSX.Element[] = semesters.map(renderList);
+    semesterJSX.push(<Card><Button
+        className="button"
+        data-testid="add-semester-button"
+        id="add-semester-button"
+        onClick={()=>showModal(true)}>Add Semester</Button></Card>);
     const semesterPairs: JSX.Element[][] = [];
 
     for(let i = 0; i < semesterJSX.length; i += 2) {
         semesterPairs.push(semesterJSX.slice(i, i + 2));
     }
+    
 
     return (
         <div className="plan-table" id="plan-table">
