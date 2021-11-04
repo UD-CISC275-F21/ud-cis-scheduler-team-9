@@ -81,6 +81,7 @@ function App(): JSX.Element {
                 <br></br>
             </Row>
             <Row>
+                <RequiredDegreeList degree_list = {requiredCourses}></RequiredDegreeList>
                 <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
             </Row>
             <Row>
@@ -90,7 +91,6 @@ function App(): JSX.Element {
                 <PlanTable semesters = {plan} deleteSemester = {deleteSemester} showModal={setVisible}></PlanTable>
             </Row>
             <Row>
-                <RequiredDegreeList degree_list = {requiredCourses}></RequiredDegreeList>
             </Row>
         </Container>
     );
