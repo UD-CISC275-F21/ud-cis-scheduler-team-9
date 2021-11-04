@@ -58,5 +58,15 @@
     "preReqs": [[""]],
     "coReqs": [[""]],
     "semestersOffered": [0, 1, 2, 3]
+  },
+  "MATH117": {
+    "department": "MATH",
+    "courseID": 117,
+    "title": "Pre-Calculus for Scientists and Engineers",
+    "description": "Designed to prepare students for MATH241. All topics included in MATH115 arecovered, as well as additional topics in functions, trigonometry, linearsystems, and nonlinear systems. Other topics may be added at the discretion of the instructor.",
+    "credits": 3,
+    "preReqs": [[""]],
+    "coReqs": [[""]],
+    "semestersOffered": [0, 1, 2] 
   }
 }
