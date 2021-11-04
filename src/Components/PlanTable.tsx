@@ -1,4 +1,6 @@
 import React from "react";
+import { Col, Row } from "react-bootstrap";
+import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 import { SemesterCard } from "./SemesterCard";
 
@@ -26,17 +28,55 @@ export function PlanTable({ semesters, deleteSemester }: {
         }
     }*/
 
-    function renderList(the_semester: Semester) {
+    function renderList(the_semester: Semester): JSX.Element {
         return (
             <SemesterCard key={the_semester.season.toString() + the_semester.year.toString()} semester={the_semester} deleteSemester = {deleteSemester}></SemesterCard>
         );
     }
 
-    
+    function listDisplay(truncatedSemesterCardArray: JSX.Element[]): JSX.Element {
+
+        if (truncatedSemesterCardArray.length % 0) {
+            return (
+                <Row>
+                    <Col>
+                        {truncatedSemesterCardArray[0]}       
+                    </Col>
+                    <Col>
+                        {truncatedSemesterCardArray[1]}
+                    </Col>
+                </Row>
+            );
+        } else {
+            return (
+                <Row>
+                    <Col>
+                        {truncatedSemesterCardArray[0]}       
+                    </Col>
+                    <Col>
+                        
+                    </Col>
+                </Row>
+            );
+        }
+    }
+
+    const semesterCopy: JSX.Element[] = semesters.map(renderList);
+    const semesterPairs = [];
+
+    for(let i = 0; i < semesterCopy.length; i += 2) {
+        semesterPairs.push(semesterCopy.slice(i, i + 2));
+    }
+
+    for(let i = 0; i < semesterPairs.length; i++) {
+        listDisplay(semesterCopy);
+    }
 
     return (
         <div className="plan-table" id="plan-table">
-            {semesters.map(renderList)}
+            {
+                
+            }
         </div>
     );
 }
