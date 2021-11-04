@@ -49,8 +49,8 @@ function App(): JSX.Element {
     function checkDegreePlan() {
         let violations: string[] = [];
         for (let i = 0; i < degreePlan.length; i++){
-            console.log("TESTING " + degreePlan[i]);
-            console.log(checkCourse(degreePlan[i]));
+            //console.log("TESTING " + degreePlan[i]);
+            //console.log(checkCourse(degreePlan[i]));
             if (!checkCourse(degreePlan[i])){
                 const course: string = degreePlan[i];
                 violations = [...violations, course];
@@ -77,7 +77,7 @@ function App(): JSX.Element {
                 <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
             </Row>
             <Row>
-                <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} visible={visible} catalog={catalog}></AddSemesterModal>
+                <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} checkCourse = {checkCourse} visible={visible} catalog={catalog}></AddSemesterModal>
             </Row>
             <Row>
                 <PlanTable semesters = {plan} deleteSemester = {deleteSemester}></PlanTable>
