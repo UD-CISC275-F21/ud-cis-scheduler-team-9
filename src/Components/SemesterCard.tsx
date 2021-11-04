@@ -1,23 +1,23 @@
 import React from "react";
-import { Col, Table, Card, Container, Row, Button } from "react-bootstrap";
+import { Col, Card, Container, Row, Button } from "react-bootstrap";
 import { Season, Semester } from "../interface/semester";
 import { SemesterTable } from "./SemesterTable";
 
 export function SemesterCard({ semester, deleteSemester }: {
     semester: Semester;
-    deleteSemester: (deleteIndex: number) => void;
+    deleteSemester: (semester: Semester) => void;
 }): JSX.Element {
 
 
     function getSeason(season: Season): string{
         switch(season) {
-        case 0:
-            return "Fall";
-        case 1:
-            return "Winter";
-        case 2:
-            return "Spring";
         case 3:
+            return "Fall";
+        case 0:
+            return "Winter";
+        case 1:
+            return "Spring";
+        case 2:
             return "Summer";
         default:
             return "Inproper Semester";
@@ -37,7 +37,7 @@ export function SemesterCard({ semester, deleteSemester }: {
                                 </Col>
                             </div>
                             <div className="right-semester-container">
-                                <Button variant="danger" onClick={() => deleteSemester(0)}>
+                                <Button variant="danger" onClick={() => deleteSemester(semester)}>
                                     Delete Semester
                                 </Button>
                             </div>
@@ -48,14 +48,12 @@ export function SemesterCard({ semester, deleteSemester }: {
             <Card.Body>
                 <Card.Title>Courses:</Card.Title>
                 <Row>
-                    <Table>
-                        <SemesterTable semester={semester}></SemesterTable>
-                    </Table>
+                    <SemesterTable semester={semester}></SemesterTable>
                 </Row>
                 <p>PLACEHOLDER FOR SEMESTER STATS (TOT CREDITS, ESTIMATED COST, ETC)</p>
             </Card.Body>
             <Card.Footer>
-                <Button variant="primary">Add Semester: {getSeason(semester.season + 1)}</Button>
+                <Button variant="primary">Add Semester: {getSeason((semester.season + 1) % 4)}</Button>
             </Card.Footer>
         </Card>   
     );
