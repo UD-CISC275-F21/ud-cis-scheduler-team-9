@@ -4,6 +4,7 @@ import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
+import { useDrop } from "react-dnd";
 
 export function AddSemesterModal({ addSemester, checkSemester, setVisible, visible, catalog}:{
     addSemester: (s: Semester)=>void,
@@ -12,6 +13,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     visible: (boolean)
     catalog: (Record<string, Course>)}): JSX.Element {
 
+    // semester states
     const [season, setSeason] = useState<Season>(0);
     const [year, setYear] = useState<number>(determineYear());
     const [courseRecord, setCourseRecord] = useState<Record<string, Course>>({});
@@ -19,6 +21,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     const [expectedTuition, setExpectedTuition] = useState<number>(0);
     const semesterInfo = {season, year, courseRecord, creditTotal, expectedTuition};
 
+    // course states
     const [department, setDepartment] = useState<string>("");
     const [courseID, setCourseID] = useState<number>(0);
     const [title, setTitle] = useState<string>("");
@@ -29,8 +32,12 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     const [semestersOffered, setSemestersOffered] = useState<Season[]>([]);
     const courseInfo = {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered};
 
+    // course card states
     const [showCard, setShowCard] = useState<boolean>(false);
     const hide = ()=>setVisible(false);
+
+    // card pool states
+    const [pool, setPool] = useState<Course[]>([]);
 
     function validateForm(): boolean { // Makes sure that no text field is empty before submit
         return department.length > 0 && courseID >= 100 && year >= determineYear();
@@ -169,6 +176,18 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         });
         return phrase;
     }
+
+    const [{ isOver } , addToPool] = useDrop({
+        accept: "course",
+        drop: (item: Course) => moveCourseCard(item),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+        }),
+    });
+
+    const moveCourseCard = (item: Course) => {
+        setPool((pool) => [...pool, item]);
+    };
 
     function clearData(){
         // Semester Data

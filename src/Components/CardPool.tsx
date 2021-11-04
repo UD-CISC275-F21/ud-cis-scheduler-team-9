@@ -6,26 +6,11 @@ import { ClassCard } from "./ClassCard";
 
 export function CardPool(): JSX.Element{
 
-    const [pool, setPool] = useState<Course[]>([]);
-
-    const [{ isOver }, drop] = useDrop(() => ({
-        accept: "Course Card",
-        drop: (item: Course) => addCardToBoard(item),
-        collect: (monitor) => ({
-            isOver: !!monitor.isOver(),
-        }),
-    }));
-
-    const addCardToBoard = (item: Course) => {
-        setPool((pool) => [...pool, item]);
-    };
-
     return (
         <Col className="pool" ref={drop}>
             {pool.map((courseCard) => {
-                return <ClassCard c={courseCard}/>;
+                return <ClassCard course={courseCard}/>;
             })}
-            
         </Col>
     );
 }

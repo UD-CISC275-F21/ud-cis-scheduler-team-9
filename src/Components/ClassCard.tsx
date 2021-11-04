@@ -4,10 +4,10 @@ import { Course } from "../interface/course";
 import { Card, Row } from "react-bootstrap";
 
 
-export function ClassCard(c: Course): JSX.Element{
+export function ClassCard(course: Course): JSX.Element{
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "Course Card",
-        item: { department: c.department, courseID: c.courseID},
+        item: { department: course.department, courseID: course.courseID},
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
@@ -15,7 +15,7 @@ export function ClassCard(c: Course): JSX.Element{
     return (
         <Card ref={drag} style={{opacity: isDragging ? "50%" : "100%"}}>
             <Row>
-                {c.department + c.courseID}
+                {course.department + course.courseID}
             </Row>
         </Card>
     );
