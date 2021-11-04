@@ -20,7 +20,7 @@ describe("control-panel", ()=>{
     });
 
     it("has the add-semester-button when the application loads", () => {
-        const element = screen.getByTestId("add-semester-button");
+        const element = screen.getByTestId("add-semester-modal-button");
         expect(element).toBeInTheDocument();
     });
 });
