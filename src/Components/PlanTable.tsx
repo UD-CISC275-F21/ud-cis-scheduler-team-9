@@ -10,23 +10,15 @@ export function PlanTable({ semesters, deleteSemester, showModal }: {
     showModal: (b:boolean) => void;
 }): JSX.Element {
 
-    /*function sortPlan(){
-        let i;
-        const today = new Date();
-        const newArr = [];
-        for(i = 0; i<semesters.length; i++){
-            if(semesters[i].year === today.getFullYear()){
-                if(semesters[i].season === 0)
-                    newArr.push(semesters[i]);
-                if(semesters[i].season === 1)
-                    newArr.push(semesters[i]);
-                if(semesters[i].season === 2)
-                    newArr.push(semesters[i]);
-                if(semesters[i].season === 3)
-                    newArr.push(semesters[i]);
-            }
-        }
-    }*/
+    const sortedSemesters = semesters.sort(compareSeason).sort(compareYear);
+
+    function compareYear(a: Semester, b: Semester){
+        return a.year - b.year;
+    }
+
+    function compareSeason(a: Semester, b: Semester){
+        return a.season - b.season;
+    }
 
     function renderList(the_semester: Semester): JSX.Element {
         return (
@@ -60,7 +52,7 @@ export function PlanTable({ semesters, deleteSemester, showModal }: {
         }
     }
 
-    const semesterJSX: JSX.Element[] = semesters.map(renderList);
+    const semesterJSX: JSX.Element[] = sortedSemesters.map(renderList);
     semesterJSX.push(<Card><Button
         className="button"
         data-testid="add-semester-button"
