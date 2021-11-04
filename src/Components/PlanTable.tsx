@@ -1,6 +1,5 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 import { SemesterCard } from "./SemesterCard";
 
@@ -36,7 +35,7 @@ export function PlanTable({ semesters, deleteSemester }: {
 
     function listDisplay(truncatedSemesterCardArray: JSX.Element[]): JSX.Element {
 
-        if (truncatedSemesterCardArray.length % 0) {
+        if (!(truncatedSemesterCardArray.length % 0)) {
             return (
                 <Row>
                     <Col>
@@ -54,29 +53,23 @@ export function PlanTable({ semesters, deleteSemester }: {
                         {truncatedSemesterCardArray[0]}       
                     </Col>
                     <Col>
-                        
+                        {/* wdwdw */}
                     </Col>
                 </Row>
             );
         }
     }
 
-    const semesterCopy: JSX.Element[] = semesters.map(renderList);
-    const semesterPairs = [];
+    const semesterJSX: JSX.Element[] = semesters.map(renderList);
+    const semesterPairs: JSX.Element[][] = [];
 
-    for(let i = 0; i < semesterCopy.length; i += 2) {
-        semesterPairs.push(semesterCopy.slice(i, i + 2));
-    }
-
-    for(let i = 0; i < semesterPairs.length; i++) {
-        listDisplay(semesterCopy);
+    for(let i = 0; i < semesterJSX.length; i += 2) {
+        semesterPairs.push(semesterJSX.slice(i, i + 2));
     }
 
     return (
         <div className="plan-table" id="plan-table">
-            {
-                //wdw;
-            }
+            {semesterPairs.map(listDisplay)}
         </div>
     );
 }
