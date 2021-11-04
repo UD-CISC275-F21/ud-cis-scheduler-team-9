@@ -11,13 +11,13 @@ export function SemesterCard({ semester, deleteSemester }: {
 
     function getSeason(season: Season): string{
         switch(season) {
-        case 0:
-            return "Fall";
-        case 1:
-            return "Winter";
-        case 2:
-            return "Spring";
         case 3:
+            return "Fall";
+        case 0:
+            return "Winter";
+        case 1:
+            return "Spring";
+        case 2:
             return "Summer";
         default:
             return "Inproper Semester";
@@ -53,7 +53,7 @@ export function SemesterCard({ semester, deleteSemester }: {
                 <p>PLACEHOLDER FOR SEMESTER STATS (TOT CREDITS, ESTIMATED COST, ETC)</p>
             </Card.Body>
             <Card.Footer>
-                <Button variant="primary">Add Semester: {getSeason(semester.season + 1)}</Button>
+                <Button variant="primary">Add Semester: {getSeason((semester.season + 1) % 4)}</Button>
             </Card.Footer>
         </Card>   
     );
