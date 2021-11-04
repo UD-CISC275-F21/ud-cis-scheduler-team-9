@@ -3,9 +3,10 @@ import { Col, Card, Container, Row, Button } from "react-bootstrap";
 import { Season, Semester } from "../interface/semester";
 import { SemesterTable } from "./SemesterTable";
 
-export function SemesterCard({ semester, deleteSemester }: {
+export function SemesterCard({ semester, deleteSemester, setEditSemesterVisible }: {
     semester: Semester;
     deleteSemester: (semester: Semester) => void;
+    setEditSemesterVisible: (b:boolean) => void;
 }): JSX.Element {
 
 
@@ -48,7 +49,10 @@ export function SemesterCard({ semester, deleteSemester }: {
             <Card.Body>
                 <Card.Title>Courses:</Card.Title>
                 <Row>
-                    <SemesterTable semester={semester}></SemesterTable>
+                    <SemesterTable
+                        semester={semester}
+                        setEditSemesterVisible={setEditSemesterVisible}
+                        addSemesterFlag={false}></SemesterTable>
                 </Row>
                 <p>PLACEHOLDER FOR SEMESTER STATS (TOT CREDITS, ESTIMATED COST, ETC)</p>
             </Card.Body>

@@ -3,8 +3,11 @@ import { Button, Table } from "react-bootstrap";
 import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 
-export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
-
+export function SemesterTable({semester, setEditSemesterVisible, addSemesterFlag}: { 
+    semester: (Semester);
+    setEditSemesterVisible: (b:boolean) => void;
+    addSemesterFlag: boolean;
+    }): JSX.Element {
 
 
     function renderList(course: Course, index: number){
@@ -14,11 +17,11 @@ export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
                 <td id="course-title">{course.title}</td>
                 <td id="course-description">{course.description}</td>
                 <td id="course-credits">{course.credits}</td>
-                <td id="course-edit-button">{
-                    <Button variant="primary">
+                {!addSemesterFlag && <td id="course-edit-button">{
+                    <Button variant="primary" onClick={() => setEditSemesterVisible}>
                         Edit Course
                     </Button>
-                }</td>
+                }</td>}
             </tr>
         );
     }
@@ -31,7 +34,7 @@ export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
                     <th scope="col">Title</th>
                     <th scope="col">Description</th>
                     <th scope="col">Credits</th>
-                    <th scope="col">Edit:</th>
+                    {!addSemesterFlag && <th scope="col">Edit:</th>}
                 </tr>
             </thead>
             <tbody>

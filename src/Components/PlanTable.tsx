@@ -4,10 +4,11 @@ import { Semester } from "../interface/semester";
 import { SemesterCard } from "./SemesterCard";
 
 
-export function PlanTable({ semesters, deleteSemester, showModal }: {
+export function PlanTable({ semesters, deleteSemester, showModal, setEditSemesterVisible}: {
     semesters: Semester[];
     deleteSemester: (semester: Semester) => void;
     showModal: (b:boolean) => void;
+    setEditSemesterVisible: (b:boolean) => void;
 }): JSX.Element {
 
     const sortedSemesters = semesters.sort(compareSeason).sort(compareYear);
@@ -22,7 +23,10 @@ export function PlanTable({ semesters, deleteSemester, showModal }: {
 
     function renderList(the_semester: Semester): JSX.Element {
         return (
-            <SemesterCard key={the_semester.season.toString() + the_semester.year.toString()} semester={the_semester} deleteSemester = {deleteSemester}></SemesterCard>
+            <SemesterCard 
+                key={the_semester.season.toString() + the_semester.year.toString()}
+                semester={the_semester} deleteSemester = {deleteSemester}
+                setEditSemesterVisible={() => setEditSemesterVisible}></SemesterCard>
         );
     }
 

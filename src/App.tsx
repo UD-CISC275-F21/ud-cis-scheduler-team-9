@@ -7,10 +7,12 @@ import { Course } from "./interface/course";
 import { Semester } from "./interface/semester";
 import { PlanTable } from "./Components/PlanTable";
 import courseCatalog from "./Assets/testcourses.json";
+import { EditCourseModal } from "./Components/EditCourseModal";
 
 function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
     const [visible, setVisible] = useState<boolean>(false);
+    const [editSemesterVisible, setEditSemesterVisible] = useState<boolean>(false);
     const catalog: Record<string, Course> = courseCatalog;
 
     function addSemester(semester: Semester) {
@@ -34,13 +36,18 @@ function App(): JSX.Element {
         setPlan([...newPlan]);
     }
 
-    function checkSemester(semesterToCheck: Semester): boolean{
+    function checkSemester(semesterToCheck: Semester): boolean {
         let i;
         for(i = 0; i<plan.length; i++){
             if(semesterToCheck.year === plan[i].year && semesterToCheck.season === plan[i].season)
                 return true;
         }
         return false;
+    }
+
+    function editCourse(course: Course): void {
+        setEditSemesterVisible(true);
+        
     }
 
     return (
@@ -52,10 +59,24 @@ function App(): JSX.Element {
                 <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
             </Row>
             <Row>
-                <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} visible={visible} catalog={catalog}></AddSemesterModal>
+                <AddSemesterModal addSemester={addSemester}
+                    checkSemester={checkSemester}
+                    setVisible={setVisible}
+                    visible={visible}
+                    catalog={catalog}></AddSemesterModal>
+                <EditCourseModal
+                    setEditSemesterVisible={setEditSemesterVisible}
+                    editSemesterVisible={editSemesterVisible}
+                    course={plan[1].courseRecord["CISC108"]}
+                    editCourse={() => {
+                        console.log("gefe");
+                    }}></EditCourseModal>
             </Row>
             <Row>
-                <PlanTable semesters = {plan} deleteSemester = {deleteSemester} showModal={setVisible}></PlanTable>
+                <PlanTable semesters={plan}
+                    deleteSemester={deleteSemester}
+                    showModal={setVisible}
+                    setEditSemesterVisible={setEditSemesterVisible}></PlanTable>
             </Row>
         </Container>
     );
