@@ -64,7 +64,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         if(catalog[key]){
             course = getCourse(department, courseID);
             setShowCard(true);
-            
         }
 
         setTitle(course.title);
@@ -88,16 +87,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         
         return catalog[name];
     }
-
-    /*function checkCourse(course: string): boolean {
-        let i;
-        for(i = 0; i<plan.length; i++){
-            if(plan[i].courseRecord[course]){
-                return true;
-            }
-        }
-        return false;
-    }*/
 
     function clearCourseRecord(){
         setCourseRecord({});
@@ -198,6 +187,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         setCoReqs([[""]]);
         setSemestersOffered([]);
 
+        //Course Card
         setShowCard(false);
     }
 
