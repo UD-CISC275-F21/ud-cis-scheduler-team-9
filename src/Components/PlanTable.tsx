@@ -75,7 +75,7 @@ export function PlanTable({ semesters, deleteSemester }: {
     return (
         <div className="plan-table" id="plan-table">
             {
-                
+                //wdw;
             }
         </div>
     );
