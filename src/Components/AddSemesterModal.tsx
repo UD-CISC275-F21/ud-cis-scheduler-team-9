@@ -4,7 +4,7 @@ import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
-import { useDrop } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 
 export function AddSemesterModal({ addSemester, checkSemester, setVisible, visible, catalog}:{
     addSemester: (s: Semester)=>void,
@@ -177,16 +177,56 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         return phrase;
     }
 
-    const [{ isOver } , addToPool] = useDrop({
+    const [{ isOver } , addToPoolRef] = useDrop({
         accept: "course",
         drop: (item: Course) => moveCourseCard(item),
-        collect: (monitor) => ({
-            isOver: !!monitor.isOver(),
-        }),
     });
 
+    const [{ isOver: isCourseOver } , removeFromPoolRef] = useDrop({
+        accept: "pool",
+        drop: (item: Course) => moveCourseCard(item),
+    });
+
+    const draggableComponent = (props: Course) => {
+        const [collected, drag, dragPreview] = useDrag(() => ({
+            type: "course card",
+            item: {id: "Displayed Card"},
+            dropEffect: "move",
+            collect: (monitor) => ({
+                isDragging: !!monitor.isDragging(),
+            }),
+        }));
+        return collected.isDragging ? (<  div ref={dragPreview} />) :
+            <Card 
+                ref={drag} 
+                {...collected}
+                
+            >
+                <Card.Body>
+                    <Card.Title>{department}{courseID}: {title} 
+                        <Card.Text> Credits: {credits}</Card.Text>
+                    </Card.Title> 
+                    <Card.Text>{description}</Card.Text>
+                    <Card.Text>Prereqs: {displayReqs(preReqs)}</Card.Text> 
+                    <Card.Text>Coreqs: {displayReqs(coReqs)}</Card.Text> 
+                    <Card.Text>Semesters: {displaySemesters()}</Card.Text>
+                </Card.Body>
+            </Card>;
+    };
+
     const moveCourseCard = (item: Course) => {
-        setPool((pool) => [...pool, item]);
+        if(item && draggableComponent(item).type === "course"){
+            setPool((pool) => [...pool, item]);
+            setShowCard(false);
+        }else{
+            setTitle(item.title);
+            setDescription(item.description);
+            setCredits(item.credits);
+            setPreReqs(item.preReqs);
+            setCoReqs(item.coReqs);
+            setSemestersOffered(item.semestersOffered);
+            setShowCard(true);
+        }
     };
 
     function clearData(){
@@ -265,17 +305,22 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                     </Col>
                 </Row>
                 <Row>
-                    {showCard && <Card id="course-card">
-                        <Card.Body>
-                            <Card.Title>{department}{courseID}: {title} 
-                                <Card.Text> Credits: {credits}</Card.Text>
-                            </Card.Title> 
-                            <Card.Text>{description}</Card.Text>
-                            <Card.Text>Prereqs: {displayReqs(preReqs)}</Card.Text> 
-                            <Card.Text>Coreqs: {displayReqs(coReqs)}</Card.Text> 
-                            <Card.Text>Semesters: {displaySemesters()}</Card.Text>
-                        </Card.Body>
-                    </Card>}
+                    <Col>
+                        {showCard && <Card id="course-card">
+                            <Card.Body>
+                                <Card.Title>{department}{courseID}: {title} 
+                                    <Card.Text> Credits: {credits}</Card.Text>
+                                </Card.Title> 
+                                <Card.Text>{description}</Card.Text>
+                                <Card.Text>Prereqs: {displayReqs(preReqs)}</Card.Text> 
+                                <Card.Text>Coreqs: {displayReqs(coReqs)}</Card.Text> 
+                                <Card.Text>Semesters: {displaySemesters()}</Card.Text>
+                            </Card.Body>
+                        </Card>}
+                    </Col>
+                    <Col>
+
+                    </Col>
                 </Row>
                 <Row>
                     <SemesterTable semester={{season, year, courseRecord, creditTotal, expectedTuition}}></SemesterTable>

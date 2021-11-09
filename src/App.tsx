@@ -7,6 +7,8 @@ import { Course } from "./interface/course";
 import { Semester } from "./interface/semester";
 import { PlanTable } from "./Components/PlanTable";
 import courseCatalog from "./Assets/testcourses.json";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
@@ -38,20 +40,22 @@ function App(): JSX.Element {
     }
 
     return (
-        <Container className="App">
-            <Row>
-                <br></br>
-            </Row>
-            <Row>
-                <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
-            </Row>
-            <Row>
-                <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} visible={visible} catalog={catalog}></AddSemesterModal>
-            </Row>
-            <Row>
-                <PlanTable semesters = {plan} deleteSemester = {deleteSemester}></PlanTable>
-            </Row>
-        </Container>
+        <DndProvider backend = {HTML5Backend}>
+            <Container className="App">
+                <Row>
+                    <br></br>
+                </Row>
+                <Row>
+                    <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
+                </Row>
+                <Row>
+                    <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} visible={visible} catalog={catalog}></AddSemesterModal>
+                </Row>
+                <Row>
+                    <PlanTable semesters = {plan} deleteSemester = {deleteSemester}></PlanTable>
+                </Row>
+            </Container>
+        </DndProvider>
     );
 }
 
