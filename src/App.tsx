@@ -86,6 +86,7 @@ function App(): JSX.Element {
             </Row>
             <Row>
                 <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} checkCourse = {checkCourse} visible={visible} catalog={catalog}></AddSemesterModal>
+                <RequiredDegreeList degree_list = {requiredCourses}></RequiredDegreeList>
             </Row>
             <Row>
                 <PlanTable semesters = {plan} deleteSemester = {deleteSemester} showModal={setVisible}></PlanTable>
