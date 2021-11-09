@@ -3,9 +3,9 @@ import { Button, Table } from "react-bootstrap";
 import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 
-export function SemesterTable({semester, setEditSemesterVisible, addSemesterFlag}: { 
+export function SemesterTable({semester, editCourse, addSemesterFlag}: { 
     semester: (Semester);
-    setEditSemesterVisible: (b:boolean) => void;
+    editCourse: (c: Course) => void;
     addSemesterFlag: boolean;
     }): JSX.Element {
 
@@ -18,7 +18,7 @@ export function SemesterTable({semester, setEditSemesterVisible, addSemesterFlag
                 <td id="course-description">{course.description}</td>
                 <td id="course-credits">{course.credits}</td>
                 {!addSemesterFlag && <td id="course-edit-button">{
-                    <Button variant="primary" onClick={() => setEditSemesterVisible}>
+                    <Button variant="primary" onClick={() => editCourse(course)}>
                         Edit Course
                     </Button>
                 }</td>}

@@ -1,14 +1,15 @@
 import React from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
+import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 import { SemesterCard } from "./SemesterCard";
 
 
-export function PlanTable({ semesters, deleteSemester, showModal, setEditSemesterVisible}: {
+export function PlanTable({ semesters, deleteSemester, showModal, editCourse}: {
     semesters: Semester[];
     deleteSemester: (semester: Semester) => void;
     showModal: (b:boolean) => void;
-    setEditSemesterVisible: (b:boolean) => void;
+    editCourse: (c: Course) => void;
 }): JSX.Element {
 
     const sortedSemesters = semesters.sort(compareSeason).sort(compareYear);
@@ -26,7 +27,7 @@ export function PlanTable({ semesters, deleteSemester, showModal, setEditSemeste
             <SemesterCard 
                 key={the_semester.season.toString() + the_semester.year.toString()}
                 semester={the_semester} deleteSemester = {deleteSemester}
-                setEditSemesterVisible={() => setEditSemesterVisible}></SemesterCard>
+                editCourse={() => editCourse}></SemesterCard>
         );
     }
 
@@ -34,7 +35,7 @@ export function PlanTable({ semesters, deleteSemester, showModal, setEditSemeste
 
         if (!(truncatedSemesterCardArray.length % 2)) {
             return (
-                <Row>
+                <Row key={truncatedSemesterCardArray[0].key}>
                     <Col>
                         {truncatedSemesterCardArray[0]}       
                     </Col>
@@ -45,7 +46,7 @@ export function PlanTable({ semesters, deleteSemester, showModal, setEditSemeste
             );
         } else {
             return (
-                <Row>
+                <Row key={truncatedSemesterCardArray[0].key}>
                     <Col>
                         {truncatedSemesterCardArray[0]}       
                     </Col>
@@ -57,7 +58,7 @@ export function PlanTable({ semesters, deleteSemester, showModal, setEditSemeste
     }
 
     const semesterJSX: JSX.Element[] = sortedSemesters.map(renderList);
-    semesterJSX.push(<Card><Button
+    semesterJSX.push(<Card key={0}><Button
         className="button"
         data-testid="add-semester-button-plan-table"
         id="add-semester-button-plan-table"

@@ -1,12 +1,13 @@
 import React from "react";
 import { Col, Card, Container, Row, Button } from "react-bootstrap";
+import { Course } from "../interface/course";
 import { Season, Semester } from "../interface/semester";
 import { SemesterTable } from "./SemesterTable";
 
-export function SemesterCard({ semester, deleteSemester, setEditSemesterVisible }: {
+export function SemesterCard({ semester, deleteSemester, editCourse }: {
     semester: Semester;
     deleteSemester: (semester: Semester) => void;
-    setEditSemesterVisible: (b:boolean) => void;
+    editCourse: (c: Course) => void;
 }): JSX.Element {
 
 
@@ -51,7 +52,7 @@ export function SemesterCard({ semester, deleteSemester, setEditSemesterVisible 
                 <Row>
                     <SemesterTable
                         semester={semester}
-                        setEditSemesterVisible={setEditSemesterVisible}
+                        editCourse={editCourse}
                         addSemesterFlag={false}></SemesterTable>
                 </Row>
                 <p>PLACEHOLDER FOR SEMESTER STATS (TOT CREDITS, ESTIMATED COST, ETC)</p>

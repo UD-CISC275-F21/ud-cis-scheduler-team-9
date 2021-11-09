@@ -5,11 +5,10 @@ import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
 
-export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, course, editCourse }: {
+export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, course, }: {
     setEditSemesterVisible: (b:boolean) => void;
     editSemesterVisible: boolean;
     course: Course;
-    editCourse: (course: Course) => void;
 }): JSX.Element {
 
     const [department, setDepartment] = useState<string>(course.department);
@@ -23,6 +22,30 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
 
     const hide = ()=>setEditSemesterVisible(false);
 
-    //wdwd
-    return(<div></div>);
+    //efefef
+    function resetCourse(): void {
+        setDepartment("");
+        setCourseID(0);
+        setTitle("");
+        setDescription("");
+        setCredits(0);
+        setPreReqs([[""]]);
+        setCoReqs([[""]]);
+        setSemestersOffered([]);
+    }
+
+    return(
+        <Modal
+            show={editSemesterVisible}
+            onHide={hide}
+            backdrop="static"
+            keyboard={false}
+            data-testid="-edit-course-modal"
+            size="lg">
+            <ModalHeader closeButton onClick={resetCourse}></ModalHeader>
+            <ModalBody>
+                
+            </ModalBody>
+        </Modal>
+    );
 }

@@ -13,6 +13,16 @@ function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
     const [visible, setVisible] = useState<boolean>(false);
     const [editSemesterVisible, setEditSemesterVisible] = useState<boolean>(false);
+    const [currentCourse, setCurrentCourse] = useState<Course>({
+        department: "",
+        courseID: 0,
+        title: "",
+        description: "",
+        credits: 0,
+        preReqs: [[""]],
+        coReqs: [[""]],
+        semestersOffered: []
+    });
     const catalog: Record<string, Course> = courseCatalog;
 
     function addSemester(semester: Semester) {
@@ -46,8 +56,8 @@ function App(): JSX.Element {
     }
 
     function editCourse(course: Course): void {
+        setCurrentCourse(course);
         setEditSemesterVisible(true);
-        
     }
 
     return (
@@ -67,16 +77,14 @@ function App(): JSX.Element {
                 <EditCourseModal
                     setEditSemesterVisible={setEditSemesterVisible}
                     editSemesterVisible={editSemesterVisible}
-                    course={plan[1].courseRecord["CISC108"]}
-                    editCourse={() => {
-                        console.log("gefe");
-                    }}></EditCourseModal>
+                    course={currentCourse}></EditCourseModal>
             </Row>
             <Row>
-                <PlanTable semesters={plan}
+                <PlanTable
+                    semesters={plan}
                     deleteSemester={deleteSemester}
                     showModal={setVisible}
-                    setEditSemesterVisible={setEditSemesterVisible}></PlanTable>
+                    editCourse={editCourse}></PlanTable>
             </Row>
         </Container>
     );

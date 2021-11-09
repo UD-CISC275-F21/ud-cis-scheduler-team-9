@@ -272,12 +272,12 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                 <Row>
                     <SemesterTable
                         semester={{season, year, courseRecord, creditTotal, expectedTuition}}
-                        setEditSemesterVisible={(b: boolean): void => {
-                            if(b) {
-                                console.log("Called from AddSemesterModal");
+                        editCourse={(c: Course): void => {
+                            if(c) {
+                                console.log("Called from AddSemesterModal??? Don't think this is possible.");
                             } 
                         }}
-                        addSemesterFlag={false}></SemesterTable>
+                        addSemesterFlag={true}></SemesterTable>
                 </Row>
                 <Row data-testid="Bottom Row">
                     <Col>
