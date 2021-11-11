@@ -5,6 +5,7 @@ import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
 import { useDrag, useDrop } from "react-dnd";
+import { CourseCardDisplay } from "./CourseCardDisplay";
 
 export function AddSemesterModal({ addSemester, checkSemester, setVisible, visible, catalog}:{
     addSemester: (s: Semester)=>void,
@@ -35,9 +36,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     // course card states
     const [showCard, setShowCard] = useState<boolean>(false);
     const hide = ()=>setVisible(false);
-
-    // card pool states
-    const [pool, setPool] = useState<Course[]>([]);
 
     function validateForm(): boolean { // Makes sure that no text field is empty before submit
         return department.length > 0 && courseID >= 100 && year >= determineYear();
@@ -71,6 +69,8 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         if(catalog[key]){
             course = getCourse(department, courseID);
             setShowCard(true);
+        } else{
+            setShowCard(false);
         }
 
         setTitle(course.title);
@@ -139,95 +139,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
             setSeason(3);
         }
     }
-
-    function displayReqs(s: string[][]){
-        let i;
-        if(showCard){
-            let phrase = s[0][0];
-            for(i = 1; i<s[0].length; i++){
-                phrase = phrase + ", " + s[0][i];
-            }
-            return phrase;
-        }
-    }
-    
-    function displaySemesters(){
-        let i = 0;
-        let phrase = "";
-        semestersOffered.forEach((s)=>{
-            switch(s){
-            case 0:
-                phrase = phrase + "Fall";
-                break;
-            case 1:
-                phrase = phrase + "Winter";
-                break;
-            case 2:
-                phrase = phrase + "Spring";
-                break;
-            case 3:
-                phrase = phrase + "Summer";
-                break;
-            }
-            
-            i++;
-            if(i<semestersOffered.length)
-                phrase = phrase + ", ";
-        });
-        return phrase;
-    }
-
-    const [{ isOver } , addToPoolRef] = useDrop({
-        accept: "course",
-        drop: (item: Course) => moveCourseCard(item),
-    });
-
-    const [{ isOver: isCourseOver } , removeFromPoolRef] = useDrop({
-        accept: "pool",
-        drop: (item: Course) => moveCourseCard(item),
-    });
-
-    const draggableComponent = (props: Course) => {
-        const [collected, drag, dragPreview] = useDrag(() => ({
-            type: "course card",
-            item: {id: "Displayed Card"},
-            dropEffect: "move",
-            collect: (monitor) => ({
-                isDragging: !!monitor.isDragging(),
-            }),
-        }));
-        return collected.isDragging ? (<  div ref={dragPreview} />) :
-            <Card 
-                ref={drag} 
-                {...collected}
-                
-            >
-                <Card.Body>
-                    <Card.Title>{department}{courseID}: {title} 
-                        <Card.Text> Credits: {credits}</Card.Text>
-                    </Card.Title> 
-                    <Card.Text>{description}</Card.Text>
-                    <Card.Text>Prereqs: {displayReqs(preReqs)}</Card.Text> 
-                    <Card.Text>Coreqs: {displayReqs(coReqs)}</Card.Text> 
-                    <Card.Text>Semesters: {displaySemesters()}</Card.Text>
-                </Card.Body>
-            </Card>;
-    };
-
-    const moveCourseCard = (item: Course) => {
-        if(item && draggableComponent(item).type === "course"){
-            setPool((pool) => [...pool, item]);
-            setShowCard(false);
-        }else{
-            setTitle(item.title);
-            setDescription(item.description);
-            setCredits(item.credits);
-            setPreReqs(item.preReqs);
-            setCoReqs(item.coReqs);
-            setSemestersOffered(item.semestersOffered);
-            setShowCard(true);
-        }
-    };
 
     function clearData(){
         // Semester Data
@@ -306,17 +217,9 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                 </Row>
                 <Row>
                     <Col>
-                        {showCard && <Card id="course-card">
-                            <Card.Body>
-                                <Card.Title>{department}{courseID}: {title} 
-                                    <Card.Text> Credits: {credits}</Card.Text>
-                                </Card.Title> 
-                                <Card.Text>{description}</Card.Text>
-                                <Card.Text>Prereqs: {displayReqs(preReqs)}</Card.Text> 
-                                <Card.Text>Coreqs: {displayReqs(coReqs)}</Card.Text> 
-                                <Card.Text>Semesters: {displaySemesters()}</Card.Text>
-                            </Card.Body>
-                        </Card>}
+                        {showCard && <Row>
+                            <CourseCardDisplay cardInfo = {courseInfo} showCard={showCard}></CourseCardDisplay>
+                        </Row>}
                     </Col>
                     <Col>
 
