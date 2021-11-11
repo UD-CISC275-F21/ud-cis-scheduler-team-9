@@ -23,6 +23,7 @@ function App(): JSX.Element {
         coReqs: [[""]],
         semestersOffered: []
     });
+    const [semesterIndex, setSemesterIndex] = useState<number>(0);
     const catalog: Record<string, Course> = courseCatalog;
 
     function addSemester(semester: Semester) {
@@ -35,12 +36,7 @@ function App(): JSX.Element {
     }
 
     function deleteSemester(semester: Semester) {
-        let deleteSemesterIndex = 0;
-        for(let i = 0; i < plan.length; i++) {
-            if(semester.season === plan[i].season && semester.year === plan[i].year) {
-                deleteSemesterIndex = i;
-            }
-        }
+        const deleteSemesterIndex = checkSemester(semester);
         const newPlan = [...plan];
         newPlan.splice(deleteSemesterIndex, 1);
         setPlan([...newPlan]);
@@ -58,14 +54,21 @@ function App(): JSX.Element {
         course: Course;
         semester: Semester;
     }): void {
-        setCurrentCourse(course);
-
-        const editSemesterIndex: number= checkSemester(semester);
+        setSemesterIndex(checkSemester(semester));
+        setCurrentCourse({...course});
         setEditSemesterVisible(true);
     }
 
-    function editCourse() {
-        //wdw
+    function editCourse(course: Course) {
+        const editSemesterIndex: number = semesterIndex;
+        const editCourseKey: string = course.department + course.courseID.toString();
+        console.log(course.department);
+        console.log(course.courseID);
+        console.log(JSON.stringify(plan[editSemesterIndex].courseRecord));
+        delete plan[editSemesterIndex].courseRecord[currentCourse.department + currentCourse.courseID];
+        plan[editSemesterIndex].courseRecord = {...plan[editSemesterIndex].courseRecord, [editCourseKey]: course};
+        setPlan([...plan]);
+        console.log(JSON.stringify(plan[editSemesterIndex].courseRecord));
     }
 
     return (

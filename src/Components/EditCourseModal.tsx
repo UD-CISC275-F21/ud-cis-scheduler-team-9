@@ -9,7 +9,7 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
     editSemesterVisible: boolean;
     course: Course;
     setCurrentCourse: (c:Course) => void;
-    editCourse: (c: Course) => void;
+    editCourse: (c:Course) => void;
 }): JSX.Element {
 
     const [department, setDepartment] = useState<string>(course.department);
@@ -53,7 +53,7 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
     };
 
     function saveCourse() {
-        editCourse(courseInfo);
+        editCourse({department, courseID, title, description, credits, preReqs, coReqs, semestersOffered});
         resetCourseHooks();
         hide();
     }
@@ -67,7 +67,7 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
             data-testid="edit-course-modal"
             size="lg">
             <ModalHeader closeButton onClick={resetCourseHooks}>
-                <Modal.Title>Edit {course.department + course.courseID}</Modal.Title>
+                <Modal.Title>Edit {department + courseID.toString()}</Modal.Title>
             </ModalHeader>
 
             <ModalBody>
@@ -178,11 +178,11 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
                             <Form.Control
                                 required
                                 type="text"
-                                placeholder="Zip"
+                                placeholder=""
                                 
                             />
                             <Form.Control.Feedback type="invalid">
-                                Please provide a valid zip.
+                                Please provide a valid Semester.
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Row>
