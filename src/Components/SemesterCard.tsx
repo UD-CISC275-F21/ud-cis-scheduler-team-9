@@ -4,10 +4,10 @@ import { Course } from "../interface/course";
 import { Season, Semester } from "../interface/semester";
 import { SemesterTable } from "./SemesterTable";
 
-export function SemesterCard({ semester, deleteSemester, editCourse }: {
+export function SemesterCard({ semester, deleteSemester, editCourseLauncher }: {
     semester: Semester;
     deleteSemester: (semester: Semester) => void;
-    editCourse: (c: Course) => void;
+    editCourseLauncher: ({course, semester}: {course: Course, semester:Semester}) => void;
 }): JSX.Element {
 
 
@@ -52,8 +52,8 @@ export function SemesterCard({ semester, deleteSemester, editCourse }: {
                 <Row>
                     <SemesterTable
                         semester={semester}
-                        editCourse={editCourse}
-                        addSemesterFlag={false}></SemesterTable>
+                        editCourseLauncher={editCourseLauncher}
+                    ></SemesterTable>
                 </Row>
                 <p>PLACEHOLDER FOR SEMESTER STATS (TOT CREDITS, ESTIMATED COST, ETC)</p>
             </Card.Body>

@@ -3,10 +3,9 @@ import { Button, Table } from "react-bootstrap";
 import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 
-export function SemesterTable({semester, editCourse, addSemesterFlag}: { 
+export function SemesterTable({semester, editCourseLauncher}: { 
     semester: (Semester);
-    editCourse: (c: Course) => void;
-    addSemesterFlag: boolean;
+    editCourseLauncher?: ({course, semester}: {course: Course, semester:Semester}) => void;
     }): JSX.Element {
 
 
@@ -17,8 +16,8 @@ export function SemesterTable({semester, editCourse, addSemesterFlag}: {
                 <td id="course-title">{course.title}</td>
                 <td id="course-description">{course.description}</td>
                 <td id="course-credits">{course.credits}</td>
-                {!addSemesterFlag && <td id="course-edit-button">{
-                    <Button variant="primary" onClick={() => editCourse(course)}>
+                {editCourseLauncher && <td id="course-edit-button">{
+                    <Button variant="primary" onClick={() => editCourseLauncher({course, semester})}>
                         Edit Course
                     </Button>
                 }</td>}
@@ -34,7 +33,7 @@ export function SemesterTable({semester, editCourse, addSemesterFlag}: {
                     <th scope="col">Title</th>
                     <th scope="col">Description</th>
                     <th scope="col">Credits</th>
-                    {!addSemesterFlag && <th scope="col">Edit:</th>}
+                    {editCourseLauncher && <th scope="col">Edit:</th>}
                 </tr>
             </thead>
             <tbody>

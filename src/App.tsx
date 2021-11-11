@@ -46,18 +46,26 @@ function App(): JSX.Element {
         setPlan([...newPlan]);
     }
 
-    function checkSemester(semesterToCheck: Semester): boolean {
-        let i;
-        for(i = 0; i<plan.length; i++){
-            if(semesterToCheck.year === plan[i].year && semesterToCheck.season === plan[i].season)
-                return true;
+    function checkSemester(semesterToCheck: Semester): number {
+        for(let semesterIndex = 0; semesterIndex<plan.length; semesterIndex++){
+            if(semesterToCheck.year === plan[semesterIndex].year && semesterToCheck.season === plan[semesterIndex].season)
+                return semesterIndex;
         }
-        return false;
+        return -1;
     }
 
-    function editCourse(course: Course): void {
+    function editCourseLauncher({course, semester}: {
+        course: Course;
+        semester: Semester;
+    }): void {
         setCurrentCourse(course);
+
+        const editSemesterIndex: number= checkSemester(semester);
         setEditSemesterVisible(true);
+    }
+
+    function editCourse() {
+        //wdw
     }
 
     return (
@@ -77,14 +85,16 @@ function App(): JSX.Element {
                 <EditCourseModal
                     setEditSemesterVisible={setEditSemesterVisible}
                     editSemesterVisible={editSemesterVisible}
-                    course={currentCourse}></EditCourseModal>
+                    course={currentCourse}
+                    setCurrentCourse={setCurrentCourse}
+                    editCourse={editCourse}></EditCourseModal>
             </Row>
             <Row>
                 <PlanTable
                     semesters={plan}
                     deleteSemester={deleteSemester}
                     showModal={setVisible}
-                    editCourse={editCourse}></PlanTable>
+                    editCourseLauncher={editCourseLauncher}></PlanTable>
             </Row>
         </Container>
     );

@@ -7,7 +7,7 @@ import { SemesterTable } from "./SemesterTable";
 
 export function AddSemesterModal({ addSemester, checkSemester, setVisible, visible, catalog}:{
     addSemester: (s: Semester)=>void,
-    checkSemester: (c: Semester)=>boolean,
+    checkSemester: (c: Semester)=>number,
     setVisible: (v:boolean)=>void,
     visible: (boolean)
     catalog: (Record<string, Course>)}): JSX.Element {
@@ -37,7 +37,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     }
 
     function validateTable() {
-        return Object.values(courseRecord).length > 0 && !checkSemester(semesterInfo);
+        return Object.values(courseRecord).length > 0 && (checkSemester(semesterInfo) === -1);
     }
 
     function validateCourse() {
@@ -272,12 +272,12 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                 <Row>
                     <SemesterTable
                         semester={{season, year, courseRecord, creditTotal, expectedTuition}}
-                        editCourse={(c: Course): void => {
+                        /*editCourse={(c: Course): void => {
                             if(c) {
                                 console.log("Called from AddSemesterModal??? Don't think this is possible.");
                             } 
-                        }}
-                        addSemesterFlag={true}></SemesterTable>
+                        }}*/
+                    ></SemesterTable>
                 </Row>
                 <Row data-testid="Bottom Row">
                     <Col>

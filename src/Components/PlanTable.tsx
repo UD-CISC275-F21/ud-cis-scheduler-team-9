@@ -5,11 +5,11 @@ import { Semester } from "../interface/semester";
 import { SemesterCard } from "./SemesterCard";
 
 
-export function PlanTable({ semesters, deleteSemester, showModal, editCourse}: {
+export function PlanTable({ semesters, deleteSemester, showModal, editCourseLauncher}: {
     semesters: Semester[];
     deleteSemester: (semester: Semester) => void;
     showModal: (b:boolean) => void;
-    editCourse: (c: Course) => void;
+    editCourseLauncher: ({course, semester}: {course: Course, semester:Semester}) => void;
 }): JSX.Element {
 
     const sortedSemesters = semesters.sort(compareSeason).sort(compareYear);
@@ -27,7 +27,7 @@ export function PlanTable({ semesters, deleteSemester, showModal, editCourse}: {
             <SemesterCard 
                 key={the_semester.season.toString() + the_semester.year.toString()}
                 semester={the_semester} deleteSemester = {deleteSemester}
-                editCourse={() => editCourse}></SemesterCard>
+                editCourseLauncher={editCourseLauncher}></SemesterCard>
         );
     }
 
