@@ -26,6 +26,8 @@ export function CardPool(showCard: boolean): JSX.Element{
         }
     };*/
 
+    console.log("pool");
+
     return (
         <Col id = "course-display" ref={addToPoolRef}>
             {pool.map((courseCard, i) => <CourseCard key={i} cardInfo={courseCard} showCard={showCard} hide={true}/>)}
