@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl, Card} from "react-bootstrap";
+import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl} from "react-bootstrap";
 import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
-import { useDrag, useDrop } from "react-dnd";
 import { CourseCardDisplay } from "./CourseCardDisplay";
+import { CardPool } from "./CardPool";
 
 export function AddSemesterModal({ addSemester, checkSemester, setVisible, visible, catalog}:{
     addSemester: (s: Semester)=>void,
@@ -35,6 +35,8 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
 
     // course card states
     const [showCard, setShowCard] = useState<boolean>(false);
+
+    // add semester modal states
     const hide = ()=>setVisible(false);
 
     function validateForm(): boolean { // Makes sure that no text field is empty before submit
@@ -168,7 +170,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
             backdrop="static"
             keyboard={false}
             data-testid="add-semester-modal"
-            size="lg"
+            size="xl"
         >
             <ModalHeader closeButton onClick={clearData}></ModalHeader>
             <ModalBody>
@@ -222,7 +224,9 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                         </Row>}
                     </Col>
                     <Col>
-
+                        {showCard && <Row>
+                            <CardPool {...showCard}></CardPool>
+                        </Row>}
                     </Col>
                 </Row>
                 <Row>
