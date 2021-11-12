@@ -7,7 +7,7 @@ import { CourseCard } from "./CourseCard";
 
 export function CourseCardDisplay({cardInfo, showCard}: {cardInfo: Course, showCard: boolean}): JSX.Element{
     const [display, setDisplay] = useState<Course[]>([cardInfo]);
-    const [{ isOver }, dropRef] = useDrop(() => ({
+    const [{ isOver }, addToDisplay] = useDrop(() => ({
         accept: "courseCard",
         item: { department: cardInfo.department, courseID: cardInfo.courseID},
         dropEffect: "move",
@@ -21,7 +21,7 @@ export function CourseCardDisplay({cardInfo, showCard}: {cardInfo: Course, showC
     console.log(display);
 
     return (
-        <Col id = "course-display" ref={dropRef}>
+        <Col id = "course-display" ref={addToDisplay}>
             {display.map((courseCard, i) => <CourseCard key={i} cardInfo={courseCard} showCard={showCard} hide={false}/>)}
             {isOver && console.log("over dispay")}
         </Col>

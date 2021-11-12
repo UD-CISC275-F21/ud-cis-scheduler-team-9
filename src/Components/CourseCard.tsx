@@ -55,7 +55,7 @@ export function CourseCard({cardInfo, showCard, hide}: {cardInfo: Course, showCa
     console.log("card");
     
     return (
-        <Card className = "draggable-card" ref={drag} style={{opacity: isDragging ? "50%" : "100%"}}>
+        <Card draggable className = "draggable-card" ref={drag} style={{opacity: isDragging ? "50%" : "100%"}}>
             <Card.Body>
                 <Card.Title>{cardInfo.department}{cardInfo.courseID}: {cardInfo.title} 
                     <Card.Text> Credits: {cardInfo.credits}</Card.Text>

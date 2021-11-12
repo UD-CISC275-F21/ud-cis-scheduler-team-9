@@ -217,18 +217,14 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                         />
                     </Col>
                 </Row>
-                <Row>
+                {showCard && <Row>
                     <Col>
-                        {showCard && <Row>
-                            <CourseCardDisplay cardInfo = {courseInfo} showCard={showCard}></CourseCardDisplay>
-                        </Row>}
+                        <CourseCardDisplay cardInfo = {courseInfo} showCard={showCard}></CourseCardDisplay>
                     </Col>
                     <Col>
-                        {showCard && <Row>
-                            <CardPool {...showCard}></CardPool>
-                        </Row>}
+                        <CardPool {...showCard}></CardPool>
                     </Col>
-                </Row>
+                </Row>}
                 <Row>
                     <SemesterTable semester={{season, year, courseRecord, creditTotal, expectedTuition}}></SemesterTable>
                 </Row>
