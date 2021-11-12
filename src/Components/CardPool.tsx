@@ -11,12 +11,12 @@ export function CardPool({showCard, setShowCard}: {showCard: boolean, setShowCar
     });
 
     function handleNewCourse(item: Course){
-        if(!pool.includes(item)){
-            setPool([...pool, item]);
-            console.log("pool");
-            console.log(pool);
-        } else{
-            setPool(pool);
+        for(let i = 0; i<pool.length + 1; i++){
+            if (!pool.find((course) => course.department === item.department && course.courseID === item.courseID)) {
+                setPool([...pool, item]);
+            } else{
+                break;
+            }
         }
         setShowCard(false);
     }
