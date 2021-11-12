@@ -3,14 +3,23 @@ import { Course } from "../interface/course";
 import { useDrop } from "react-dnd";
 import { CourseCard } from "./CourseCard";
 
-export function CardPool(showCard: boolean): JSX.Element{
+export function CardPool({showCard, setShowCard}: {showCard: boolean, setShowCard: (b: boolean)=>void}): JSX.Element{
     const [pool, setPool] = useState<Course[]>([]);
     const [{ isOver } , addToPoolRef] = useDrop({
-        accept: "CoursecCard",
-        drop: (item: Course) =>  !pool.includes(item) ? setPool([...pool, item]) : setPool(pool),
+        accept: "courseCard",
+        drop: (item: Course) => handleNewCourse(item),
     });
 
-    console.log("pool");
+    function handleNewCourse(item: Course){
+        if(!pool.includes(item)){
+            setPool([...pool, item]);
+            console.log("pool");
+            console.log(pool);
+        } else{
+            setPool(pool);
+        }
+        setShowCard(false);
+    }
 
     return (
         <div id = "card-pool" ref={addToPoolRef}>
@@ -19,18 +28,3 @@ export function CardPool(showCard: boolean): JSX.Element{
         </div>
     );
 }
-
-/*const moveCourseCard = (item: Course) => {
-        if(item && type === "course"){
-            setPool((pool) => [...pool, item]);
-            setShowCard(false);
-        }else{
-            setTitle(item.title);
-            setDescription(item.description);
-            setCredits(item.credits);
-            setPreReqs(item.preReqs);
-            setCoReqs(item.coReqs);
-            setSemestersOffered(item.semestersOffered);
-            setShowCard(true);
-        }
-    };*/

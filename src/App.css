@@ -59,6 +59,11 @@ Button.button {
     margin-top: 2em;
 }
 
+#course-display {
+    height: 100%;
+    background-color: aquamarine;
+}
+
 #card-pool {
     background-color: lightgray;
     height: 100%;
