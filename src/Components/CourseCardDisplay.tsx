@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDrop } from "react-dnd";
 import { Course } from "../interface/course";
-import { Col } from "react-bootstrap";
 import { CourseCard } from "./CourseCard";
 
 
