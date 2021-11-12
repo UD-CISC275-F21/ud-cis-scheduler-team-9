@@ -17,7 +17,7 @@ export function CourseCardDisplay({cardInfo, showCard}: {cardInfo: Course, showC
         }),
     }));
 
-    console.log("entered Dispaly");
+    console.log("entered Display");
     console.log(display);
 
     return (

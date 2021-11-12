@@ -60,7 +60,8 @@ Button.button {
 }
 
 #card-pool {
-    background-color: orange;
+    background-color: lightgray;
+    height: 100%;
 }
 
 @keyframes App-logo-spin {
