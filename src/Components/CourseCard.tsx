@@ -62,8 +62,6 @@ export function CourseCard({cardInfo, showCard, hide}: {cardInfo: Course, showCa
         }
         return phrase;
     }
-
-    console.log("card");
     
     return (
         <Card draggable className = "draggable-card" ref={drag} style={{opacity: isDragging ? "50%" : "100%"}}>

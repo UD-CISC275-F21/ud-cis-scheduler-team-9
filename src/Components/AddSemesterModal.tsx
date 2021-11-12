@@ -69,9 +69,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         };
         
         if(catalog[key]){
-            console.log("key found");
             course = getCourse(department, courseID);
-            console.log("course set");
             setShowCard(true);
         } else{
             setShowCard(false);
@@ -83,8 +81,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         setPreReqs(course.preReqs);
         setCoReqs(course.coReqs);
         setSemestersOffered(course.semestersOffered);
-        console.log("info set");
-        console.log(courseInfo);
     }
 
     function addCourse(newCourse: Course){ 
@@ -226,7 +222,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                         {showCard && <CourseCardDisplay cardInfo = {courseInfo} showCard={showCard}></CourseCardDisplay>}
                     </Col>
                     <Col>
-                        <CardPool showCard={showCard} setShowCard={setShowCard}></CardPool>
+                        <CardPool showCard={showCard}></CardPool>
                     </Col>
                 </Row>
                 <Row>

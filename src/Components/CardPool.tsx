@@ -3,14 +3,14 @@ import { Course } from "../interface/course";
 import { useDrop } from "react-dnd";
 import { CourseCard } from "./CourseCard";
 
-export function CardPool({showCard, setShowCard}: {showCard: boolean, setShowCard: (b: boolean)=>void}): JSX.Element{
+export function CardPool({showCard}: {showCard: boolean}): JSX.Element{
     const [pool, setPool] = useState<Course[]>([]);
     const [{ isOver } , addToPoolRef] = useDrop({
         accept: "courseCard",
-        drop: (item: Course) => handleNewCourse(item),
+        drop: (item: Course) => handlePool(item),
     });
 
-    function handleNewCourse(item: Course){
+    function handlePool(item: Course){
         for(let i = 0; i<pool.length + 1; i++){
             if (!pool.find((course) => course.department === item.department && course.courseID === item.courseID)) {
                 setPool([...pool, item]);
@@ -18,7 +18,6 @@ export function CardPool({showCard, setShowCard}: {showCard: boolean, setShowCar
                 break;
             }
         }
-        setShowCard(false);
     }
 
     return (

@@ -19,13 +19,16 @@ export function CourseCardDisplay({cardInfo, showCard}: {cardInfo: Course, showC
             semestersOffered: cardInfo.semestersOffered
         },
         dropEffect: "move",
-        drop: (item: Course) =>  display === item ? setDisplay(item) : setDisplay(display),
+        drop: (item: Course) =>  handleDisplay(item),
         collect: (monitor) => ({
             isOver: monitor.isOver(),
         }),
     }));
 
-    console.log(cardInfo);
+    function handleDisplay(item: Course){
+        if(display.department != item.department || display.courseID != item.courseID)
+            setDisplay(item);
+    }
 
     return (
         <div id = "course-display" ref={addToDisplay}>
