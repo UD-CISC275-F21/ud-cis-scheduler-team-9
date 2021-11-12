@@ -9,38 +9,66 @@ import { PlanTable } from "./Components/PlanTable";
 import { RequiredDegreeList } from "./Components/RequiredDegreeList";
 
 import courseCatalog from "./Assets/testcourses.json";
+import degreePlanList from "./Assets/degreeplans.json";
 
 function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
     const [visible, setVisible] = useState<boolean>(false);
     const catalog: Record<string, Course> = courseCatalog;
-    const [degreePlan, setDegreePlan] = useState<string[]>(["CISC210", "MATH241"]);
-    const [requiredCourses, setRequiredCourses] = useState<string[]>(degreePlan);
-
-    useEffect (() => {
-        checkDegreePlan();
-    }, [plan]);
+    const degreePlans: Record<string, string[]> = degreePlanList;
+    const [currentDegreePlan, setCurrentDegreePlan] = useState<string[]>(degreePlans["Computer Science: (BS)"]);
     
     function addSemester(semester: Semester) {
         setPlan([...plan, semester]);
     }
 
     function deleteAllSemesters() {
-        //just to ignore the linter, 
-        setDegreePlan(degreePlan);
         setPlan([]);
         console.log("Deleted All Semesters");
     }
 
+
     function checkCourse(course: string): boolean {
         let i;
-        for(i = 0; i<plan.length; i++){
-            if(plan[i].courseRecord[course]){
-                return true;
+        if (course.includes("or")){
+            const courses: string[] = course.split(" or ", 2);
+            for(i = 0; i<plan.length; i++){
+                if(plan[i].courseRecord[courses[0]] || plan[i].courseRecord[courses[1]]){
+                    return true;
+                }
             }
+            return false;
+        }else if (course.includes("Credits")){
+            const requirement: string[] = course.split(": ");
+            const nondigits = new RegExp("[a-zA-Z:/ ]", "g");
+            const credits_needed = parseInt(course.replace(nondigits, ""));
+            console.log(credits_needed);
+            let credit_count = 0;
+            //console.log(requirement[0]);
+            for(i = 0; i<plan.length; i++){
+                const course_array: Course[] = Object.values(plan[i].courseRecord);
+                for (let j = 0; j < course_array.length; j++){
+                    if (course_array[j].fufills === requirement[0]){
+                        credit_count += course_array[j].credits;
+                    }
+                }
+            }
+
+            if (credit_count >= credits_needed){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            for(i = 0; i<plan.length; i++){
+                if(plan[i].courseRecord[course]){
+                    return true;
+                }
+            }
+            return false;
         }
-        return false;
     }
+
     function deleteSemester(semester: Semester) {
         let deleteSemesterIndex = 0;
         for(let i = 0; i < plan.length; i++) {
@@ -51,20 +79,6 @@ function App(): JSX.Element {
         const newPlan = [...plan];
         newPlan.splice(deleteSemesterIndex, 1);
         setPlan([...newPlan]);
-    }
-
-    function checkDegreePlan() {
-        let violations: string[] = [];
-        for (let i = 0; i < degreePlan.length; i++){
-            //console.log("TESTING " + degreePlan[i]);
-            //console.log(checkCourse(degreePlan[i]));
-            if (!checkCourse(degreePlan[i])){
-                const course: string = degreePlan[i];
-                violations = [...violations, course];
-            }
-        } 
-        //It seems that useState does not like trying to set its variable in a loop multiple times
-        setRequiredCourses(violations);
     }
     function checkSemester(semesterToCheck: Semester): boolean{
         let i;
@@ -81,12 +95,11 @@ function App(): JSX.Element {
                 <br></br>
             </Row>
             <Row>
-                <RequiredDegreeList degree_list = {requiredCourses}></RequiredDegreeList>
+                <RequiredDegreeList checkCourse = {checkCourse} degree_list = {currentDegreePlan}></RequiredDegreeList>
                 <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
             </Row>
             <Row>
                 <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} checkCourse = {checkCourse} visible={visible} catalog={catalog}></AddSemesterModal>
-                <RequiredDegreeList degree_list = {requiredCourses}></RequiredDegreeList>
             </Row>
             <Row>
                 <PlanTable semesters = {plan} deleteSemester = {deleteSemester} showModal={setVisible}></PlanTable>

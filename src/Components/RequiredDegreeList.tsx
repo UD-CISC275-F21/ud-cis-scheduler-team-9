@@ -1,11 +1,21 @@
 import React from "react";
+import { Semester } from "../interface/semester";
 
-export function RequiredDegreeList({degree_list}: {degree_list: string[]}): JSX.Element{
+
+export function RequiredDegreeList({checkCourse, degree_list}: {
+    checkCourse: (c: string)=>boolean, 
+    degree_list: string[]}): JSX.Element{
     
     function createList(course: string){
-        return(
-            <a className="list-group-item list-group-item-action" key = {course}> {course} </a>
-        );
+        if (checkCourse(course)){
+            return(
+                <a className="list-group-item list-group-item-success" key = {course}> {course} </a>
+            );
+        }else{
+            return(
+                <a className="list-group-item list-group-item-action" key = {course}> {course} </a>
+            );
+        }
     }
 
     return(

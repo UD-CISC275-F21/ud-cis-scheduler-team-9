@@ -1,0 +1,48 @@
+{
+    "Computer Science: (BS)": [
+        "CISC108 or MATH267",
+        "CISC181",
+        "CISC210",
+        "CISC260",
+        "CISC275",
+        "CISC303",
+        "CISC320",
+        "CISC361",
+        "CISC372",
+        "Technical Electives: 0/6 Credits",
+        "Concentration: 0/12 Credits",
+        "MATH205 or MATH350",
+        "MATH210",
+        "MATH241",
+        "MATH242",
+        "Capstone",
+        "Lab Requirements: 0/12 Credits",
+        "ENGL312 or ENGL410",
+        "CISC355"
+
+    ],
+    "Computer Science: (BA)": [
+        "BA"
+    ],
+    "Computer Science: Artificial Intelligence and Robotics Concentration":[
+        "AI"
+    ],
+    "Computer Science - Bioinformatics Concentration":[
+        "BIO"
+    ],
+    "Computer Science - Cybersecurity Concentration":[
+        "SECUR"
+    ],
+    "Computer Science - Data Science Concentration":[
+        "DATA"
+    ],
+    "Computer Science - High Performance Computing Concentration":[
+        "HIGH PERf"
+    ],
+    "Computer Science - Systems and Networks Concentration":[
+        "SYS"
+    ],
+    "Computer Science - Theory and Computation Concentration":[
+        "THEORY"
+    ]
+}
