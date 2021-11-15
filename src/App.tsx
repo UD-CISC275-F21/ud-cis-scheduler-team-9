@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { ControlPanel } from "./Components/ControlPanel";
 import { AddSemesterModal } from "./Components/AddSemesterModal";
 import { Course } from "./interface/course";
 import { Semester } from "./interface/semester";
 import { PlanTable } from "./Components/PlanTable";
 import { RequiredDegreeList } from "./Components/RequiredDegreeList";
+import { CSVExport } from "./Components/CSVExport";
 
 import courseCatalog from "./Assets/testcourses.json";
 
@@ -85,13 +86,18 @@ function App(): JSX.Element {
                 <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
             </Row>
             <Row>
-                <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} checkCourse = {checkCourse} visible={visible} catalog={catalog}></AddSemesterModal>
-                <RequiredDegreeList degree_list = {requiredCourses}></RequiredDegreeList>
+                <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} checkCourse={checkCourse} visible={visible} catalog={catalog}></AddSemesterModal>
+                <RequiredDegreeList degree_list={requiredCourses}></RequiredDegreeList>
             </Row>
             <Row>
-                <PlanTable semesters = {plan} deleteSemester = {deleteSemester} showModal={setVisible}></PlanTable>
+                <PlanTable semesters={plan} deleteSemester={deleteSemester} showModal={setVisible}></PlanTable>
             </Row>
             <Row>
+                <Col></Col>
+                <Col></Col>
+                <Col>
+                    <CSVExport plan={plan}></CSVExport>
+                </Col>
             </Row>
         </Container>
     );
