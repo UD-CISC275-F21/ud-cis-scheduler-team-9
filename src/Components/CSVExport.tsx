@@ -24,7 +24,7 @@ export function CSVExport({plan}: {plan: Semester[]}): JSX.Element{
                 console.log("You click the link"); // 👍🏻 Your click handling logic
             }}
         >
-            Download your courseplan here
+            Download Your Degree Plan Here
         </CSVLink>
     );
 }
