@@ -38,8 +38,8 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     
     const hide = ()=>setVisible(false);
 
-    function validateForm(): boolean { // Makes sure that no text field is empty before submit
-        return department.length > 0 && courseID >= 100 && year >= determineYear();
+    function validateForm(): boolean { // Makes sure that no text field related to course search is empty
+        return department.length > 0 && courseID >= 100;
     }
 
     function validateTable() {
@@ -47,7 +47,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     }
 
     function validateCourse() {
-        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != []  && semestersOffered.includes(season);
+        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != []  && semestersOffered.includes(season) && year >= determineYear();
     }
 
     useEffect (() => {
@@ -62,7 +62,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         for (let i = 0; i < courseArray.length; i++){
             //If there are no prerequisites, the course is valid, you can probably just break here.
             if (courseArray[i].coReqs[0][0] == ""){
-                console.log("Coreqs is empty?");
+                //console.log("Coreqs is empty?");
                 setCoRequirements(true);
                 return;
             }
@@ -70,26 +70,26 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             //We look in each prerequisite structure, which holds the keys we are looking for
             for (let j = 0; j < courseArray[i].coReqs.length; j++){
                 //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
-                console.log(courseArray[i].coReqs[j].length);
+                //console.log(courseArray[i].coReqs[j].length);
                 for (let h = 0; h < courseArray[i].coReqs[j].length; h++){
                     //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
-                    console.log(courseArray[i].coReqs[j][h]);
+                    //console.log(courseArray[i].coReqs[j][h]);
                     const temp: string = courseArray[i].coReqs[j][h];
-                    console.log(courseRecord[temp]);
+                    //console.log(courseRecord[temp]);
                     if (!courseRecord[temp]){
-                        console.log("not in plan");
+                        //console.log("not in plan");
                         valid_course = valid_course && false;
                     }else{
-                        console.log("in plan");
+                        //console.log("in plan");
                         valid_course = valid_course && true;
                     }
                 }
             }    
             if (valid_course){
-                console.log("Valid Course.");
+                //console.log("Valid Course.");
                 setCoRequirements(true);
             } else {
-                console.log("Invalid Course.");
+                //console.log("Invalid Course.");
                 setShowCoWarning(true);
                 setCoRequirements(false);
             }
@@ -101,7 +101,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         let valid_course = true;
         //If there are no prerequisites, the course is valid, you can probably just break here.
         if (course.preReqs[0][0] == ""){
-            console.log("Prereqs is empty?");
+            //console.log("Prereqs is empty?");
             setPreRequirements(true);
             return;
         }
@@ -111,18 +111,18 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
             for (let h = 0; h < course.preReqs[j].length; h++){
                 //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
-                console.log(course.preReqs[j][h]);
+                //console.log(course.preReqs[j][h]);
                 if (!checkCourse(course.preReqs[j][h])){
-                    console.log("not in plan");
+                    //console.log("not in plan");
                     valid_course = valid_course && false;
                 }else{
-                    console.log("in plan");
+                    //console.log("in plan");
                     valid_course = valid_course && true;
                 }
             }
         }    
         if (valid_course){
-            console.log("Valid Course.");
+            //console.log("Valid Course.");
             setPreRequirements(true);
         } else {
             setShowPreWarning(true);
@@ -166,7 +166,9 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         const courseKey: string = department + courseID;
 
         setCourseRecord({...courseRecord, [courseKey]: newCourse});
-        setCreditTotal(determineCreditTotal(courseRecord));
+        //console.log("courseRecord: ", courseRecord);
+        setCreditTotal(determineCreditTotal({...courseRecord, [courseKey]: newCourse}));
+        //console.log("creditTotal: ", creditTotal);
         setExpectedTuition(expectedTuition);
     }
 
@@ -191,18 +193,12 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     function determineCreditTotal(record: Record<string, Course>) {
         let i = 0;
         let total = 0;
-        const keys = Object.keys(record); 
-        const arr = [];
+        const courses = Object.values(record);
 
-        for(i = 0; i<keys.length; i++){
-            arr.push(record[keys[i]]);
-        }
-        
-        while(i != arr.length){
-            total += arr[i].credits;
+        while(i != courses.length){
+            total += courses[i].credits;
             i++;
         }
-
         return total;
     }
 
