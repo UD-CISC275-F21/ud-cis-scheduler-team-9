@@ -166,9 +166,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         const courseKey: string = department + courseID;
 
         setCourseRecord({...courseRecord, [courseKey]: newCourse});
-        //console.log("courseRecord: ", courseRecord);
         setCreditTotal(determineCreditTotal({...courseRecord, [courseKey]: newCourse}));
-        //console.log("creditTotal: ", creditTotal);
         setExpectedTuition(expectedTuition);
     }
 
