@@ -86,7 +86,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     }
 
     function addCourse(newCourse: Course){ 
-        const courseKey: string = department + courseID;
+        const courseKey: string = newCourse.department + newCourse.courseID;
 
         setCourseRecord({...courseRecord, [courseKey]: newCourse});
         setCreditTotal(determineCreditTotal(courseRecord));
@@ -219,6 +219,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                         />
                     </Col>
                 </Row>
+                <br/>
                 <Row>
                     <Col>
                         {showCard && <CourseCardDisplay courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} setDeleteCard={setDeleteCard} showCard={showCard}></CourseCardDisplay>}
