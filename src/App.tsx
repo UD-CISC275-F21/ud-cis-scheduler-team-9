@@ -96,7 +96,7 @@ function App(): JSX.Element {
                 </Row>
                 <Row>
                 </Row>
-            </Container
+            </Container>
         </DndProvider>
     );
 }
