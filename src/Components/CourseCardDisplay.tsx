@@ -7,7 +7,7 @@ import { CourseCard } from "./CourseCard";
 export function CourseCardDisplay({courseInfo, setCourseInfo, setDeleteCard, showCard}: {
     courseInfo: Course, 
     setCourseInfo:(b: Course) => void, 
-    setDeleteCard:(c:Course) => void, 
+    setDeleteCard:(c:Course | undefined) => void, 
     showCard: boolean}): JSX.Element{
 
     const [{ isOver }, addToDisplay] = useDrop(() => ({
