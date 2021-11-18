@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl} from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl, Card} from "react-bootstrap";
 import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
@@ -7,16 +7,17 @@ import { SemesterTable } from "./SemesterTable";
 import { CourseCardDisplay } from "./CourseCardDisplay";
 import { CardPool } from "./CardPool";
 
-export function AddSemesterModal({ addSemester, checkSemester, setVisible, visible, catalog}:{
+export function AddSemesterModal({ addSemester, checkSemester, setVisible, checkCourse, visible, catalog}:{
     addSemester: (s: Semester)=>void,
     checkSemester: (c: Semester)=>boolean,
     setVisible: (v:boolean)=>void,
-    visible: (boolean)
+    checkCourse: (c: string)=>boolean,
+    visible: (boolean),
     catalog: (Record<string, Course>)}): JSX.Element {
 
     // semester states
     const [season, setSeason] = useState<Season>(0);
-    const [year, setYear] = useState<number>(determineYear());
+    const [year, setYear] = useState<number>(1);
     const [courseRecord, setCourseRecord] = useState<Record<string, Course>>({});
     const [creditTotal, setCreditTotal] = useState<number>(0);
     const [expectedTuition, setExpectedTuition] = useState<number>(0);
@@ -31,6 +32,8 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     const [preReqs, setPreReqs] = useState<string[][]>([[]]);
     const [coReqs, setCoReqs] = useState<string[][]>([[]]);
     const [semestersOffered, setSemestersOffered] = useState<Season[]>([]);
+    const [preRequirements, setPreRequirements] = useState<boolean>(true);
+    const [coRequirements, setCoRequirements] = useState<boolean>(true);
     const [courseInfo, setCourseInfo] = useState<Course>({department, courseID, title, description, credits, preReqs, coReqs, semestersOffered});
 
     // course card states
@@ -47,14 +50,93 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     }
 
     function validateTable() {
-        return Object.values(courseRecord).length > 0 && !checkSemester(semesterInfo);
+        return Object.values(courseRecord).length > 0 && !checkSemester(semesterInfo) && coRequirements;
     }
 
     function validateCourse() {
-        return department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != [];
+        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != []  && semestersOffered.includes(season);
     }
 
+    useEffect (() => {
+        setShowCoWarning(false);
+        validateCoRequirements();
+    }, [courseRecord]);
 
+    function validateCoRequirements(){
+        //Iterate through each course  
+        const courseArray: Course[] = Object.values(courseRecord);
+        let valid_course = true;
+        for (let i = 0; i < courseArray.length; i++){
+            //If there are no prerequisites, the course is valid, you can probably just break here.
+            if (courseArray[i].coReqs[0][0] == ""){
+                console.log("Coreqs is empty?");
+                setCoRequirements(true);
+                return;
+            }
+
+            //We look in each prerequisite structure, which holds the keys we are looking for
+            for (let j = 0; j < courseArray[i].coReqs.length; j++){
+                //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
+                console.log(courseArray[i].coReqs[j].length);
+                for (let h = 0; h < courseArray[i].coReqs[j].length; h++){
+                    //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
+                    console.log(courseArray[i].coReqs[j][h]);
+                    const temp: string = courseArray[i].coReqs[j][h];
+                    console.log(courseRecord[temp]);
+                    if (!courseRecord[temp]){
+                        console.log("not in plan");
+                        valid_course = valid_course && false;
+                    }else{
+                        console.log("in plan");
+                        valid_course = valid_course && true;
+                    }
+                }
+            }    
+            if (valid_course){
+                console.log("Valid Course.");
+                setCoRequirements(true);
+            } else {
+                console.log("Invalid Course.");
+                setShowCoWarning(true);
+                setCoRequirements(false);
+            }
+        }
+    }
+    
+    function validatePreRequirements(course: Course){
+        //Iterate through each course   
+        let valid_course = true;
+        //If there are no prerequisites, the course is valid, you can probably just break here.
+        if (course.preReqs[0][0] == ""){
+            console.log("Prereqs is empty?");
+            setPreRequirements(true);
+            return;
+        }
+
+        //We look in each prerequisite structure, which holds the keys we are looking for
+        for (let j = 0; j < course.preReqs.length; j++){
+            //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
+            for (let h = 0; h < course.preReqs[j].length; h++){
+                //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
+                console.log(course.preReqs[j][h]);
+                if (!checkCourse(course.preReqs[j][h])){
+                    console.log("not in plan");
+                    valid_course = valid_course && false;
+                }else{
+                    console.log("in plan");
+                    valid_course = valid_course && true;
+                }
+            }
+        }    
+        if (valid_course){
+            console.log("Valid Course.");
+            setPreRequirements(true);
+        } else {
+            setShowPreWarning(true);
+            setPreRequirements(false);
+        }
+    }
+   
     function handleSearch(event: {preventDefault: () => void; }){
         event.preventDefault();
 
@@ -79,12 +161,15 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
             setShowCard(false);
         }
 
+        setShowPreWarning(false);
+        validatePreRequirements(course);
         setTitle(course.title);
         setDescription(course.description);
         setCredits(course.credits);
         setPreReqs(course.preReqs);
         setCoReqs(course.coReqs);
         setSemestersOffered(course.semestersOffered);
+        
     }
 
     function addCourse(newCourse: Course){ 
@@ -102,6 +187,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     }
 
     function clearCourseRecord(){
+        setShowCoWarning(false);
         setCourseRecord({});
     }
 
@@ -126,6 +212,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
             total += arr[i].credits;
             i++;
         }
+
         return total;
     }
 
@@ -136,13 +223,13 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
 
     function determineSeason(word: string){
         if(word === "Fall"){
-            setSeason(0);
-        } else if(word === "Winter"){
-            setSeason(1);
-        } else if(word === "Spring"){
-            setSeason(2);
-        } else if(word === "Summer"){
             setSeason(3);
+        } else if(word === "Winter"){
+            setSeason(0);
+        } else if(word === "Spring"){
+            setSeason(1);
+        } else if(word === "Summer"){
+            setSeason(2);
         }
     }
 
@@ -164,6 +251,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         setSemestersOffered([]);
 
         //Course Card
+        setShowPreWarning(false);
         setShowCard(false);
     }
 
@@ -209,14 +297,15 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                 <br/>
                 <Row>
                     <Col>
-                        <FormCheck inline type="radio" value="Fall" name="season" label="Fall" checked={season === 0} onChange={(e) => determineSeason(e.target.value)}/>
-                        <FormCheck inline type="radio" value="Winter" name="season" label="Winter" checked={season === 1} onChange={(e) => determineSeason(e.target.value)}/>
-                        <FormCheck inline type="radio" value="Spring" name="season" label="Spring" checked={season === 2} onChange={(e) => determineSeason(e.target.value)}/>
-                        <FormCheck inline type="radio" value="Summer" name="season" label="Summer" checked={season === 3} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck inline type="radio" value="Fall" name="season" label="Fall" checked={season === 3} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck inline type="radio" value="Winter" name="season" label="Winter" checked={season === 0} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck inline type="radio" value="Spring" name="season" label="Spring" checked={season === 1} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck inline type="radio" value="Summer" name="season" label="Summer" checked={season === 2} onChange={(e) => determineSeason(e.target.value)}/>
                     </Col>
                     <Col>
                         <FormControl data-testid="year-input" id="year-input" as="input" type="number" placeholder="Year"
                             min={determineYear()}
+                            max={(determineYear() + 6)}
                             onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setYear(ev.target.valueAsNumber)}
                         />
                     </Col>
@@ -231,6 +320,15 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                     </Col>
                 </Row>
                 <Row>
+                    {showCoWarning && 
+                    <div className="alert alert-warning d-flex align-items-center" role="alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        <div style = {{ paddingLeft: 10 }}>
+                            You cannot save this semester until you add the corequisites for your courses: {displayReqs(coReqs)}
+                        </div>
+                    </div>}
                     <SemesterTable semester={{season, year, courseRecord, creditTotal, expectedTuition}}></SemesterTable>
                 </Row>
                 <Row data-testid="Bottom Row">

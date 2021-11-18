@@ -1,40 +1,73 @@
 import React from "react";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import { Semester } from "../interface/semester";
 import { SemesterCard } from "./SemesterCard";
 
 
-export function PlanTable({ semesters, deleteSemester }: {
+export function PlanTable({ semesters, deleteSemester, showModal }: {
     semesters: Semester[];
-    deleteSemester: (deleteIndex: number) => void;
+    deleteSemester: (semester: Semester) => void;
+    showModal: (b:boolean) => void;
 }): JSX.Element {
 
-    /*function sortPlan(){
-        let i;
-        const today = new Date();
-        const newArr = [];
-        for(i = 0; i<semesters.length; i++){
-            if(semesters[i].year === today.getFullYear()){
-                if(semesters[i].season === 0)
-                    newArr.push(semesters[i]);
-                if(semesters[i].season === 1)
-                    newArr.push(semesters[i]);
-                if(semesters[i].season === 2)
-                    newArr.push(semesters[i]);
-                if(semesters[i].season === 3)
-                    newArr.push(semesters[i]);
-            }
-        }
-    }*/
+    const sortedSemesters = semesters.sort(compareSeason).sort(compareYear);
 
-    function renderList(the_semester: Semester) {
+    function compareYear(a: Semester, b: Semester){
+        return a.year - b.year;
+    }
+
+    function compareSeason(a: Semester, b: Semester){
+        return a.season - b.season;
+    }
+
+    function renderList(the_semester: Semester): JSX.Element {
         return (
-            <SemesterCard semester={the_semester} deleteSemester = {deleteSemester}></SemesterCard>
+            <SemesterCard key={the_semester.season.toString() + the_semester.year.toString()} semester={the_semester} deleteSemester = {deleteSemester}></SemesterCard>
         );
     }
 
+    function listDisplay(truncatedSemesterCardArray: JSX.Element[]): JSX.Element {
+
+        if (!(truncatedSemesterCardArray.length % 2)) {
+            return (
+                <Row>
+                    <Col>
+                        {truncatedSemesterCardArray[0]}       
+                    </Col>
+                    <Col>
+                        {truncatedSemesterCardArray[1]}
+                    </Col>
+                </Row>
+            );
+        } else {
+            return (
+                <Row>
+                    <Col>
+                        {truncatedSemesterCardArray[0]}       
+                    </Col>
+                    <Col>
+                    </Col>
+                </Row>
+            );
+        }
+    }
+
+    const semesterJSX: JSX.Element[] = sortedSemesters.map(renderList);
+    semesterJSX.push(<Card><Button
+        className="button"
+        data-testid="add-semester-button-plan-table"
+        id="add-semester-button-plan-table"
+        onClick={()=>showModal(true)}>Add Semester</Button></Card>);
+    const semesterPairs: JSX.Element[][] = [];
+
+    for(let i = 0; i < semesterJSX.length; i += 2) {
+        semesterPairs.push(semesterJSX.slice(i, i + 2));
+    }
+    
+
     return (
         <div className="plan-table" id="plan-table">
-            {semesters.map(renderList)}
+            {semesterPairs.map(listDisplay)}
         </div>
     );
 }
