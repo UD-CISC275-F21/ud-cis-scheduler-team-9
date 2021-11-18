@@ -1,11 +1,13 @@
 import React from "react";
 import { useDrag } from "react-dnd";
 import { Course } from "../interface/course";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { Season } from "../interface/semester";
 
 
-export function CourseCard({cardInfo, showCard, hide}: {cardInfo: Course, showCard: boolean, hide:boolean}): JSX.Element{
+export function CourseCard({cardInfo, setDeleteCard, showCard, hide, hideButton}: {cardInfo: Course, setDeleteCard:(c:Course) => void, showCard: boolean, hide: boolean, hideButton: boolean}): JSX.Element{
+
+    console.log("cardInfo: ", cardInfo);
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "courseCard",
@@ -66,7 +68,7 @@ export function CourseCard({cardInfo, showCard, hide}: {cardInfo: Course, showCa
     return (
         <Card draggable className = "draggable-card" ref={drag} style={{opacity: isDragging ? "50%" : "100%"}}>
             <Card.Body>
-                <Card.Title>{cardInfo.department}{cardInfo.courseID}: {cardInfo.title} 
+                <Card.Title>{cardInfo.department}{cardInfo.courseID}: {cardInfo.title} {!hideButton && <Button className="Danger" onClick={()=>setDeleteCard(cardInfo)}>-</Button>}
                     <Card.Text> Credits: {cardInfo.credits}</Card.Text>
                 </Card.Title> 
                 {!hide && <Card.Text>{cardInfo.description}</Card.Text>}

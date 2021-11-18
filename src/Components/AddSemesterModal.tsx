@@ -35,6 +35,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
 
     // course card states
     const [showCard, setShowCard] = useState<boolean>(false);
+    const [deleteCard, setDeleteCard] = useState<Course>();
 
     // add semester modal states
     const hide = ()=>setVisible(false);
@@ -220,10 +221,10 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                 </Row>
                 <Row>
                     <Col>
-                        {showCard && <CourseCardDisplay cardInfo = {courseInfo} showCard={showCard}></CourseCardDisplay>}
+                        {showCard && <CourseCardDisplay courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} setDeleteCard={setDeleteCard} showCard={showCard}></CourseCardDisplay>}
                     </Col>
                     <Col>
-                        <CardPool showCard={showCard}></CardPool>
+                        <CardPool showCard={showCard} deleteCard={deleteCard} setDeleteCard={setDeleteCard}></CardPool>
                     </Col>
                 </Row>
                 <Row>

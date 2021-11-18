@@ -1,22 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDrop } from "react-dnd";
 import { Course } from "../interface/course";
 import { CourseCard } from "./CourseCard";
 
 
-export function CourseCardDisplay({cardInfo, showCard}: {cardInfo: Course, showCard: boolean}): JSX.Element{
-    const [display, setDisplay] = useState<Course>(cardInfo);
+export function CourseCardDisplay({courseInfo, setCourseInfo, setDeleteCard, showCard}: {
+    courseInfo: Course, 
+    setCourseInfo:(b: Course) => void, 
+    setDeleteCard:(c:Course) => void, 
+    showCard: boolean}): JSX.Element{
+
     const [{ isOver }, addToDisplay] = useDrop(() => ({
         accept: "courseCard",
         item: { 
-            department: cardInfo.department, 
-            courseID: cardInfo.courseID, 
-            title: cardInfo.title, 
-            description: cardInfo.description, 
-            credits: cardInfo.credits, 
-            preReqs: cardInfo.preReqs, 
-            coReqs: cardInfo.coReqs, 
-            semestersOffered: cardInfo.semestersOffered
+            department: courseInfo.department, 
+            courseID: courseInfo.courseID, 
+            title: courseInfo.title, 
+            description: courseInfo.description, 
+            credits: courseInfo.credits, 
+            preReqs: courseInfo.preReqs, 
+            coReqs: courseInfo.coReqs, 
+            semestersOffered: courseInfo.semestersOffered
         },
         dropEffect: "move",
         drop: (item: Course) =>  handleDisplay(item),
@@ -26,13 +30,13 @@ export function CourseCardDisplay({cardInfo, showCard}: {cardInfo: Course, showC
     }));
 
     function handleDisplay(item: Course){
-        if(display.department != item.department || display.courseID != item.courseID)
-            setDisplay(item);
+        if(courseInfo.department != item.department || courseInfo.courseID != item.courseID)
+            setCourseInfo(item);
     }
 
     return (
         <div id = "course-display" ref={addToDisplay}>
-            {<CourseCard cardInfo={display} showCard={showCard} hide={false}/>}
+            {<CourseCard cardInfo={courseInfo} setDeleteCard={setDeleteCard} showCard={showCard} hide={false} hideButton={true}/>}
             {isOver && console.log("over dispay")}
         </div>
     );

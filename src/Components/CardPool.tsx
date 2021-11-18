@@ -3,7 +3,7 @@ import { Course } from "../interface/course";
 import { useDrop } from "react-dnd";
 import { CourseCard } from "./CourseCard";
 
-export function CardPool({showCard}: {showCard: boolean}): JSX.Element{
+export function CardPool({showCard, deleteCard, setDeleteCard}: {showCard: boolean, deleteCard: Course | undefined, setDeleteCard:(c:Course) => void}): JSX.Element{
     const [pool, setPool] = useState<Course[]>([]);
     const [{ isOver } , addToPoolRef] = useDrop({
         accept: "courseCard",
@@ -11,18 +11,24 @@ export function CardPool({showCard}: {showCard: boolean}): JSX.Element{
     });
 
     function handlePool(item: Course){
-        for(let i = 0; i<pool.length + 1; i++){
-            if (!pool.find((course) => course.department === item.department && course.courseID === item.courseID)) {
-                setPool([...pool, item]);
-            } else{
-                break;
-            }
+        if (!pool.find((course) => course.department === item.department && course.courseID === item.courseID)) {
+            setPool([...pool, item]);
         }
+    }
+
+    if(deleteCard){
+        console.log("Hi");
+        /*setPool(pool.filter((element) => {
+            element !== deleteCard;
+        }));
+        setDeleteCard(undefined);*/
     }
 
     return (
         <div id = "card-pool" ref={addToPoolRef}>
-            {pool.map((courseCard, i) => <CourseCard key={i} cardInfo={courseCard} showCard={showCard} hide={true}/>)}
+            {pool.map((courseCard, i) => 
+                <CourseCard key={i} cardInfo={courseCard} setDeleteCard={setDeleteCard} showCard={showCard} hide={true} hideButton={false}/> 
+            )}
             {isOver && console.log("over pool")}
         </div>
     );
