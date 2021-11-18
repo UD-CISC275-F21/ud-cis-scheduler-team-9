@@ -5,9 +5,12 @@ import { Button, Card } from "react-bootstrap";
 import { Season } from "../interface/semester";
 
 
-export function CourseCard({cardInfo, setDeleteCard, showCard, hide, hideButton}: {cardInfo: Course, setDeleteCard:(c:Course) => void, showCard: boolean, hide: boolean, hideButton: boolean}): JSX.Element{
-
-    console.log("cardInfo: ", cardInfo);
+export function CourseCard({cardInfo, setDeleteCard, showCard, hide, hideButton}: {
+    cardInfo: Course,
+    setDeleteCard:(c:Course) => void, 
+    showCard: boolean, 
+    hide: boolean, 
+    hideButton: boolean}): JSX.Element{
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "courseCard",
@@ -24,7 +27,7 @@ export function CourseCard({cardInfo, setDeleteCard, showCard, hide, hideButton}
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
-    }));
+    }), [cardInfo.department, cardInfo.courseID]);
 
     function displayReqs(s: string[][]): string | undefined{
         let i;
