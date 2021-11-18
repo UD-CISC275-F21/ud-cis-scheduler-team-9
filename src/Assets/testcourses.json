@@ -7,6 +7,7 @@
     "credits": 3,
     "preReqs": [[""]],
     "coReqs": [["MATH115", "MATH117"]],
+    "fufills": "Concentration",
     "semestersOffered": [0, 2]
   },
   "CISC181": {
@@ -17,6 +18,7 @@
     "credits": 3,
     "preReqs": [["CISC108", "CISC106"]],
     "coReqs": [["MATH221", "MATH241"]],
+    "fufills": "",
     "semestersOffered": [0, 1, 2]
   },
   "MATH210": {
@@ -27,6 +29,7 @@
     "credits": 3,
     "preReqs": [[""]],
     "coReqs": [["MATH241", "MATH242", "MATH232"]],
+    "fufills": "",
     "semestersOffered": [0, 1, 2]
   },
   "ENGL110": {
@@ -37,6 +40,7 @@
     "credits": 3,
     "preReqs": [[""]],
     "coReqs": [[""]],
+    "fufills": "",
     "semestersOffered": [0, 1, 2, 3]
   },
   "CISC210": {
@@ -47,6 +51,7 @@
     "credits": 3,
     "preReqs": [["CISC108", "CISC106"]],
     "coReqs": [["MATH221", "MATH241"]],
+    "fufills": "",
     "semestersOffered": [0, 2]
   },
   "MATH241": {
@@ -57,6 +62,7 @@
     "credits": 3,  
     "preReqs": [[""]],
     "coReqs": [[""]],
+    "fufills": "",
     "semestersOffered": [0, 1, 2, 3]
   },
   "MATH117": {
@@ -67,6 +73,7 @@
     "credits": 3,
     "preReqs": [[""]],
     "coReqs": [[""]],
+    "fufills": "",
     "semestersOffered": [0, 1, 2] 
   }
 }
