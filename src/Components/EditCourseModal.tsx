@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl, ModalFooter } from "react-bootstrap";
 import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
@@ -12,28 +12,22 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
     editCourse: (c:Course) => void;
 }): JSX.Element {
 
-    const [department, setDepartment] = useState<string>(course.department);
-    const [courseID, setCourseID] = useState<number>(course.courseID);
-    const [title, setTitle] = useState<string>(course.title);
-    const [description, setDescription] = useState<string>(course.description);
-    const [credits, setCredits] = useState<number>(course.credits);
-    const [preReqs, setPreReqs] = useState<string[][]>(course.preReqs);
-    const [coReqs, setCoReqs] = useState<string[][]>(course.coReqs);
-    const [semestersOffered, setSemestersOffered] = useState<Season[]>(course.semestersOffered);
+    const [newCourse, setNewCourse] = useState<Course>(course);
 
     const [validated, setValidated] = useState(false);
-
     const hide = ()=>setEditSemesterVisible(false);
 
     function resetCourseHooks(): void {
-        setDepartment("");
-        setCourseID(0);
-        setTitle("");
-        setDescription("");
-        setCredits(0);
-        setPreReqs([[""]]);
-        setCoReqs([[""]]);
-        setSemestersOffered([]);
+        setNewCourse({
+            department: "",
+            courseID: 0,
+            title: "",
+            description: "",
+            credits: 0,
+            preReqs: [[""]],
+            coReqs: [[""]],
+            semestersOffered: []
+        });
     }
  
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>):void => {
@@ -43,25 +37,31 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
             event.preventDefault();
             event.stopPropagation();
         } else {
+            setValidated(true);
             const inputValueArray: string[] = new Array(form.elements.length - 1);
             for (let i = 0; i<form.elements.length - 1; i++) { // -1 is to remove the button
                 const copyElement: HTMLInputElement = form.elements[i] as HTMLInputElement;
                 inputValueArray[i] = copyElement.value;
             }
-            setDepartment(inputValueArray[0]);
-            setCourseID(parseInt(inputValueArray[1]));
-            setTitle(inputValueArray[2]);
-            setDescription(inputValueArray[3]);
-            setCredits(parseInt(inputValueArray[4]));
-            setSemestersOffered([]);
-            saveCourse();
+            console.log(inputValueArray);
+            const updateNewCourse: Course = {
+                department: inputValueArray[0],
+                courseID: parseInt(inputValueArray[1]),
+                title: inputValueArray[2],
+                description: inputValueArray[3],
+                credits: parseInt(inputValueArray[4]),
+                preReqs: course.preReqs,
+                coReqs: course.coReqs,
+                semestersOffered: course.semestersOffered
+            };
+            setNewCourse(updateNewCourse);
         }
         
     };
 
     function saveCourse() {
-        console.log({department, courseID, title, description, credits, preReqs, coReqs, semestersOffered});
-        editCourse({department, courseID, title, description, credits, preReqs, coReqs, semestersOffered});
+        console.log(newCourse);
+        editCourse(newCourse);
         resetCourseHooks();
         setValidated(false);
         hide();
@@ -74,8 +74,7 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
             backdrop="static"
             keyboard={false}
             data-testid="edit-course-modal"
-            size="lg"
-            onSubmit={() => saveCourse}>
+            size="lg">
             <ModalHeader closeButton onClick={resetCourseHooks}>
                 <Modal.Title>Edit {course.department + course.courseID}</Modal.Title>
             </ModalHeader>
@@ -105,6 +104,7 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
                             <Form.Label>Course ID</Form.Label>
                             <Form.Control
                                 required
+                                type="number"
                                 placeholder="123"
                                 defaultValue={course.courseID}
                                 pattern="\d*"
@@ -184,20 +184,29 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
                             <Form.Label>Semesters Offered</Form.Label>
                             <Form.Control
                                 required
-                                type="text"                               
+                                type="text"
+                                defaultValue={course.semestersOffered.toString()}                            
                             />
+                            <Form.Control.Feedback>
+                                Valid Semesters!
+                            </Form.Control.Feedback>
                             <Form.Control.Feedback type="invalid">
                                 Please provide valid Semester(s) offered (ex. Fall, Spring).
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Row>
                     <Button
-                        className="button"
                         variant="primary"
                         type="submit"
-                    >Save Course Changes</Button>
+                    >Check Course Changes</Button>
                 </Form>
             </ModalBody>
+            <ModalFooter>
+                {validated && <Button
+                    className="button"
+                    id="save-course-button"
+                    onClick={saveCourse}>Save Course</Button>}
+            </ModalFooter>
         </Modal>
     );
 }
