@@ -13,6 +13,14 @@ export function CSVExport({plan}: {plan: Semester[]}): JSX.Element{
     ];
 
     const data = plan;
+    /*console.log("data: ", data);
+
+    function editedPlan({oldPlan}: {oldPlan:Semester[]}){
+        const newPlan: Semester[] = [];
+        for(let i = 0; i<oldPlan.length; i++){
+
+        }
+    }*/
 
     if(plan.length > 0){
         console.log(plan[0]);
