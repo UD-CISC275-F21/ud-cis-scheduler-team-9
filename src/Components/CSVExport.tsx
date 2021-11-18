@@ -14,17 +14,24 @@ export function CSVExport({plan}: {plan: Semester[]}): JSX.Element{
 
     const data = plan;
 
+    if(plan.length > 0){
+        console.log(plan[0]);
+        return (
+            <CSVLink 
+                className="btn btn-primary"
+                filename={"my-degree-plan.csv"} 
+                headers={headers}
+                data={data}
+                onClick={() => {
+                    console.log("You click the link"); // 👍🏻 Your click handling logic
+                }}
+            >
+                Download Your Degree Plan Here
+            </CSVLink>
+        );
+    }
+
     return (
-        <CSVLink 
-            className="btn btn-primary"
-            filename={"my-degree-plan.csv"} 
-            headers={headers}
-            data={data}
-            onClick={() => {
-                console.log("You click the link"); // 👍🏻 Your click handling logic
-            }}
-        >
-            Download Your Degree Plan Here
-        </CSVLink>
+        <p></p>
     );
 }
