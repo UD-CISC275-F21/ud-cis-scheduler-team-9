@@ -37,7 +37,7 @@ export function CourseCardDisplay({courseInfo, setCourseInfo, setDeleteCard, sho
 
     return (
         <div id = "course-display" ref={addToDisplay}>
-            {<CourseCard cardInfo={courseInfo} setDeleteCard={setDeleteCard} showCard={showCard} showPreWarning={false} hide={false} hideButton={true}/>}
+            {<CourseCard cardInfo={courseInfo} setDeleteCard={setDeleteCard} showCard={showCard} showPreWarning={showPreWarning} hide={false} hideButton={true}/>}
             {isOver && console.log("over display")}
         </div>
     );

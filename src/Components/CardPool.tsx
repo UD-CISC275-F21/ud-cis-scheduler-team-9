@@ -32,7 +32,7 @@ export function CardPool({showCard, showPreWarning, deleteCard, setDeleteCard}: 
     return (
         <div id = "card-pool" ref={addToPoolRef}>
             {pool.map((courseCard, i) => 
-                <CourseCard key={i} cardInfo={courseCard} setDeleteCard={setDeleteCard} showCard={showCard} showPreWarning={false} hide={true} hideButton={false}/> 
+                <CourseCard key={i} cardInfo={courseCard} setDeleteCard={setDeleteCard} showCard={showCard} showPreWarning={showPreWarning} hide={true} hideButton={false}/> 
             )}
             {isOver && console.log("over pool")}
         </div>
