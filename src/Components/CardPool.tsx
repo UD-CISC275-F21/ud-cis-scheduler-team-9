@@ -3,8 +3,9 @@ import { Course } from "../interface/course";
 import { useDrop } from "react-dnd";
 import { CourseCard } from "./CourseCard";
 
-export function CardPool({showCard, deleteCard, setDeleteCard}: {
-    showCard: boolean, 
+export function CardPool({showCard, showPreWarning, deleteCard, setDeleteCard}: {
+    showCard: boolean,
+    showPreWarning: boolean, 
     deleteCard: Course | undefined, 
     setDeleteCard:(c:Course) => void}): JSX.Element{
 
@@ -31,7 +32,7 @@ export function CardPool({showCard, deleteCard, setDeleteCard}: {
     return (
         <div id = "card-pool" ref={addToPoolRef}>
             {pool.map((courseCard, i) => 
-                <CourseCard key={i} cardInfo={courseCard} setDeleteCard={setDeleteCard} showCard={showCard} hide={true} hideButton={false}/> 
+                <CourseCard key={i} cardInfo={courseCard} setDeleteCard={setDeleteCard} showCard={showCard} showPreWarning={false} hide={true} hideButton={false}/> 
             )}
             {isOver && console.log("over pool")}
         </div>
