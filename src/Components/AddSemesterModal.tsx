@@ -38,6 +38,8 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     const [deleteCard, setDeleteCard] = useState<Course>();
 
     // add semester modal states
+    const [showPreWarning, setShowPreWarning] = useState<boolean>(false);
+    const [showCoWarning, setShowCoWarning] = useState<boolean>(false);
     const hide = ()=>setVisible(false);
 
     function validateForm(): boolean { // Makes sure that no text field is empty before submit
@@ -222,10 +224,10 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
                 <br/>
                 <Row>
                     <Col>
-                        {showCard && <CourseCardDisplay courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} setDeleteCard={setDeleteCard} showCard={showCard}></CourseCardDisplay>}
+                        {showCard && <CourseCardDisplay courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} setDeleteCard={setDeleteCard} showCard={showCard} showPreWarning={showPreWarning}></CourseCardDisplay>}
                     </Col>
                     <Col>
-                        <CardPool showCard={showCard} deleteCard={deleteCard} setDeleteCard={setDeleteCard}></CardPool>
+                        <CardPool showCard={showCard} showPreWarning={showPreWarning} deleteCard={deleteCard} setDeleteCard={setDeleteCard}></CardPool>
                     </Col>
                 </Row>
                 <Row>

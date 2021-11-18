@@ -4,11 +4,12 @@ import { Course } from "../interface/course";
 import { CourseCard } from "./CourseCard";
 
 
-export function CourseCardDisplay({courseInfo, setCourseInfo, setDeleteCard, showCard}: {
+export function CourseCardDisplay({courseInfo, setCourseInfo, setDeleteCard, showCard, showPreWarning}: {
     courseInfo: Course, 
     setCourseInfo:(b: Course) => void, 
     setDeleteCard:(c:Course) => void, 
-    showCard: boolean}): JSX.Element{
+    showCard: boolean
+    showPreWarning: boolean}): JSX.Element{
 
     const [{ isOver }, addToDisplay] = useDrop(() => ({
         accept: "courseCard",
@@ -36,7 +37,7 @@ export function CourseCardDisplay({courseInfo, setCourseInfo, setDeleteCard, sho
 
     return (
         <div id = "course-display" ref={addToDisplay}>
-            {<CourseCard cardInfo={courseInfo} setDeleteCard={setDeleteCard} showCard={showCard} hide={false} hideButton={true}/>}
+            {<CourseCard cardInfo={courseInfo} setDeleteCard={setDeleteCard} showCard={showCard} showPreWarning={false} hide={false} hideButton={true}/>}
             {isOver && console.log("over display")}
         </div>
     );
