@@ -27,7 +27,7 @@ export function CourseCardDisplay({courseInfo, setCourseInfo, setDeleteCard, sho
         collect: (monitor) => ({
             isOver: monitor.isOver(),
         }),
-    }));
+    }), [courseInfo.department, courseInfo.courseID]);
 
     function handleDisplay(item: Course){
         if(courseInfo.department != item.department || courseInfo.courseID != item.courseID)
