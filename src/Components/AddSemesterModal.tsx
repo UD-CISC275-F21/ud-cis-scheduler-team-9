@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl, Card} from "react-bootstrap";
+import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl} from "react-bootstrap";
 import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
+import { CourseCardDisplay } from "./CourseCardDisplay";
+import { CardPool } from "./CardPool";
 
 export function AddSemesterModal({ addSemester, checkSemester, setVisible, checkCourse, visible, catalog}:{
     addSemester: (s: Semester)=>void,
@@ -13,6 +15,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     visible: (boolean),
     catalog: (Record<string, Course>)}): JSX.Element {
 
+    // semester states
     const [season, setSeason] = useState<Season>(0);
     const [year, setYear] = useState<number>(1);
     const [courseRecord, setCourseRecord] = useState<Record<string, Course>>({});
@@ -20,6 +23,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     const [expectedTuition, setExpectedTuition] = useState<number>(0);
     const semesterInfo = {season, year, courseRecord, creditTotal, expectedTuition};
 
+    // course states
     const [department, setDepartment] = useState<string>("");
     const [courseID, setCourseID] = useState<number>(0);
     const [title, setTitle] = useState<string>("");
@@ -30,12 +34,15 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     const [semestersOffered, setSemestersOffered] = useState<Season[]>([]);
     const [preRequirements, setPreRequirements] = useState<boolean>(true);
     const [coRequirements, setCoRequirements] = useState<boolean>(true);
-    const courseInfo = {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered};
+    const [courseInfo, setCourseInfo] = useState<Course>({department, courseID, title, description, credits, preReqs, coReqs, semestersOffered});
 
+    // course card states
     const [showCard, setShowCard] = useState<boolean>(false);
+    const [deleteCard, setDeleteCard] = useState<Course>();
+
+    // add semester modal states
     const [showPreWarning, setShowPreWarning] = useState<boolean>(false);
     const [showCoWarning, setShowCoWarning] = useState<boolean>(false);
-    
     const hide = ()=>setVisible(false);
 
     function validateForm(): boolean { // Makes sure that no text field is empty before submit
@@ -148,7 +155,10 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         
         if(catalog[key]){
             course = getCourse(department, courseID);
+            setCourseInfo(course);
             setShowCard(true);
+        } else{
+            setShowCard(false);
         }
 
         setShowPreWarning(false);
@@ -163,7 +173,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     }
 
     function addCourse(newCourse: Course){ 
-        const courseKey: string = department + courseID;
+        const courseKey: string = newCourse.department + newCourse.courseID;
 
         setCourseRecord({...courseRecord, [courseKey]: newCourse});
         setCreditTotal(determineCreditTotal(courseRecord));
@@ -206,6 +216,17 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         return total;
     }
 
+    function displayReqs(s: string[][]): string | undefined{
+        let i;
+        if(showCard && s != undefined){
+            let phrase = s[0][0];
+            for(i = 1; i<s[0].length; i++){
+                phrase = phrase + ", " + s[0][i];
+            }
+            return phrase;
+        }
+    }
+
     function determineYear(){
         const today = new Date();
         return today.getFullYear();
@@ -221,43 +242,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         } else if(word === "Summer"){
             setSeason(2);
         }
-    }
-
-    function displayReqs(s: string[][]){
-        let i;
-        if(showCard){
-            let phrase = s[0][0];
-            for(i = 1; i<s[0].length; i++){
-                phrase = phrase + " or " + s[0][i];
-            }
-            return phrase;
-        }
-    }
-    
-    function displaySemesters(){
-        let i = 0;
-        let phrase = "";
-        semestersOffered.forEach((s)=>{
-            switch(s){
-            case 0:
-                phrase = phrase + "Winter";
-                break;
-            case 1:
-                phrase = phrase + "Spring";
-                break;
-            case 2:
-                phrase = phrase + "Summer";
-                break;
-            case 3:
-                phrase = phrase + "Fall";
-                break;
-            }
-            
-            i++;
-            if(i<semestersOffered.length)
-                phrase = phrase + ", ";
-        });
-        return phrase;
     }
 
     function clearData(){
@@ -277,6 +261,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         setCoReqs([[""]]);
         setSemestersOffered([]);
 
+        //Course Card
         setShowPreWarning(false);
         setShowCard(false);
     }
@@ -288,7 +273,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             backdrop="static"
             keyboard={false}
             data-testid="add-semester-modal"
-            size="lg"
+            size="xl"
         >
             <ModalHeader closeButton onClick={clearData}></ModalHeader>
             <ModalBody>
@@ -336,26 +321,22 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                         />
                     </Col>
                 </Row>
+                {showPreWarning && 
+                    <div className="alert alert-danger d-flex align-items-center" role="alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        <div style = {{ paddingLeft: 10 }}>
+                            You cannot add this course to your semester as it&apos;s prerequisite(s) has not been fufilled in a previous semester ({displayReqs(preReqs)})
+                        </div>
+                    </div>}
                 <Row>
-                    {showCard && <Card id="course-card" style = {{paddingTop: 0}}>
-                        <Card.Body>
-                            {showPreWarning && <div className="alert alert-danger d-flex align-items-center" role="alert">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
-                                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                                </svg>
-                                <div style = {{ paddingLeft: 10 }}>
-                                    You cannot add this course to your semester as it&apos;s prerequisite(s) has not been fufilled in a previous semester ({displayReqs(preReqs)})
-                                </div>
-                            </div>}
-                            <Card.Title>{department}{courseID}: {title} 
-                                <Card.Text> Credits: {credits}</Card.Text>
-                            </Card.Title> 
-                            <Card.Text>{description}</Card.Text>
-                            <Card.Text>Prereqs: {displayReqs(preReqs)}</Card.Text> 
-                            <Card.Text>Coreqs: {displayReqs(coReqs)}</Card.Text> 
-                            <Card.Text>Semesters: {displaySemesters()}</Card.Text>
-                        </Card.Body>
-                    </Card>}
+                    <Col>
+                        {showCard && <CourseCardDisplay courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} setDeleteCard={setDeleteCard} showCard={showCard}></CourseCardDisplay>}
+                    </Col>
+                    <Col>
+                        <CardPool showCard={showCard} deleteCard={deleteCard} setDeleteCard={setDeleteCard}></CardPool>
+                    </Col>
                 </Row>
                 <Row>
                     {showCoWarning && 

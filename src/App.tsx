@@ -9,6 +9,8 @@ import { PlanTable } from "./Components/PlanTable";
 import { RequiredDegreeList } from "./Components/RequiredDegreeList";
 
 import courseCatalog from "./Assets/testcourses.json";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
@@ -77,23 +79,25 @@ function App(): JSX.Element {
     }
 
     return (
-        <Container className="App">
-            <Row>
-                <br></br>
-            </Row>
-            <Row>
-                <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
-            </Row>
-            <Row>
-                <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} checkCourse = {checkCourse} visible={visible} catalog={catalog}></AddSemesterModal>
-                <RequiredDegreeList degree_list = {requiredCourses}></RequiredDegreeList>
-            </Row>
-            <Row>
-                <PlanTable semesters = {plan} deleteSemester = {deleteSemester} showModal={setVisible}></PlanTable>
-            </Row>
-            <Row>
-            </Row>
-        </Container>
+        <DndProvider backend = {HTML5Backend}>
+            <Container className="App">
+                <Row>
+                    <br></br>
+                </Row>
+                <Row>
+                    <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
+                </Row>
+                <Row>
+                    <AddSemesterModal addSemester={addSemester} checkSemester={checkSemester} setVisible={setVisible} checkCourse = {checkCourse} visible={visible} catalog={catalog}></AddSemesterModal>
+                    <RequiredDegreeList degree_list = {requiredCourses}></RequiredDegreeList>
+                </Row>
+                <Row>
+                    <PlanTable semesters = {plan} deleteSemester = {deleteSemester} showModal={setVisible}></PlanTable>
+                </Row>
+                <Row>
+                </Row>
+            </Container>
+        </DndProvider>
     );
 }
 
