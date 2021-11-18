@@ -31,7 +31,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
     const [preReqs, setPreReqs] = useState<string[][]>([[]]);
     const [coReqs, setCoReqs] = useState<string[][]>([[]]);
     const [semestersOffered, setSemestersOffered] = useState<Season[]>([]);
-    const courseInfo = {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered};
+    const [courseInfo, setCourseInfo] = useState<Course>({department, courseID, title, description, credits, preReqs, coReqs, semestersOffered});
 
     // course card states
     const [showCard, setShowCard] = useState<boolean>(false);
@@ -70,6 +70,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, visib
         
         if(catalog[key]){
             course = getCourse(department, courseID);
+            setCourseInfo(course);
             setShowCard(true);
         } else{
             setShowCard(false);
