@@ -55,20 +55,17 @@ function App(): JSX.Element {
         semester: Semester;
     }): void {
         setSemesterIndex(checkSemester(semester));
-        setCurrentCourse({...course});
+        setCurrentCourse(course);
         setEditSemesterVisible(true);
     }
 
     function editCourse(course: Course) {
+        console.log(course);
         const editSemesterIndex: number = semesterIndex;
-        const editCourseKey: string = course.department + course.courseID.toString();
-        console.log(course.department);
-        console.log(course.courseID);
-        console.log(JSON.stringify(plan[editSemesterIndex].courseRecord));
         delete plan[editSemesterIndex].courseRecord[currentCourse.department + currentCourse.courseID];
-        plan[editSemesterIndex].courseRecord = {...plan[editSemesterIndex].courseRecord, [editCourseKey]: course};
+        plan[editSemesterIndex].courseRecord = {...plan[editSemesterIndex].courseRecord, [course.department + course.courseID]: course};
         setPlan([...plan]);
-        console.log(JSON.stringify(plan[editSemesterIndex].courseRecord));
+        console.log(plan);
     }
 
     return (

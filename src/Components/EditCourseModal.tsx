@@ -20,13 +20,11 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
     const [preReqs, setPreReqs] = useState<string[][]>(course.preReqs);
     const [coReqs, setCoReqs] = useState<string[][]>(course.coReqs);
     const [semestersOffered, setSemestersOffered] = useState<Season[]>(course.semestersOffered);
-    const courseInfo = {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered};
 
     const [validated, setValidated] = useState(false);
 
     const hide = ()=>setEditSemesterVisible(false);
 
-    //efefef
     function resetCourseHooks(): void {
         setDepartment("");
         setCourseID(0);
@@ -40,21 +38,32 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
  
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>):void => {
         event.preventDefault();
-        const form = event.currentTarget;
-        const formElements = form.elements as typeof form.elements & {
-            usernameInput: HTMLInputElement
-        };
+        const form: HTMLFormElement = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
+        } else {
+            const inputValueArray: string[] = new Array(form.elements.length - 1);
+            for (let i = 0; i<form.elements.length - 1; i++) { // -1 is to remove the button
+                const copyElement: HTMLInputElement = form.elements[i] as HTMLInputElement;
+                inputValueArray[i] = copyElement.value;
+            }
+            setDepartment(inputValueArray[0]);
+            setCourseID(parseInt(inputValueArray[1]));
+            setTitle(inputValueArray[2]);
+            setDescription(inputValueArray[3]);
+            setCredits(parseInt(inputValueArray[4]));
+            setSemestersOffered([]);
+            saveCourse();
         }
-    
-        setValidated(true);
+        
     };
 
     function saveCourse() {
+        console.log({department, courseID, title, description, credits, preReqs, coReqs, semestersOffered});
         editCourse({department, courseID, title, description, credits, preReqs, coReqs, semestersOffered});
         resetCourseHooks();
+        setValidated(false);
         hide();
     }
 
@@ -65,9 +74,10 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
             backdrop="static"
             keyboard={false}
             data-testid="edit-course-modal"
-            size="lg">
+            size="lg"
+            onSubmit={() => saveCourse}>
             <ModalHeader closeButton onClick={resetCourseHooks}>
-                <Modal.Title>Edit {department + courseID.toString()}</Modal.Title>
+                <Modal.Title>Edit {course.department + course.courseID}</Modal.Title>
             </ModalHeader>
 
             <ModalBody>
@@ -82,8 +92,6 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
                                 defaultValue={course.department}
                                 minLength={3}
                                 maxLength={4}
-                                onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => 
-                                    setDepartment(event.target.value.toUpperCase())}
                             />
                             <Form.Control.Feedback>
                                 Valid Department!
@@ -97,14 +105,11 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
                             <Form.Label>Course ID</Form.Label>
                             <Form.Control
                                 required
-                                as="input"
                                 placeholder="123"
                                 defaultValue={course.courseID}
                                 pattern="\d*"
                                 minLength={3}
                                 maxLength={3}
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                                    setCourseID(event.target.valueAsNumber)}
                             />
                             <Form.Control.Feedback>
                                 Valid Course ID!
@@ -120,8 +125,6 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
                                 type="text"
                                 placeholder="Introduction to Course Registration"
                                 defaultValue={course.title}
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                                    setTitle(event.target.value)}
                             />
                             <Form.Control.Feedback>
                                 Valid Title!
@@ -137,13 +140,12 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
                             <Form.Control
                                 required
                                 as="textarea"
+                                style={{ height: "100px" }}
                                 type="text"
                                 placeholder={("Principles of how to plan a schedule, incluing how breadths work, what" +
                                     "BlueHenPlanner is and how it works, where to find your registration appointment" +
                                     "date and time, etc.")}
                                 defaultValue={course.description}
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                                    setDescription(event.target.value)}
                             />
                             <Form.Control.Feedback>
                                 Valid description!
@@ -158,14 +160,19 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
                             <Form.Label>Credits</Form.Label>
                             <Form.Control
                                 required
-                                type="text"
+                                as="select"
+                                aria-label="Floating label select example"
+                                type="number"
                                 defaultValue={course.credits}
-                                pattern="\d*"
-                                minLength={1}
-                                maxLength={1}
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                                    setCredits(event.target.valueAsNumber)}
-                            />
+                            >
+                                <option value={0}>0</option>
+                                <option value={1}>1</option>
+                                <option value={2}>2</option>
+                                <option value={3}>3</option>
+                                <option value={4}>4</option>
+                                <option value={5}>5</option>
+                                <option value={6}>6</option>
+                            </Form.Control>
                             <Form.Control.Feedback>
                                 Valid credit total!
                             </Form.Control.Feedback>
@@ -177,24 +184,20 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
                             <Form.Label>Semesters Offered</Form.Label>
                             <Form.Control
                                 required
-                                type="text"
-                                placeholder=""
-                                
+                                type="text"                               
                             />
                             <Form.Control.Feedback type="invalid">
-                                Please provide a valid Semester.
+                                Please provide valid Semester(s) offered (ex. Fall, Spring).
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Row>
+                    <Button
+                        className="button"
+                        variant="primary"
+                        type="submit"
+                    >Save Course Changes</Button>
                 </Form>
             </ModalBody>
-            <Modal.Footer>
-                <Button
-                    className="button"
-                    variant="primary"
-                    onClick={saveCourse}
-                >Save changes</Button>
-            </Modal.Footer>
         </Modal>
     );
 }

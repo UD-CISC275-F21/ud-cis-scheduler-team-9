@@ -16,11 +16,18 @@ export function SemesterTable({semester, editCourseLauncher}: {
                 <td id="course-title">{course.title}</td>
                 <td id="course-description">{course.description}</td>
                 <td id="course-credits">{course.credits}</td>
-                {editCourseLauncher && <td id="course-edit-button">{
+                {editCourseLauncher && <td id="course-edit-button">
                     <Button variant="primary" onClick={() => editCourseLauncher({course, semester})}>
                         Edit Course
                     </Button>
-                }</td>}
+                    
+                </td>}
+                {editCourseLauncher &&
+                <td>
+                    <Button variant="primary" className="btn-block">
+                        X
+                    </Button>
+                </td>}
             </tr>
         );
     }
@@ -34,6 +41,7 @@ export function SemesterTable({semester, editCourseLauncher}: {
                     <th scope="col">Description</th>
                     <th scope="col">Credits</th>
                     {editCourseLauncher && <th scope="col">Edit:</th>}
+                    {editCourseLauncher && <th scope="col">Delete:</th>} 
                 </tr>
             </thead>
             <tbody>
