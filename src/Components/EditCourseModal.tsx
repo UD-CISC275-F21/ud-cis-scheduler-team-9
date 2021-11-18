@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl, ModalFooter } from "react-bootstrap";
-import { Season, Semester } from "../interface/semester";
+import React, { useState } from "react";
+import { Modal, Col, Row, ModalBody, Form, Button, ModalFooter } from "react-bootstrap";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 
