@@ -1,10 +1,10 @@
 import { Course } from "./course";
 
 export enum Season {
-    FALL = 0,
-    WINTER = 1,
-    SPRING = 2,
-    SUMMER = 3
+    WINTER = 0,
+    SPRING = 1,
+    SUMMER = 2,
+    FALL = 3
 }
 
 export interface Semester {
