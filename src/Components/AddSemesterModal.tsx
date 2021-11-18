@@ -30,7 +30,8 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     const [semestersOffered, setSemestersOffered] = useState<Season[]>([]);
     const [preRequirements, setPreRequirements] = useState<boolean>(true);
     const [coRequirements, setCoRequirements] = useState<boolean>(true);
-    const courseInfo = {department, courseID, title, description, credits, preReqs, coReqs, semestersOffered};
+    const [fufills, setFufills] = useState<string>("Lab Requirements");
+    const courseInfo = {department, courseID, title, description, credits, preReqs, coReqs, fufills, semestersOffered};
 
     const [showCard, setShowCard] = useState<boolean>(false);
     const [showPreWarning, setShowPreWarning] = useState<boolean>(false);
@@ -56,14 +57,12 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     }, [courseRecord]);
 
     function validateCoRequirements(){
-        console.log("SET TO FALSE");
         //Iterate through each course  
         const courseArray: Course[] = Object.values(courseRecord);
         let valid_course = true;
         for (let i = 0; i < courseArray.length; i++){
             //If there are no prerequisites, the course is valid, you can probably just break here.
             if (courseArray[i].coReqs[0][0] == ""){
-                console.log("Coreqs is empty?");
                 setCoRequirements(true);
                 return;
             }
@@ -71,28 +70,21 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             //We look in each prerequisite structure, which holds the keys we are looking for
             for (let j = 0; j < courseArray[i].coReqs.length; j++){
                 //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
-                console.log(courseArray[i].coReqs[j].length);
                 for (let h = 0; h < courseArray[i].coReqs[j].length; h++){
                     //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
-                    console.log(courseArray[i].coReqs[j][h]);
                     const temp: string = courseArray[i].coReqs[j][h];
-                    console.log(courseRecord[temp]);
                     if (!courseRecord[temp]){
-                        console.log("not in plan");
                         valid_course = false;
                     }else{
-                        console.log("in plan");  
                         valid_course = true; 
                         break;
                     }
                 }
             }    
             if (valid_course){
-                console.log("Valid Course.");
                 setShowCoWarning(false);
                 setCoRequirements(true);
             } else {
-                console.log("Invalid Course. set to true");
                 setShowCoWarning(true);
                 setCoRequirements(false);
             }
@@ -104,7 +96,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         let valid_course = true;
         //If there are no prerequisites, the course is valid, you can probably just break here.
         if (course.preReqs[0][0] == ""){
-            console.log("Prereqs is empty?");
             setPreRequirements(true);
             return;
         }
@@ -114,17 +105,16 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
             for (let h = 0; h < course.preReqs[j].length; h++){
                 //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
+                console.log(course.preReqs[j][h]);
                 if (!checkCourse(course.preReqs[j][h])){
-                    console.log("not in plan");
-                    valid_course = valid_course && false;
+                    valid_course = false;
                 }else{
-                    console.log("in plan");
-                    valid_course = valid_course && true;
+                    valid_course = true;
+                    break;
                 }
             }
         }    
         if (valid_course){
-            console.log("Valid Course.");
             setPreRequirements(true);
         } else {
             setShowPreWarning(true);
@@ -145,6 +135,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             credits: 0,
             preReqs: [[""]],
             coReqs: [[""]],
+            fufills: "",
             semestersOffered: []
         };
         

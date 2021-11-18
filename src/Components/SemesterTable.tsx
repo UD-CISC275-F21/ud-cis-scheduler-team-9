@@ -24,7 +24,7 @@ export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
     }
 
     return (
-        <Table id="semester-table">
+        <Table data-testid = "semester-table" id="semester-table">
             <thead className="thead-dark">
                 <tr>
                     <th scope="col">Course</th>

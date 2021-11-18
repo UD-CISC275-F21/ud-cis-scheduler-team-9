@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { Container, Row } from "react-bootstrap";
 import { ControlPanel } from "./Components/ControlPanel";
@@ -27,7 +27,7 @@ function App(): JSX.Element {
         console.log("Deleted All Semesters");
     }
 
-
+    
     function checkCourse(course: string): boolean {
         let i;
         if (course.includes("or")){
@@ -95,7 +95,7 @@ function App(): JSX.Element {
                 <br></br>
             </Row>
             <Row>
-                <RequiredDegreeList checkCourse = {checkCourse} degree_list = {currentDegreePlan}></RequiredDegreeList>
+                <RequiredDegreeList checkCourse = {checkCourse} setCurrentDegreePlan = {setCurrentDegreePlan} degree_plan_list = {degreePlans} degree_list = {currentDegreePlan}></RequiredDegreeList>
                 <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
             </Row>
             <Row>
