@@ -78,11 +78,11 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
 
     return(
         <Modal
+            data-testid="edit-course-modal"
             show={editCourseVisible}
             onHide={hide}
             backdrop="static"
             keyboard={false}
-            data-testid="edit-course-modal"
             size="lg">
             <ModalHeader closeButton onClick={resetCourseHooks}>
                 <Modal.Title>Edit {course.department + course.courseID}</Modal.Title>

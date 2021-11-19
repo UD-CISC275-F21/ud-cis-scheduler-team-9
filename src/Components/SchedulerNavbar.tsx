@@ -10,7 +10,12 @@ import UDLogo from "../Assets/University_of_Delaware_wordmark.svg";
  */
 export function SchedulerNavbar({deleteAllSemesters}: {deleteAllSemesters: () => void}): JSX.Element {
     return (
-        <Navbar bg="light" variant="light" sticky="top" expand="xxl">
+        <Navbar
+            data-testid="scheduler-navbar"
+            bg="light"
+            variant="light"
+            sticky="top"
+            expand="xxl">
             <Container>
                 <Navbar.Brand href="#home">
                     <img

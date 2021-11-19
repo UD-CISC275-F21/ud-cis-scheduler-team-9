@@ -7,21 +7,29 @@ test("renders UD CIS Scheduler text", () => {
     render(<App />);
 });
 
-// ControlPanel tests
+// SchedulerNavbar tests
 
-describe("control-panel", ()=>{
+describe("scheduler-navbar",() => {
     beforeEach(()=>{
         render(<App />);
     });
 
-    it("has the control panel when the application loads", () => {
-        const element = screen.getByTestId("control-panel");
+    it("renders the custom navbar on the document", async () => {
+        const element = screen.getByTestId("scheduler-navbar");
         expect(element).toBeInTheDocument();
     });
+});
 
-    it("has the add-semester-button when the application loads", () => {
-        const element = screen.getByTestId("add-semester-modal-button");
-        expect(element).toBeInTheDocument();
+// EditCourseModal tests
+
+describe("edit-course-modal",() => {
+    beforeEach(()=>{
+        render(<App />);
+    });
+
+    it("does not render the edit-course-modal on start", async () => {
+        const element = screen.queryByTestId("edit-course-modal");
+        expect(element).not.toBeInTheDocument;
     });
 });
 
