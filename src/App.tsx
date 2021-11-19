@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { Container, Row } from "react-bootstrap";
-import { ControlPanel } from "./Components/ControlPanel";
 import { AddSemesterModal } from "./Components/AddSemesterModal";
 import { Course } from "./interface/course";
 import { Semester } from "./interface/semester";
@@ -12,6 +11,7 @@ import { RequiredDegreeList } from "./Components/RequiredDegreeList";
 import courseCatalog from "./Assets/testcourses.json";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { SchedulerNavbar } from "./Components/SchedulerNavbar";
 
 function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
@@ -20,7 +20,7 @@ function App(): JSX.Element {
     const [degreePlan, setDegreePlan] = useState<string[]>(["CISC210", "MATH241"]);
     const [requiredCourses, setRequiredCourses] = useState<string[]>(degreePlan);
 
-    const [editSemesterVisible, setEditSemesterVisible] = useState<boolean>(false);
+    const [editCourseVisible, setEditCourseVisible] = useState<boolean>(false);
     const [currentCourse, setCurrentCourse] = useState<Course>({
         department: "",
         courseID: 0,
@@ -80,7 +80,7 @@ function App(): JSX.Element {
     }): void {
         setSemesterIndex(checkSemester(semester));
         setCurrentCourse(course);
-        setEditSemesterVisible(true);
+        setEditCourseVisible(true);
     }
 
     function deleteSemester(semester: Semester) {
@@ -119,12 +119,8 @@ function App(): JSX.Element {
     return (
         <DndProvider backend = {HTML5Backend}>
             <Container className="App">
-                <Row>
-                    <br></br>
-                </Row>
-                <Row>
-                    <ControlPanel deleteAllSemesters={deleteAllSemesters}></ControlPanel>
-                </Row>
+                <header></header>
+                <SchedulerNavbar deleteAllSemesters={deleteAllSemesters}></SchedulerNavbar>
                 <Row>
                     <AddSemesterModal
                         addSemester={addSemester}
@@ -135,8 +131,8 @@ function App(): JSX.Element {
                         catalog={catalog}
                     ></AddSemesterModal>
                     <EditCourseModal
-                        setEditSemesterVisible={setEditSemesterVisible}
-                        editSemesterVisible={editSemesterVisible}
+                        setEditCourseVisible={setEditCourseVisible}
+                        editCourseVisible={editCourseVisible}
                         course={currentCourse}
                         setCurrentCourse={setCurrentCourse}
                         editCourse={editCourse}

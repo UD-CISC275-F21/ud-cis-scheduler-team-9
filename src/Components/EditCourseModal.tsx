@@ -2,10 +2,20 @@ import React, { useState } from "react";
 import { Modal, Col, Row, ModalBody, Form, Button, ModalFooter } from "react-bootstrap";
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
-
-export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, course, editCourse}: {
-    setEditSemesterVisible: (b:boolean) => void;
-    editSemesterVisible: boolean;
+/**
+ * Creates a Modal that contains a Form (with verification) to edit a given Course.
+ * @param setEditCourseVisible Sets the visibility of EditCourseModal.
+ * @param editCourseVisible Visibility of EditCourseModal.
+ * @param course A course.
+ * @param setCurrentCourse Sets the current course that is being edited.
+ * @param editCourse Removes the course that has been edited and adds the 
+ * updated course in its place.
+ *
+ * @returns {JSX.Element} A JSX.Element containing a custom Modal with embedded Form.
+ */
+export function EditCourseModal({ setEditCourseVisible, editCourseVisible, course, editCourse}: {
+    setEditCourseVisible: (b:boolean) => void;
+    editCourseVisible: boolean;
     course: Course;
     setCurrentCourse: (c:Course) => void;
     editCourse: (c:Course) => void;
@@ -14,7 +24,7 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
     const [newCourse, setNewCourse] = useState<Course>(course);
 
     const [validated, setValidated] = useState(false);
-    const hide = ()=>setEditSemesterVisible(false);
+    const hide = ()=>setEditCourseVisible(false);
 
     function resetCourseHooks(): void {
         setNewCourse({
@@ -68,7 +78,7 @@ export function EditCourseModal({ setEditSemesterVisible, editSemesterVisible, c
 
     return(
         <Modal
-            show={editSemesterVisible}
+            show={editCourseVisible}
             onHide={hide}
             backdrop="static"
             keyboard={false}
