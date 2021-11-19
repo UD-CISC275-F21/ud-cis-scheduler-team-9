@@ -3,8 +3,11 @@ import { Button, Table } from "react-bootstrap";
 import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 
-export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
-
+export function SemesterTable({semester, editCourseLauncher, deleteCourse}: { 
+    semester: (Semester);
+    editCourseLauncher?: ({course, semester}: {course: Course, semester:Semester}) => void;
+    deleteCourse?: ({course, semester}: {course: Course, semester:Semester}) => void;
+    }): JSX.Element {
 
 
     function renderList(course: Course, index: number){
@@ -12,13 +15,25 @@ export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
             <tr key={index}>
                 <td id="course-name">{course.department+course.courseID}</td>
                 <td id="course-title">{course.title}</td>
-                <td id="course-description">{course.description}</td>
+                <td id="course-description">{course.description.substring(0, 50) + "..."}</td>
                 <td id="course-credits">{course.credits}</td>
-                <td id="course-edit-button">{
-                    <Button variant="primary">
-                        Edit Course
-                    </Button>
-                }</td>
+                {editCourseLauncher && 
+                <td id="course-edit-button">
+                    <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => editCourseLauncher({course, semester})}
+                    >Edit Course</Button>  
+                </td>}
+                {deleteCourse &&
+                <td>
+                    <Button
+                        variant="danger"
+                        className="btn-block"
+                        size="sm"
+                        onClick={() => deleteCourse({course, semester})}
+                    >Delete Course</Button>
+                </td>}
             </tr>
         );
     }
@@ -31,7 +46,8 @@ export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
                     <th scope="col">Title</th>
                     <th scope="col">Description</th>
                     <th scope="col">Credits</th>
-                    <th scope="col">Edit:</th>
+                    {editCourseLauncher && <th scope="col">Edit:</th>}
+                    {editCourseLauncher && <th scope="col">Delete:</th>} 
                 </tr>
             </thead>
             <tbody>

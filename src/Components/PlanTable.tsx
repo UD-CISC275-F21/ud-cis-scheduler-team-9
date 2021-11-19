@@ -1,13 +1,16 @@
 import React from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
+import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 import { SemesterCard } from "./SemesterCard";
 
 
-export function PlanTable({ semesters, deleteSemester, showModal }: {
+export function PlanTable({ semesters, deleteSemester, showModal, editCourseLauncher, deleteCourse }: {
     semesters: Semester[];
     deleteSemester: (semester: Semester) => void;
     showModal: (b:boolean) => void;
+    editCourseLauncher: ({course, semester}: {course: Course, semester:Semester}) => void;
+    deleteCourse: ({course, semester}: {course: Course, semester:Semester}) => void;
 }): JSX.Element {
 
     const sortedSemesters = semesters.sort(compareSeason).sort(compareYear);
@@ -22,7 +25,13 @@ export function PlanTable({ semesters, deleteSemester, showModal }: {
 
     function renderList(the_semester: Semester): JSX.Element {
         return (
-            <SemesterCard key={the_semester.season.toString() + the_semester.year.toString()} semester={the_semester} deleteSemester = {deleteSemester}></SemesterCard>
+            <SemesterCard
+                key={the_semester.season.toString() + the_semester.year.toString()}
+                semester={the_semester} 
+                deleteSemester={deleteSemester}
+                editCourseLauncher={editCourseLauncher}
+                deleteCourse={deleteCourse}
+            ></SemesterCard>
         );
     }
 
