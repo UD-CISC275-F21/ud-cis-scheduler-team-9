@@ -1,43 +1,60 @@
 import React from "react";
 import "bootstrap/dist/js/bootstrap.bundle";
-
-export function RequiredDegreeList({checkCourse, setCurrentDegreePlan, degree_plan_list, degree_list}: {
+import { Popover, OverlayTrigger } from "react-bootstrap";
+export function RequiredDegreeList({checkCourse, degree_plan, degree_list}: {
     checkCourse: (c: string)=>boolean,
-    setCurrentDegreePlan: (p: string[])=>void,
-    degree_plan_list: Record<string, string[]>,
+    degree_plan: string,
     degree_list: string[]}): JSX.Element{
     
     function createList(course: string){
+
+        const popover = 
+            <Popover id="popover-basic">
+                <Popover.Header as="h3">Popover right</Popover.Header>
+                <Popover.Body>
+                And heres some <strong>amazing</strong> content. Its very engaging.
+                right?
+                </Popover.Body>
+            </Popover>
+        ;
+          
         if (checkCourse(course)){
             return(
-                <a className="list-group-item list-group-item-success" key = {course}> {course} </a>
+                <OverlayTrigger trigger="hover" placement="right" overlay={popover}>
+                    <a className="list-group-item list-group-item-success" key = {course}> {course} </a>
+                </OverlayTrigger>
             );
         }else{
             return(
-                <a className="list-group-item list-group-item-action" key = {course}> {course} </a>
+                <OverlayTrigger trigger="hover" placement="right" overlay={popover}>
+                    <a className="list-group-item list-group-item-action" key = {course}> {course} </a>
+                </OverlayTrigger>
             );
         }
     }
-
-    function createDropDown(plan: string){
-        return (
-            <a className="dropdown-item" href="#" onClick = {()=>setCurrentDegreePlan(degree_plan_list[plan])}>{plan}</a>
-        );
-    } 
-
     return(
-        <div id = "required_degree_list">
-            <div className = "dropdown">
-                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Degree Plans
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {Object.keys(degree_plan_list).map(createDropDown)}
+        <div className = "TEST">
+            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
+                Degree Audit
+            </button>
+            <div className="modal fade" id="exampleModalLong" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle"> {degree_plan} </h5>
+                        </div>
+                        <div className="modal-body">
+                            <div id = "required_degree_list">
+                                <div className="list-group w-100" id = "degree_requirements">
+                                    {degree_list.map(createList)}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="list-group w-25" id = "degree_requirements">
-                <a className="list-group-item list-group-item-action active"> Required Courses </a>
-                {degree_list.map(createList)}
             </div>
         </div>
     );
