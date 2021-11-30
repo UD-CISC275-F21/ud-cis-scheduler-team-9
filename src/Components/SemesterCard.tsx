@@ -1,14 +1,31 @@
 import React from "react";
 import { Col, Card, Container, Row, Button } from "react-bootstrap";
+import { Course } from "../interface/course";
 import { Season, Semester } from "../interface/semester";
 import { SemesterTable } from "./SemesterTable";
-
-export function SemesterCard({ semester, deleteSemester }: {
+/**
+ * Creates a Card containing all of the Semester information (SemesterTable),
+ * macro data such as cost of attendance and total credits, a deleteSemester 
+ * button, etc.
+ * @param semester A semester.
+ * @param deleteSemester Deletes a single semester from the plan.
+ * @param editCourseLauncher Launches the editCourse Modal.
+ * @param deleteCourse Deletes a course.
+ *
+ * @returns {JSX.Element} A JSX.Element containing a custom Navbar
+ */
+export function SemesterCard({ semester, deleteSemester, editCourseLauncher, deleteCourse }: {
     semester: Semester;
     deleteSemester: (semester: Semester) => void;
+    editCourseLauncher: ({course, semester}: {course: Course, semester:Semester}) => void;
+    deleteCourse: ({course, semester}: {course: Course, semester:Semester}) => void;
 }): JSX.Element {
-
-
+    /**
+     * Gets the string value of a given Season enum.
+     * @param season A season enum.
+     *
+     * @returns {string} The passed in season's string value.
+     */
     function getSeason(season: Season): string{
         switch(season) {
         case 3:
@@ -37,7 +54,7 @@ export function SemesterCard({ semester, deleteSemester }: {
                                 </Col>
                             </div>
                             <div className="right-semester-container">
-                                <Button variant="danger" onClick={() => deleteSemester(semester)}>
+                                <Button variant="danger" size="sm" onClick={() => deleteSemester(semester)}>
                                     Delete Semester
                                 </Button>
                             </div>
@@ -48,12 +65,16 @@ export function SemesterCard({ semester, deleteSemester }: {
             <Card.Body>
                 <Card.Title>Courses:</Card.Title>
                 <Row>
-                    <SemesterTable semester={semester}></SemesterTable>
+                    <SemesterTable
+                        semester={semester}
+                        editCourseLauncher={editCourseLauncher}
+                        deleteCourse={deleteCourse}
+                    ></SemesterTable>
                 </Row>
                 <p>PLACEHOLDER FOR SEMESTER STATS (TOT CREDITS, ESTIMATED COST, ETC)</p>
             </Card.Body>
             <Card.Footer>
-                <Button variant="primary">Add Semester: {getSeason((semester.season + 1) % 4)}</Button>
+                {(semester.season % 2) && <Button variant="primary">Add Semester: {getSeason((semester.season + 1) % 4)}</Button>}
             </Card.Footer>
         </Card>   
     );

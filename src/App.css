@@ -59,6 +59,15 @@ Button.button {
     margin-top: 2em;
 }
 
+#course-display {
+    height: 100%;
+}
+
+#card-pool {
+    background-color: lightgray;
+    height: 100%;
+}
+
 @keyframes App-logo-spin {
     from {
         transform: rotate(0deg);
@@ -73,6 +82,10 @@ Button.button {
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
+}
+
+#sch-nav {
+    flex-direction: row;
 }
 
 /* .middle-semester-container {
