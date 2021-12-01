@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { ControlPanel } from "./Components/ControlPanel";
 import { AddSemesterModal } from "./Components/AddSemesterModal";
 import { Course } from "./interface/course";
 import { Semester } from "./interface/semester";
 import { PlanTable } from "./Components/PlanTable";
 import { RequiredDegreeList } from "./Components/RequiredDegreeList";
-import { CSVExport } from "./Components/CSVExport";
 
 import courseCatalog from "./Assets/testcourses.json";
 
@@ -80,7 +79,7 @@ function App(): JSX.Element {
     return (
         <Container className="App">
             <Row>
-                <br></br>
+                <br/>
             </Row>
             <Row>
                 <ControlPanel showModal={setVisible} deleteAllSemesters={deleteAllSemesters}></ControlPanel>
@@ -93,11 +92,7 @@ function App(): JSX.Element {
                 <PlanTable semesters={plan} deleteSemester={deleteSemester} showModal={setVisible}></PlanTable>
             </Row>
             <Row>
-                <Col></Col>
-                <Col></Col>
-                <Col>
-                    <CSVExport plan={plan}></CSVExport>
-                </Col>
+                <br/>
             </Row>
         </Container>
     );
