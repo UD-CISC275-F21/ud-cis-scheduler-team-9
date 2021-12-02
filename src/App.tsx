@@ -51,7 +51,7 @@ function App(): JSX.Element {
             const courseID_split: string[] = json_course.courseID.split(" ");
             course_entry.department = courseID_split[0];
             course_entry.courseID =  parseInt(courseID_split[1]);
-            //Split the title to remove the Department + ID at the beginning
+
             const title_split: string[] = json_course.title.split("- ");
             course_entry.title = title_split[1];
             course_entry.description = json_course.description;
