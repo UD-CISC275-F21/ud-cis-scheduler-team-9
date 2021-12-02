@@ -38,7 +38,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
 
     // course card states
     const [showCard, setShowCard] = useState<boolean>(false);
-    const [deleteCard, setDeleteCard] = useState<Course>();
 
     // add semester modal states
     const [showPreWarning, setShowPreWarning] = useState<boolean>(false);
@@ -54,7 +53,8 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     }
 
     function validateCourse() {
-        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != []  && semestersOffered.includes(season);
+        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] 
+        && semestersOffered != []  && semestersOffered.includes(season);
     }
 
     useEffect (() => {
@@ -332,10 +332,10 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                     </div>}
                 <Row>
                     <Col>
-                        {showCard && <CourseCardDisplay courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} setDeleteCard={setDeleteCard} showCard={showCard}></CourseCardDisplay>}
+                        {showCard && <CourseCardDisplay courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} showCard={showCard}></CourseCardDisplay>}
                     </Col>
                     <Col>
-                        <CardPool showCard={showCard} deleteCard={deleteCard} setDeleteCard={setDeleteCard}></CardPool>
+                        <CardPool showCard={showCard}></CardPool>
                     </Col>
                 </Row>
                 <Row>
