@@ -117,7 +117,7 @@ function App(): JSX.Element {
     return (
         <Container className="App">
             <header></header>
-            <SchedulerNavbar deleteAllSemesters={deleteAllSemesters}></SchedulerNavbar>
+            <SchedulerNavbar deleteAllSemesters={deleteAllSemesters} plan={plan} setPlan={setPlan}></SchedulerNavbar>
             <Row>
                 <AddSemesterModal
                     addSemester={addSemester}

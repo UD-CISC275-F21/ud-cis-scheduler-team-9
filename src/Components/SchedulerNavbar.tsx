@@ -1,5 +1,8 @@
 import React, { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import UDLogo from "../Assets/University_of_Delaware_wordmark.svg";
+import { CSVImport } from "../Assets/CSVImport";
+import { CSVExport } from "../Assets/CSVExport";
+import { Semester } from "../interface/semester";
 /**
  * Creates a Navbar that contains the University of Delaware logo, a 
  * deleteAllSemesters button, a DropDown with upload and download csv. buttons, 
@@ -8,7 +11,10 @@ import UDLogo from "../Assets/University_of_Delaware_wordmark.svg";
  *
  * @returns {JSX.Element} A JSX.Element containing a custom Navbar
  */
-export function SchedulerNavbar({deleteAllSemesters}: {deleteAllSemesters: () => void}): JSX.Element {
+export function SchedulerNavbar({deleteAllSemesters, plan, setPlan}: {
+    deleteAllSemesters: () => void, 
+    plan: Semester[], 
+    setPlan: (p: Semester[]) => void}): JSX.Element {
     return (
         <Navbar
             data-testid="scheduler-navbar"
@@ -35,8 +41,14 @@ export function SchedulerNavbar({deleteAllSemesters}: {deleteAllSemesters: () =>
                         >Delete All Semesters</Nav.Link>
                     </Nav.Item>
                     <NavDropdown title="scheduleDropdown" id="sch-dropdown">
-                        <NavDropdown.Item eventKey="downloadcsv">Download as .csv</NavDropdown.Item>
-                        <NavDropdown.Item eventKey="uploadcsv">Upload .csv</NavDropdown.Item>
+                        <NavDropdown.Item 
+                            eventKey="downloadcsv"
+                            onClick = {()=>CSVExport(plan)}
+                        >Download as .csv</NavDropdown.Item>
+                        <NavDropdown.Item 
+                            eventKey="uploadcsv"
+                            onClick = {()=>CSVImport()}
+                        >Upload .csv</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item eventKey="loadgeneric">Load Generic Plan</NavDropdown.Item>
                     </NavDropdown>

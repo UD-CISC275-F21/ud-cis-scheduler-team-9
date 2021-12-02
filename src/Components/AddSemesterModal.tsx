@@ -54,7 +54,8 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     }
 
     function validateCourse() {
-        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != []  && semestersOffered.includes(season) && year >= determineYear();
+        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && 
+        coReqs != [[]] && semestersOffered != []  && semestersOffered.includes(season) && year >= determineYear();
     }
 
     useEffect (() => {

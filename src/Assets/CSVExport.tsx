@@ -1,7 +1,7 @@
 import { Season, Semester } from "../interface/semester";
 import fs from "fs";
 
-export function writeToCSV(plan: Semester[]): void{
+export function CSVExport(plan: Semester[]): void{
     const filename = "degreePlan.csv";
     fs.writeFile(filename, extractAsCSV(plan), err => {
         if (err) {
