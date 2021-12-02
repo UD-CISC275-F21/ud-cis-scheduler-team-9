@@ -9,7 +9,7 @@ import { CardPool } from "./CardPool";
 
 export function AddSemesterModal({ addSemester, checkSemester, setVisible, checkCourse, visible, catalog}:{
     addSemester: (s: Semester)=>void,
-    checkSemester: (c: Semester)=>boolean,
+    checkSemester: (c: Semester)=>number,
     setVisible: (v:boolean)=>void,
     checkCourse: (c: string)=>boolean,
     visible: (boolean),
@@ -49,7 +49,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     }
 
     function validateTable() {
-        return Object.values(courseRecord).length > 0 && !checkSemester(semesterInfo) && coRequirements;
+        return Object.values(courseRecord).length > 0 && checkSemester(semesterInfo) === -1 && coRequirements;
     }
 
     function validateCourse() {
