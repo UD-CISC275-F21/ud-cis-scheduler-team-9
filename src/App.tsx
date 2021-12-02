@@ -47,7 +47,7 @@ function App(): JSX.Element {
                 fufills: "",
                 semestersOffered: []
             };
-            //Split the courseID into the number. "CISC 108" -> "CISC" + "108"
+            //Split the courseID into the number. "CISC 106" -> "CISC" + "106"
             const courseID_split: string[] = json_course.courseID.split(" ");
             course_entry.department = courseID_split[0];
             course_entry.courseID =  parseInt(courseID_split[1]);
