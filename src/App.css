@@ -84,6 +84,10 @@ Button.button {
     align-items: center;
 }
 
+#sch-nav {
+    flex-direction: row;
+}
+
 /* .middle-semester-container {
     justify-content: center;
 }
