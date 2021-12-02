@@ -5,6 +5,7 @@ import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 
 export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
+    
     const [courses, setCourses] = useState<Course[]>(Object.values(semester.courseRecord));
 
     const [{ isOver } , addToTableRef] = useDrop({
