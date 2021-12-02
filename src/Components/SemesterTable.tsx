@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Table } from "react-bootstrap";
+import { useDrop } from "react-dnd";
 import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 
 export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
+    const [courses, setCourses] = useState<Course[]>(Object.values(semester.courseRecord));
 
-
+    const [{ isOver } , addToTableRef] = useDrop({
+        accept: "courseCard",
+        drop: (item: Course) => setCourses([...courses, item]),
+    });
 
     function renderList(course: Course, index: number){
         return (
@@ -24,7 +29,7 @@ export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
     }
 
     return (
-        <Table id="semester-table">
+        <Table id="semester-table" ref={addToTableRef}>
             <thead className="thead-dark">
                 <tr>
                     <th scope="col">Course</th>
@@ -35,8 +40,9 @@ export function SemesterTable({semester}: {semester: (Semester)}): JSX.Element {
                 </tr>
             </thead>
             <tbody>
-                {Object.values(semester.courseRecord).map(renderList)}
+                {courses.map(renderList)}
             </tbody>
+            {isOver && console.log("over table")}
         </Table>
     );
 }
