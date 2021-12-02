@@ -19,8 +19,8 @@ function extractAsCSV(rows: Semester[]): string | undefined{
     }
 
     const emptyRow = ", \n";
-    const semesterHeaders = ["Year", "Season", "Credit Total", "Expected Tuition"];
-    const courseHeaders = ["Semester", "Department", "courseID", "Titlw", "Description", "Pre-Requisites", "Co-Requisites", "Semesters Offered"];
+    const semesterHeaders = ["Year", "Season", "Credit_Total", "Expected_Tuition"];
+    const courseHeaders = ["Semester", "Department", "courseID", "Title", "Description", "Pre_Requisites", "Co_Requisites", "Semesters_Offered"];
 
     function determineSeason(num: number){
         if(num === 0){
