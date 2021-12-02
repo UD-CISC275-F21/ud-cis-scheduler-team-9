@@ -19,7 +19,7 @@ export function RequiredDegreeList({checkCourse, catalog, degree_plan, degree_li
             popover_description = "Add either one of these courses to fufill this degree requirement";
         }else{
             popover_header = "Requirements";
-            popover_description = "Some courses fufill requirements, such as breadth requirements. If a course does fufill one but hasn't been included, you can go into the edit course section and modify the 'fufills' field, and put in the desired requirement.";
+            popover_description = "Some courses fufill requirements, such as breadth requirements. If a course does fufill one but hasn't been included, you can go into the edit course section and modify the 'fufills' field, and put in the desired course";
         }
         const popover = 
             <Popover id="popover-basic">
@@ -38,7 +38,7 @@ export function RequiredDegreeList({checkCourse, catalog, degree_plan, degree_li
             );
         }else{
             return(
-                <OverlayTrigger trigger="focus" placement="right" overlay={popover}>
+                <OverlayTrigger trigger="hover" placement="right" overlay={popover}>
                     <a className="list-group-item list-group-item-action" key = {course}> {course} </a>
                 </OverlayTrigger>
             );
