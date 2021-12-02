@@ -35,6 +35,7 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
     const courseInfo = {department, courseID, title, description, credits, preReqs, coReqs, fufills, semestersOffered};
 
     const [showCard, setShowCard] = useState<boolean>(false);
+    // add semester modal states
     const [showPreWarning, setShowPreWarning] = useState<boolean>(false);
     const [showCoWarning, setShowCoWarning] = useState<boolean>(false);
     
@@ -356,6 +357,14 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
                             <Card.Text>Semesters: {displaySemesters()}</Card.Text>
                         </Card.Body>
                     </Card>}
+                    //here
+                    <Col>
+                        {showCard && <CourseCardDisplay courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} showCard={showCard}></CourseCardDisplay>}
+                    </Col>
+                    <Col>
+                        <CardPool showCard={showCard}></CardPool>
+                    </Col>
+                    //here
                 </Row>
                 <Row>
                     {showCoWarning && <div className="alert alert-warning d-flex align-items-center" role="alert">

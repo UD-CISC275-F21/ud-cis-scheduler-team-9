@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Table } from "react-bootstrap";
+import { useDrop } from "react-dnd";
 import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 /**
@@ -17,16 +18,23 @@ export function SemesterTable({semester, editCourseLauncher, deleteCourse}: {
     editCourseLauncher?: ({course, semester}: {course: Course, semester:Semester}) => void;
     deleteCourse?: ({course, semester}: {course: Course, semester:Semester}) => void;
     }): JSX.Element {
-
+      
+    const [courses, setCourses] = useState<Course[]>(Object.values(semester.courseRecord));
+      
+    const [{ isOver } , addToTableRef] = useDrop({
+        accept: "courseCard",
+        drop: (item: Course) => setCourses([...courses, item]),
+    });
+      
     /**
-     * Renders a single row in the table with a course's information.
-     * @param course A Course.
-     * @param index The index of the Course in the Semester.
-     *
-     * @returns {JSX.Element} A JSX.Element containing a <tr> with the course's
-     * name, title, description, credits, as well as an edit and delete button
-     * for the course if editCourseLauncher and deleteCourse are passed in.
-     */
+    * Renders a single row in the table with a course's information.
+    * @param course A Course.
+    * @param index The index of the Course in the Semester.
+    *
+    * @returns {JSX.Element} A JSX.Element containing a <tr> with the course's
+    * name, title, description, credits, as well as an edit and delete button
+    * for the course if editCourseLauncher and deleteCourse are passed in.
+    */
     function renderList(course: Course, index: number){
         return (
             <tr key={index}>
@@ -56,7 +64,8 @@ export function SemesterTable({semester, editCourseLauncher, deleteCourse}: {
     }
 
     return (
-        <Table data-testid = "semester-table" id="semester-table">
+        <Table data-testid = "semester-table" id="semester-table" ref={addToTableRef}>
+
             <thead className="thead-dark">
                 <tr>
                     <th scope="col">Course</th>
@@ -68,8 +77,9 @@ export function SemesterTable({semester, editCourseLauncher, deleteCourse}: {
                 </tr>
             </thead>
             <tbody>
-                {Object.values(semester.courseRecord).map(renderList)}
+                {courses.map(renderList)}
             </tbody>
+            {isOver && console.log("over table")}
         </Table>
     );
 }
