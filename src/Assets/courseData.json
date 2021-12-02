@@ -6248,10 +6248,7 @@
     "repeatable": "",
     "allowedUnits": "",
     "multTermEnrollment": "",
-    "prereqs": [
-      "MATH 010",
-      "lacement"
-    ],
+    "prereqs": [],
     "crosslisted": [],
     "University Breadth": "",
     "Engineering Breadth": "",
