@@ -7,7 +7,7 @@ import { Semester } from "./interface/semester";
 import { PlanTable } from "./Components/PlanTable";
 import { EditCourseModal } from "./Components/EditCourseModal";
 import { RequiredDegreeList } from "./Components/RequiredDegreeList";
-
+import courseData from "./Assets/courseData.json";
 import courseCatalog from "./Assets/testcourses.json";
 import degreePlanList from "./Assets/degreeplans.json";
 import { DndProvider } from "react-dnd";
@@ -34,19 +34,56 @@ function App(): JSX.Element {
     });
     const [semesterIndex, setSemesterIndex] = useState<number>(0);
 
+    function setUp(){
+        courseData.forEach((json_course)=>{
+            const course_entry: Course = {
+                department: "",
+                courseID: 0,
+                title: "",
+                description: "",
+                credits: 0,
+                preReqs: [],
+                coReqs: [[""]],
+                fufills: "",
+                semestersOffered: []
+            };
+            //Split the courseID into the number. "CISC 108" -> "CISC" + "108"
+            const courseID_split: string[] = json_course.courseID.split(" ");
+            course_entry.department = courseID_split[0];
+            course_entry.courseID =  parseInt(courseID_split[1]);
+            //Split the title to remove the Department + ID at the beginning
+            const title_split: string[] = json_course.title.split("- ");
+            course_entry.title = title_split[1];
+            course_entry.description = json_course.description;
+            course_entry.credits = parseInt(json_course.credits);
+            if (json_course.prereqs != []){
+                json_course.prereqs.forEach((prereq)=>{
+                    prereq.replace(" ", "");
+                });
+                course_entry.preReqs.push(json_course.prereqs);
+            }else{
+                course_entry.preReqs.push([""]);
+            }
+            
+            //Handling fufillments
+            if (json_course["University Breadth"] != ""){
+                const fufilled_breadth = json_course["University Breadth"].substr(1);
+                course_entry.fufills = fufilled_breadth;
+            }
+            const key: string = course_entry.department + course_entry.courseID;
+            catalog[key] = course_entry;
+        });
+    }
     function addSemester(semester: Semester) {
         setPlan([...plan, semester]);
     }
 
     function deleteAllSemesters() {
         setPlan([]);
-        console.log("Deleted All Semesters");
     }
-
-    
     function checkCourse(course: string): boolean {
         let i;
-        if (course.includes("or")){
+        if (course.includes(" or ")){
             const courses: string[] = course.split(" or ", 2);
             for(i = 0; i<plan.length; i++){
                 if(plan[i].courseRecord[courses[0]] || plan[i].courseRecord[courses[1]]){
@@ -58,9 +95,7 @@ function App(): JSX.Element {
             const requirement: string[] = course.split(": ");
             const nondigits = new RegExp("[a-zA-Z:/ ]", "g");
             const credits_needed = parseInt(course.replace(nondigits, ""));
-            console.log(credits_needed);
             let credit_count = 0;
-            //console.log(requirement[0]);
             for(i = 0; i<plan.length; i++){
                 const course_array: Course[] = Object.values(plan[i].courseRecord);
                 for (let j = 0; j < course_array.length; j++){
@@ -129,6 +164,8 @@ function App(): JSX.Element {
         return -1;
     }
 
+    //Adds all courses to the course catalog
+    setUp();
     return (
         <DndProvider backend = {HTML5Backend}>
             <Container className="App">
@@ -157,6 +194,7 @@ function App(): JSX.Element {
                     ></EditCourseModal>
                     <RequiredDegreeList
                         checkCourse = {checkCourse}
+                        catalog = {catalog}
                         degree_plan = {degreePlan}
                         degree_list={degreeRequirements}
                     ></RequiredDegreeList>

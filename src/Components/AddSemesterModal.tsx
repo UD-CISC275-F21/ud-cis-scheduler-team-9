@@ -30,7 +30,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     const [semestersOffered, setSemestersOffered] = useState<Season[]>([]);
     const [preRequirements, setPreRequirements] = useState<boolean>(true);
     const [coRequirements, setCoRequirements] = useState<boolean>(true);
-    const [fufills, setFufills] = useState<string>("Lab Requirements");
+    const [fufills, setFufills] = useState<string>("");
     const courseInfo = {department, courseID, title, description, credits, preReqs, coReqs, fufills, semestersOffered};
 
     const [showCard, setShowCard] = useState<boolean>(false);
@@ -44,11 +44,11 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     }
 
     function validateTable() {
-        return Object.values(courseRecord).length > 0 && !checkSemester(semesterInfo) && coRequirements;
+        return Object.values(courseRecord).length > 0 /*&& !checkSemester(semesterInfo)*/ && coRequirements;
     }
 
     function validateCourse() {
-        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && coReqs != [[]] && semestersOffered != []  && semestersOffered.includes(season);
+        return preRequirements && department != "" && courseID != 0 && title != "" && description != ""  && preReqs != [[]] && coReqs != [[]] && semestersOffered != []  /*&& semestersOffered.includes(season)*/;
     }
 
     useEffect (() => {
@@ -154,6 +154,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         setCredits(course.credits);
         setPreReqs(course.preReqs);
         setCoReqs(course.coReqs);
+        setFufills(course.fufills);
         setSemestersOffered(course.semestersOffered);
         
     }
@@ -175,6 +176,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
 
     function clearCourseRecord(){
         setShowCoWarning(false);
+        console.log(catalog);
         setCourseRecord({});
     }
 
