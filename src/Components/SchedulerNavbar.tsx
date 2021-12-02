@@ -43,11 +43,11 @@ export function SchedulerNavbar({deleteAllSemesters, plan, setPlan}: {
                     <NavDropdown title="scheduleDropdown" id="sch-dropdown">
                         <NavDropdown.Item 
                             eventKey="downloadcsv"
-                            onClick = {()=>CSVExport(plan)}
+                            onClick = {() => CSVExport(plan)}
                         >Download as .csv</NavDropdown.Item>
                         <NavDropdown.Item 
                             eventKey="uploadcsv"
-                            onClick = {()=>CSVImport()}
+                            onClick = {() => setPlan(CSVImport())}
                         >Upload .csv</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item eventKey="loadgeneric">Load Generic Plan</NavDropdown.Item>
