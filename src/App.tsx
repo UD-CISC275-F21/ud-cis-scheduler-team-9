@@ -10,6 +10,8 @@ import { RequiredDegreeList } from "./Components/RequiredDegreeList";
 
 import courseCatalog from "./Assets/testcourses.json";
 import { SchedulerNavbar } from "./Components/SchedulerNavbar";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
@@ -115,41 +117,43 @@ function App(): JSX.Element {
     }
 
     return (
-        <Container className="App">
-            <header></header>
-            <SchedulerNavbar deleteAllSemesters={deleteAllSemesters} plan={plan} setPlan={setPlan}></SchedulerNavbar>
-            <Row>
-                <AddSemesterModal
-                    addSemester={addSemester}
-                    checkSemester={checkSemester}
-                    setVisible={setVisible}
-                    checkCourse={checkCourse}
-                    visible={visible}
-                    catalog={catalog}
-                ></AddSemesterModal>
-                <EditCourseModal
-                    setEditCourseVisible={setEditCourseVisible}
-                    editCourseVisible={editCourseVisible}
-                    course={currentCourse}
-                    setCurrentCourse={setCurrentCourse}
-                    editCourse={editCourse}
-                ></EditCourseModal>
-                <RequiredDegreeList
-                    degree_list={requiredCourses}
-                ></RequiredDegreeList>
-            </Row>
-            <Row>
-                <PlanTable
-                    semesters={plan}
-                    deleteSemester={deleteSemester}
-                    showModal={setVisible}
-                    editCourseLauncher={editCourseLauncher}
-                    deleteCourse={deleteCourse}
-                ></PlanTable>
-            </Row>
-            <Row>
-            </Row>
-        </Container>
+        <DndProvider backend = {HTML5Backend}>
+            <Container className="App">
+                <header></header>
+                <SchedulerNavbar deleteAllSemesters={deleteAllSemesters} plan={plan} setPlan={setPlan}></SchedulerNavbar>
+                <Row>
+                    <AddSemesterModal
+                        addSemester={addSemester}
+                        checkSemester={checkSemester}
+                        setVisible={setVisible}
+                        checkCourse={checkCourse}
+                        visible={visible}
+                        catalog={catalog}
+                    ></AddSemesterModal>
+                    <EditCourseModal
+                        setEditCourseVisible={setEditCourseVisible}
+                        editCourseVisible={editCourseVisible}
+                        course={currentCourse}
+                        setCurrentCourse={setCurrentCourse}
+                        editCourse={editCourse}
+                    ></EditCourseModal>
+                    <RequiredDegreeList
+                        degree_list={requiredCourses}
+                    ></RequiredDegreeList>
+                </Row>
+                <Row>
+                    <PlanTable
+                        semesters={plan}
+                        deleteSemester={deleteSemester}
+                        showModal={setVisible}
+                        editCourseLauncher={editCourseLauncher}
+                        deleteCourse={deleteCourse}
+                    ></PlanTable>
+                </Row>
+                <Row>
+                </Row>
+            </Container>
+        </DndProvider>
     );
 }
 
