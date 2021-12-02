@@ -1,9 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import App from "./App";
-import { PlanTable } from "./Components/PlanTable"
-import { Semester } from "./interface/semester"
-import { removeListener } from "process";
+
 
 test("renders UD CIS Scheduler text", () => {
     render(<App />);
@@ -49,8 +47,6 @@ describe("add-semester-modal", ()=>{
         expect(element).toBeInTheDocument();
     });
 
-    
-
     /*it("enables the save semester button", ()=>{
         const element = screen.getByTestId("add-semester-modal");
         <br/>
@@ -81,19 +77,19 @@ describe("plan-table", () => {
 });
 
 describe("semester-table", () => {
-        beforeEach(() =>{
-            render(<App />);
-        });
+    beforeEach(() =>{
+        render(<App />);
+    });
 
-        it ("does not initially exist when website loads", ()=> {
-            const element = screen.queryByTestId("semester-table");
-            expect(element).not.toBeInTheDocument();
-        });
+    it ("does not initially exist when website loads", ()=> {
+        const element = screen.queryByTestId("semester-table");
+        expect(element).not.toBeInTheDocument();
+    });
 
-        it ("exists when add-semester-modal button is pressed", async () => {
-            const button = screen.getByTestId("add-semester-modal-button");
-            button.click();
-            const element = await screen.findByTestId("semester-table");
-            expect(element).toBeInTheDocument();
-        });
+    it ("exists when add-semester-modal button is pressed", async () => {
+        const button = screen.getByTestId("add-semester-modal-button");
+        button.click();
+        const element = await screen.findByTestId("semester-table");
+        expect(element).toBeInTheDocument();
+    });
 });
