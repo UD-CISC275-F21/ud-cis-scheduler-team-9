@@ -348,7 +348,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                             You cannot save this semester until you add the corequisites for your courses: {displayReqs(coReqs)}
                         </div>
                     </div>}
-                    <SemesterTable semester={{season, year, courseRecord, creditTotal, expectedTuition}}></SemesterTable>
+                    <SemesterTable semester={{season, year, courseRecord, creditTotal, expectedTuition}} addCourse={addCourse}></SemesterTable>
                 </Row>
                 <Row data-testid="Bottom Row">
                     <Col>
