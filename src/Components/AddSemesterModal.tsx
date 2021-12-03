@@ -199,18 +199,11 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     }
 
     function determineCreditTotal(record: Record<string, Course>) {
-        let i = 0;
         let total = 0;
-        const keys = Object.keys(record); 
-        const arr = [];
+        const courses = Object.values(record);
 
-        for(i = 0; i<keys.length; i++){
-            arr.push(record[keys[i]]);
-        }
-        
-        while(i != arr.length){
-            total += arr[i].credits;
-            i++;
+        for(let i = 0; i<courses.length; i++){
+            total += courses[i].credits;
         }
 
         return total;
@@ -233,14 +226,19 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     }
 
     function determineSeason(word: string){
-        if(word === "Fall"){
-            setSeason(3);
-        } else if(word === "Winter"){
+        switch(word){
+        case "Winter":
             setSeason(0);
-        } else if(word === "Spring"){
+            break;
+        case "Spring":
             setSeason(1);
-        } else if(word === "Summer"){
+            break;
+        case "Summer":
             setSeason(2);
+            break;
+        case "Fall":
+            setSeason(3);
+            break;
         }
     }
 
