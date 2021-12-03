@@ -31,7 +31,7 @@ export function CardPool({showCard}: {showCard: boolean}): JSX.Element{
                     <CourseCard cardInfo={courseCard} setDeleteCard={setDeleteCard} showCard={showCard} hide={true} hideButton={false}/>
                 </div>
             )}
-            {isOver && console.log("over pool")}
+            {isOver && console.log("over the card pool")}
         </div>
     );
 }
