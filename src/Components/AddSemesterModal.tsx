@@ -205,7 +205,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         for(let i = 0; i<courses.length; i++){
             total += courses[i].credits;
         }
-
         return total;
     }
 
