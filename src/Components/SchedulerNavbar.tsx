@@ -1,7 +1,7 @@
 import React, { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import UDLogo from "../Assets/University_of_Delaware_wordmark.svg";
-import { CSVImport } from "../Assets/CSVImport";
-import { CSVExport } from "../Assets/CSVExport";
+import { CSVImport } from "../Assets/CSV-Functions";
+import { CSVExport } from "../Assets/CSV-Functions";
 import { Semester } from "../interface/semester";
 /**
  * Creates a Navbar that contains the University of Delaware logo, a 
