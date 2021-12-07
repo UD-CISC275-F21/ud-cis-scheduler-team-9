@@ -65,6 +65,7 @@ export function CourseCard({cardInfo, setDeleteCard, showCard, hide, hideButton}
                     phrase = phrase + ", ";
             });
         }
+        console.log(cardInfo);
         return phrase;
     }
     
