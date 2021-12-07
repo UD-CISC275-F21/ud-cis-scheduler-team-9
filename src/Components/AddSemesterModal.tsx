@@ -9,9 +9,9 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
 
 /*Commented out the instances of checkSemester calls until we know how we want to handle it ()*/
-export function AddSemesterModal({ addSemester, checkSemester, setVisible, checkCourse, visible, catalog}:{
+export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, checkCourse, visible, catalog}:{
     addSemester: (s: Semester)=>void,
-    checkSemester: (c: Semester)=>number,
+    /*checkSemester: (c: Semester)=>number,*/
     setVisible: (v:boolean)=>void,
     checkCourse: (c: string)=>boolean,
     visible: (boolean),
