@@ -179,7 +179,7 @@ function App(): JSX.Element {
                 <Row>
                     <AddSemesterModal
                         addSemester={addSemester}
-                        checkSemester={checkSemester}
+                        /*checkSemester={checkSemester}*/
                         setVisible={setVisible}
                         checkCourse={checkCourse}
                         visible={visible}
