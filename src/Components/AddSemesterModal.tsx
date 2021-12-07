@@ -9,9 +9,9 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
 
 /*Commented out the instances of checkSemester calls until we know how we want to handle it ()*/
-export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, checkCourse, visible, catalog}:{
+export function AddSemesterModal({ addSemester, checkSemester, setVisible, checkCourse, visible, catalog}:{
     addSemester: (s: Semester)=>void,
-    /*checkSemester: (c: Semester)=>number,*/
+    checkSemester: (c: Semester)=>number,
     setVisible: (v:boolean)=>void,
     checkCourse: (c: string)=>boolean,
     visible: (boolean),
@@ -68,7 +68,7 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
         for (let i = 0; i < courseArray.length; i++){
             //If there are no prerequisites, the course is valid, you can probably just break here.
             if (courseArray[i].coReqs[0][0] == ""){
-                setCoRequirements(true);
+                setCoRequirements(true);    
                 return;
             }
 
@@ -151,6 +151,8 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
             course = getCourse(department, courseID);
             setCourseInfo(course);
             setShowCard(true);
+        }else{
+            setShowCard(false);
         }
 
         setShowPreWarning(false);
@@ -166,10 +168,9 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
     }
 
     function addCourse(newCourse: Course){ 
-        const courseKey: string = department + courseID;
+        const courseKey: string = newCourse.department + newCourse.courseID;
 
         setCourseRecord({...courseRecord, [courseKey]: newCourse});
-        
         setCreditTotal(determineCreditTotal(courseRecord));
         setExpectedTuition(expectedTuition);
     }
@@ -182,7 +183,6 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
 
     function clearCourseRecord(){
         setShowCoWarning(false);
-        console.log(catalog);
         setCourseRecord({});
     }
 
