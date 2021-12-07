@@ -32,13 +32,13 @@ export function RequiredDegreeList({checkCourse, catalog, degree_plan, degree_li
           
         if (checkCourse(course)){
             return(
-                <OverlayTrigger trigger="focus" placement="right" overlay={popover}>
+                <OverlayTrigger placement="right" overlay={popover}>
                     <a className="list-group-item list-group-item-success" key = {course}> {course} </a>
                 </OverlayTrigger>
             );
         }else{
             return(
-                <OverlayTrigger trigger="hover" placement="right" overlay={popover}>
+                <OverlayTrigger  placement="right" overlay={popover}>
                     <a className="list-group-item list-group-item-action" key = {course}> {course} </a>
                 </OverlayTrigger>
             );
@@ -57,7 +57,7 @@ export function RequiredDegreeList({checkCourse, catalog, degree_plan, degree_li
                         </div>
                         <div className="modal-body">
                             <div id = "required_degree_list">
-                                <div className="list-group w-100" id = "degree_requirements">
+                                <div className="list-group w-100" key = "degree_requirements" id = "degree_requirements">
                                     {degree_list.map(createList)}
                                 </div>
                             </div>

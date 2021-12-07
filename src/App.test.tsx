@@ -54,16 +54,6 @@ describe("add-semester-modal", ()=>{
     })*/
 });
 
-describe("delete-all-semester-button", ()=>{
-    beforeEach(() =>{
-        render(<App />);
-    });
-
-    it("exists when the page loads", () => {
-        const button = screen.getByTestId("delete-all-semesters-button");
-        expect(button).toBeInTheDocument();
-    });
-});
 describe("plan-table", () => {
     beforeEach(() =>{
         render(<App />);
@@ -73,7 +63,7 @@ describe("plan-table", () => {
         const element = screen.queryByTestId("plan-table");
         expect(element).toBeInTheDocument();
     });
-    //if there a way to insert data in the modal we could test that
+    //if there a way to insert data i the modal we could test that
 });
 
 describe("semester-table", () => {
@@ -87,7 +77,7 @@ describe("semester-table", () => {
     });
 
     it ("exists when add-semester-modal button is pressed", async () => {
-        const button = screen.getByTestId("add-semester-modal-button");
+        const button = screen.getByTestId("add-semester-button-plan-table");
         button.click();
         const element = await screen.findByTestId("semester-table");
         expect(element).toBeInTheDocument();
