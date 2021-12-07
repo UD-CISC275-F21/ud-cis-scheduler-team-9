@@ -115,7 +115,7 @@ export function PlanTable({ semesters, deleteSemester, showModal, editCourseLaun
     
 
     return (
-        <div className="plan-table" id="plan-table">
+        <div className="plan-table" data-testid= "plan-table" id="plan-table">
             {semesterPairs.map(listDisplay)}
         </div>
     );

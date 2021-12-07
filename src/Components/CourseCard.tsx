@@ -7,7 +7,7 @@ import { Season } from "../interface/semester";
 
 export function CourseCard({cardInfo, setDeleteCard, showCard, hide, hideButton}: {
     cardInfo: Course,
-    setDeleteCard:(c:Course) => void, 
+    setDeleteCard:(c:Course | undefined) => void, 
     showCard: boolean,
     hide: boolean,
     hideButton: boolean}): JSX.Element{
@@ -65,6 +65,7 @@ export function CourseCard({cardInfo, setDeleteCard, showCard, hide, hideButton}
                     phrase = phrase + ", ";
             });
         }
+        console.log(cardInfo);
         return phrase;
     }
     

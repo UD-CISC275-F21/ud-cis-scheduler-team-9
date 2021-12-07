@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { Container, Row } from "react-bootstrap";
 import { AddSemesterModal } from "./Components/AddSemesterModal";
@@ -7,8 +7,9 @@ import { Semester } from "./interface/semester";
 import { PlanTable } from "./Components/PlanTable";
 import { EditCourseModal } from "./Components/EditCourseModal";
 import { RequiredDegreeList } from "./Components/RequiredDegreeList";
-
+import courseData from "./Assets/courseData.json";
 import courseCatalog from "./Assets/testcourses.json";
+import degreePlanList from "./Assets/degreeplans.json";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { SchedulerNavbar } from "./Components/SchedulerNavbar";
@@ -17,9 +18,8 @@ function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
     const [visible, setVisible] = useState<boolean>(false);
     const catalog: Record<string, Course> = courseCatalog;
-    const [degreePlan, setDegreePlan] = useState<string[]>(["CISC210", "MATH241"]);
-    const [requiredCourses, setRequiredCourses] = useState<string[]>(degreePlan);
-
+    const [degreePlan, setDegreePlan] = useState<string>("Computer Science: (BS)");
+    const [degreeRequirements, setDegreeRequirements] = useState<string[]>(degreePlanList["Computer Science: (BS)"]);
     const [editCourseVisible, setEditCourseVisible] = useState<boolean>(false);
     const [currentCourse, setCurrentCourse] = useState<Course>({
         department: "",
@@ -29,34 +29,95 @@ function App(): JSX.Element {
         credits: 0,
         preReqs: [[""]],
         coReqs: [[""]],
-        semestersOffered: []
+        semestersOffered: [],
+        fufills: ""
     });
     const [semesterIndex, setSemesterIndex] = useState<number>(0);
 
-    useEffect (() => {
-        checkDegreePlan();
-    }, [plan]);
-    
+    function setUp(){
+        courseData.forEach((json_course)=>{
+            const course_entry: Course = {
+                department: "",
+                courseID: 0,
+                title: "",
+                description: "",
+                credits: 0,
+                preReqs: [],
+                coReqs: [[""]],
+                fufills: "",
+                semestersOffered: []
+            };
+            //Split the courseID into the number. "CISC 106" -> "CISC" + "106"
+            const courseID_split: string[] = json_course.courseID.split(" ");
+            course_entry.department = courseID_split[0];
+            course_entry.courseID =  parseInt(courseID_split[1]);
+
+            const title_split: string[] = json_course.title.split("- ");
+            course_entry.title = title_split[1];
+            course_entry.description = json_course.description;
+            course_entry.credits = parseInt(json_course.credits);
+            if (json_course.prereqs != []){
+                json_course.prereqs.forEach((prereq)=>{
+                    prereq.replace(" ", "");
+                });
+                course_entry.preReqs.push(json_course.prereqs);
+            }else{
+                course_entry.preReqs.push([""]);
+            }
+            
+            //Handling fufillments
+            if (json_course["University Breadth"] != ""){
+                const fufilled_breadth = json_course["University Breadth"].substr(1);
+                course_entry.fufills = fufilled_breadth;
+            }
+            const key: string = course_entry.department + course_entry.courseID;
+            catalog[key] = course_entry;
+        });
+    }
     function addSemester(semester: Semester) {
         setPlan([...plan, semester]);
     }
     
     function deleteAllSemesters() {
-        //just to bypass the linter warning, remove later
-        setDegreePlan(degreePlan);
-
         setPlan([]);
-        console.log("Deleted All Semesters");
     }
-
     function checkCourse(course: string): boolean {
         let i;
-        for(i = 0; i<plan.length; i++){
-            if(plan[i].courseRecord[course]){
-                return true;
+        if (course.includes(" or ")){
+            const courses: string[] = course.split(" or ", 2);
+            for(i = 0; i<plan.length; i++){
+                if(plan[i].courseRecord[courses[0]] || plan[i].courseRecord[courses[1]]){
+                    return true;
+                }
             }
+            return false;
+        }else if (course.includes("Credits")){
+            const requirement: string[] = course.split(": ");
+            const nondigits = new RegExp("[a-zA-Z:/ ]", "g");
+            const credits_needed = parseInt(course.replace(nondigits, ""));
+            let credit_count = 0;
+            for(i = 0; i<plan.length; i++){
+                const course_array: Course[] = Object.values(plan[i].courseRecord);
+                for (let j = 0; j < course_array.length; j++){
+                    if (course_array[j].fufills === requirement[0]){
+                        credit_count += course_array[j].credits;
+                    }
+                }
+            }
+
+            if (credit_count >= credits_needed){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            for(i = 0; i<plan.length; i++){
+                if(plan[i].courseRecord[course]){
+                    return true;
+                }
+            }
+            return false;
         }
-        return false;
     }
     function editCourse(course: Course) {
         const editSemesterIndex: number = semesterIndex;
@@ -95,19 +156,6 @@ function App(): JSX.Element {
         setPlan([...newPlan]);
     }
 
-    function checkDegreePlan() {
-        let violations: string[] = [];
-        for (let i = 0; i < degreePlan.length; i++){
-            //console.log("TESTING " + degreePlan[i]);
-            //console.log(checkCourse(degreePlan[i]));
-            if (!checkCourse(degreePlan[i])){
-                const course: string = degreePlan[i];
-                violations = [...violations, course];
-            }
-        } 
-        //It seems that useState does not like trying to set its variable in a loop multiple times
-        setRequiredCourses(violations);
-    }
     function checkSemester(semesterToCheck: Semester): number {
         for(let semesterIndex = 0; semesterIndex<plan.length; semesterIndex++){
             if(semesterToCheck.year === plan[semesterIndex].year && semesterToCheck.season === plan[semesterIndex].season)
@@ -116,15 +164,22 @@ function App(): JSX.Element {
         return -1;
     }
 
+    //Adds all courses to the course catalog
+    setUp();
     return (
         <DndProvider backend = {HTML5Backend}>
             <Container className="App">
                 <header></header>
-                <SchedulerNavbar deleteAllSemesters={deleteAllSemesters}></SchedulerNavbar>
+                <SchedulerNavbar
+                    deleteAllSemesters={deleteAllSemesters}
+                    setDegreeRequirements = {setDegreeRequirements}
+                    setDegreePlan = {setDegreePlan}
+                    degree_plan_list = {degreePlanList}
+                ></SchedulerNavbar>
                 <Row>
                     <AddSemesterModal
                         addSemester={addSemester}
-                        checkSemester={checkSemester}
+                        /*checkSemester={checkSemester}*/
                         setVisible={setVisible}
                         checkCourse={checkCourse}
                         visible={visible}
@@ -138,7 +193,10 @@ function App(): JSX.Element {
                         editCourse={editCourse}
                     ></EditCourseModal>
                     <RequiredDegreeList
-                        degree_list={requiredCourses}
+                        checkCourse = {checkCourse}
+                        catalog = {catalog}
+                        degree_plan = {degreePlan}
+                        degree_list={degreeRequirements}
                     ></RequiredDegreeList>
                 </Row>
                 <Row>

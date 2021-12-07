@@ -40,7 +40,8 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
             credits: 0,
             preReqs: [[""]],
             coReqs: [[""]],
-            semestersOffered: []
+            semestersOffered: [],
+            fufills: ""
         });
     }
 
@@ -73,7 +74,8 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                 credits: parseInt(inputValueArray[4]),
                 preReqs: course.preReqs,
                 coReqs: course.coReqs,
-                semestersOffered: course.semestersOffered
+                semestersOffered: course.semestersOffered,
+                fufills: ""
             };
             setNewCourse(updateNewCourse);
         }
