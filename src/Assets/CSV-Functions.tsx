@@ -84,12 +84,29 @@ function extractAsCSV(rows: Semester[]): string{
         }
     }
 
+    function reqFormatter(courses: string[][]): string{
+        let ret = "";
+        for(let i = 0; i<courses.length; i++){
+            for(let p = 0; p<courses[i].length; p++){
+                ret += `${courses[i][p]}`;
+                if(courses[i][p+1]){
+                    ret += " or ";
+                }
+            }
+            if(courses[i+1]){
+                ret += " and ";
+            }
+        }
+        return ret + " ";
+    }
+
     function produceCourseData(){
         let courseData = "";
         for(let i = 0; i<rows.length; i++){
             courseData = courseData + emptyRow + emptyRow + courseHeaders.join(",") + "\n" + 
             determineSeason(rows[i].season) + " " + rows[i].year + "," + Object.values(rows[i].courseRecord).map(course => {
-                return course.department + "," + course.courseID + "," + course.title + "," + `${course.description}` + "," + course.preReqs + "," + course.coReqs + "," + course.semestersOffered + ", \n";
+                return course.department + "," + course.courseID + "," + course.title + "," + course.description.replaceAll(",", ",") + "," + reqFormatter(course.preReqs) + "," + reqFormatter(course.coReqs) + "," + course.semestersOffered.map(
+                    (offered)=> determineSeason(offered)).join(",") + "\n";
             });
         }
         return courseData;
