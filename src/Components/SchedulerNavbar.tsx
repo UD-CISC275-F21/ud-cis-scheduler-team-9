@@ -1,10 +1,10 @@
 import React, { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import UDLogo from "../Assets/University_of_Delaware_wordmark.svg";
 /**
- * Creates a Navbar that contains the University of Delaware logo, a 
- * deleteAllSemesters button, a DropDown with upload and download csv. buttons, 
- * etc.
- * @param deleteAllSemesters Deletes all semesters from the plan.
+ * @description Creates a Navbar that contains the University of Delaware logo, a deleteAllSemesters button, a DropDown
+ *  with upload and download csv. buttons, etc.
+ * 
+ * @param {() => void} deleteAllSemesters Deletes all semesters from the plan.
  *
  * @returns {JSX.Element} A JSX.Element containing a custom Navbar
  */

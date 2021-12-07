@@ -40,7 +40,7 @@ function App(): JSX.Element {
     function addSemester(semester: Semester) {
         setPlan([...plan, semester]);
     }
-
+    
     function deleteAllSemesters() {
         //just to bypass the linter warning, remove later
         setDegreePlan(degreePlan);
