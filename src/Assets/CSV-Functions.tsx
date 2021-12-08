@@ -126,7 +126,8 @@ function extractAsCSV(rows: Semester[]): string{
         });
 
         const semesterData = semesterHeaders.join(",") + "\n" + rows.map(row => {
-            return row.year + "," + determineSeason(row.season) + "," + row.creditTotal + "," + `$${formatter.format(row.expectedTuition)}` + "\n";
+            const data = [row.year, determineSeason(row.season), row.creditTotal, formatter.format(row.expectedTuition)];
+            return data.join(",") + "\n";
         });
         console.log(semesterData);
 
