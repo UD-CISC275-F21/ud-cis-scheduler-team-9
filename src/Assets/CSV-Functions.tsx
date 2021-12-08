@@ -109,7 +109,7 @@ function extractAsCSV(rows: Semester[]): string{
         for(let i = 0; i<rows.length; i++){
             courseData = courseData + emptyRow + emptyRow + courseHeaders.join(",") + "\n" + 
             determineSeason(rows[i].season) + " " + rows[i].year + "," + Object.values(rows[i].courseRecord).map(course => {
-                return course.department + "," + course.courseID + "," + course.title + "," + `"${course.description.replaceAll(",", ",")}"` + "," + 
+                return course.department + "," + course.courseID + "," + course.title + "," + `"${course.description}"` + "," + 
                 reqFormatter(course.preReqs) + "," + reqFormatter(course.coReqs) + "," + `"${course.semestersOffered.map(
                     (offered)=> determineSeason(offered)).join(", ")}"` + "\n";
             });
@@ -127,12 +127,10 @@ function extractAsCSV(rows: Semester[]): string{
 
         const semesterData = semesterHeaders.join(",") + "\n" + rows.map(row => {
             const data = [row.year, determineSeason(row.season), row.creditTotal, formatter.format(row.expectedTuition)];
-            return data.join(",") + "\n";
-        });
-        console.log(semesterData);
+            return data.join(",");
+        }).join("\n");
 
         return semesterData;
-        
     }
 
     const csvContent = produceSemesterData() + produceCourseData();
