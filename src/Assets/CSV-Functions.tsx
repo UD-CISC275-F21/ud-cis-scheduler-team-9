@@ -97,6 +97,9 @@ function extractAsCSV(rows: Semester[]): string{
                 ret += " and ";
             }
         }
+        if(ret === ""){
+            ret = "N/A";
+        }
         return ret + " ";
     }
 
@@ -113,22 +116,16 @@ function extractAsCSV(rows: Semester[]): string{
         return courseData;
     }
 
-    const csvContent = semesterHeaders.join(",") + "\n" + rows.map(row => {
-        function determineSeason(num: number){
-            switch(num){
-            case 0:
-                return "Winter";
-            case 1:
-                return "Spring";
-            case 2:
-                return "Summer";
-            case 3:
-                return "Fall";
-            }
-        }
+    function produceSemesterData(){
+        const semesterData = semesterHeaders.join(",") + "\n" + rows.map(row => {
+            row.year + "," + determineSeason(row.season) + "," + row.creditTotal + "," + row.expectedTuition + "\n";
+            console.log(row.year);
+        });
+        return semesterData;
+        
+    }
 
-        row.year + "," + determineSeason(row.season) + "," + row.creditTotal + "," + row.expectedTuition + "\n";
-    }) + emptyRow + emptyRow + produceCourseData();
-
+    const csvContent = produceSemesterData() + produceCourseData();
+    
     return csvContent;
 }
