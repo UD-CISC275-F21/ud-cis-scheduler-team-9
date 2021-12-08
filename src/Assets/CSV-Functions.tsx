@@ -1,5 +1,5 @@
 import { Season, Semester } from "../interface/semester";
-import fs from "fs";
+//import fs from "fs";
 import { Course } from "../interface/course";
 import { useState } from "react";
 import { downloadBlob } from "./downloads";
@@ -15,13 +15,14 @@ export function CSVImport(): Semester[]{
     const [courseRecord, setCourseRecord] = useState<Record<string, Course>>({});
 
     function redetermineSeason(season: string): Season{
-        if(season === "Winter"){
+        switch(season){
+        case "Winter":
             return 0;
-        } else if(season === "Spring"){
+        case "Spring":
             return 1;
-        } else if(season === "Summer"){
+        case "Summer":
             return 2;
-        } else if(season === "Fall"){
+        case "Fall":
             return 3;
         }
         return 0;
