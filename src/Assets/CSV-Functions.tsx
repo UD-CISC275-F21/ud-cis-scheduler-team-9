@@ -129,9 +129,9 @@ function extractAsCSV(rows: Semester[]): string{
             //obtained from https://stackoverflow.com/questions/149055/how-to-format-numbers-as-currency-strings
         });
         const semesterData = semesterHeaders.join(",") + "\n" + rows.map(row => {
-            console.log(`$${formatter.format(row.expectedTuition)}`);
             return row.year + "," + determineSeason(row.season) + "," + row.creditTotal + "," + `$${formatter.format(row.expectedTuition)}` + "\n";
         });
+        console.log(semesterData);
         
         return semesterData;
         
