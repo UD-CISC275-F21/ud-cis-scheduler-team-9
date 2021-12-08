@@ -107,7 +107,7 @@ function extractAsCSV(rows: Semester[]): string{
             determineSeason(rows[i].season) + " " + rows[i].year + "," + Object.values(rows[i].courseRecord).map(course => {
                 return course.department + "," + course.courseID + "," + course.title + "," + `"${course.description.replaceAll(",", ",")}"` + "," + 
                 reqFormatter(course.preReqs) + "," + reqFormatter(course.coReqs) + "," + `"${course.semestersOffered.map(
-                    (offered)=> determineSeason(offered)).join(",")}"` + "\n";
+                    (offered)=> determineSeason(offered)).join(", ")}"` + "\n";
             });
         }
         return courseData;
