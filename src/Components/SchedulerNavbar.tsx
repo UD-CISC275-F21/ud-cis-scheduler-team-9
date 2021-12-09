@@ -11,13 +11,12 @@ import { Semester } from "../interface/semester";
  *
  * @returns {JSX.Element} A JSX.Element containing a custom Navbar
  */
-export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeRequirements, degree_plan_list}: {
+export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeRequirements, plan, degree_plan_list}: {
     deleteAllSemesters: () => void
     setDegreeRequirements: (p: string[])=>void,
     setDegreePlan: (p: string)=>void,
-    plan: Semester[], 
-    setPlan: (p: Semester[]) => void},
-    degree_plan_list: Record<string, string[]>}): JSX.Element {
+    plan: Semester[],
+    degree_plan_list: Record<string, string[]>): JSX.Element {
 
 
     function updateDegree(plan: string){

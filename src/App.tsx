@@ -175,7 +175,6 @@ function App(): JSX.Element {
                     setDegreeRequirements = {setDegreeRequirements}
                     setDegreePlan = {setDegreePlan}
                     plan={plan}
-                    setPlan={setPlan}
                     degree_plan_list = {degreePlanList}
                 ></SchedulerNavbar>
                 <Row>
