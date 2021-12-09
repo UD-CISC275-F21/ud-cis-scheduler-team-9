@@ -139,31 +139,26 @@ describe("add-semester-modal", ()=>{
         const addButton = screen.getByTestId("add-course-button");
         const department = screen.getByTestId("department-name-input");
         const courseId = screen.getByTestId("course-id-input");
-        let cardDisplay = screen.queryByTestId("course-card-display");
         const winterRadio = screen.getByTestId("season-radio-buttons").children[0];
         const year = screen.getByTestId("year-input");
-        const semesterTable = screen.getByTestId("semester-table");
 
         //tests that everything is zeroed out at render
         expect(department.textContent === "");
         expect(courseId.textContent === "");
-        expect(cardDisplay).not.toBeInTheDocument();
         expect(winterRadio).toBeChecked;
         expect(year.textContent === "");
         userEvent.click(addButton);
         //this is teting that the dynamic table is empty
-        expect(semesterTable.getElementsByTagName("tBody")[0].children).toHaveLength(0);
+        expect(screen.findByText("CISC108")).toEqual({});
 
         //tests that the table has a course when the add button is clicked
         userEvent.type(department, "CISC");
-        userEvent.type(courseId, "210");
+        userEvent.type(courseId, "108");
         userEvent.click(searchButton);
-        cardDisplay = screen.queryByTestId("course-card-display");
-        expect(cardDisplay).toBeInTheDocument();
         userEvent.type(year, "2022");
         userEvent.click(addButton);
-        //this is teting that the dynamic table has one row of content
-        expect(semesterTable.getElementsByTagName("tBody")[0].children).toHaveLength(1);
+        //this is testing that the dynamic table has one row of content
+        expect(screen.getAllByText("CISC108")).toHaveLength(1);
     });
 });
 
