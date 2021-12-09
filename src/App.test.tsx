@@ -64,7 +64,7 @@ describe("add-semester-modal", ()=>{
         expect(element.textContent === "");
     });
 
-    it("only allows numbers in the department input", () => {
+    it("only allows numbers in the courseId input", () => {
         const element = screen.getByTestId("course-id-input");
         expect(element.textContent === "");
         userEvent.type(element, "cisc");
@@ -73,22 +73,31 @@ describe("add-semester-modal", ()=>{
         expect(element.textContent === "201");
     });
 
-    it("only enable the search button when the department and courseId inputs are filled", async () => {
+    it("only allows numbers that are at least 100 in the courseId input", () => {
+        const element = screen.getByTestId("course-id-input");
+        expect(element.textContent === "");
+        userEvent.type(element, "99");
+        expect(element.textContent === "");
+        userEvent.type(element, "201");
+        expect(element.textContent === "201");
+    });
+
+    it("only enable the search button when the department and courseId inputs are filled", () => {
         const button = screen.getByTestId("search-course-button");
         const department = screen.getByTestId("department-name-input");
         const courseId = screen.getByTestId("course-id-input");
-        let cardDisplay = await screen.findByTestId("course-card-display");
+        let cardDisplay = screen.queryByTestId("course-card-display");
 
         expect(department.textContent === "");
         expect(courseId.textContent === "");
         userEvent.click(button);
-        cardDisplay = await screen.findByTestId("course-card-display");
+        cardDisplay = screen.queryByTestId("course-card-display");
         expect(cardDisplay).not.toBeInTheDocument();
 
         userEvent.type(department, "CISC");
         userEvent.type(courseId, "210");
         userEvent.click(button);
-        cardDisplay = await screen.findByTestId("course-card-display");
+        cardDisplay = screen.queryByTestId("course-card-display");
         expect(cardDisplay).toBeInTheDocument();
     });
 
@@ -109,6 +118,16 @@ describe("add-semester-modal", ()=>{
         const year = screen.getByTestId("year-input");
 
         userEvent.type(year, "Cisc");
+        expect(year.textContent === "");
+
+        userEvent.type(year, "2022");
+        expect(year.textContent === "2022");
+    });
+
+    it("doesn't allows years that are before the current one in year-input", () => {
+        const year = screen.getByTestId("year-input");
+
+        userEvent.type(year, "1800");
         expect(year.textContent === "");
 
         userEvent.type(year, "2022");
