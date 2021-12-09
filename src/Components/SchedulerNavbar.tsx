@@ -11,10 +11,25 @@ import { Semester } from "../interface/semester";
  *
  * @returns {JSX.Element} A JSX.Element containing a custom Navbar
  */
-export function SchedulerNavbar({deleteAllSemesters, plan, setPlan}: {
-    deleteAllSemesters: () => void, 
+export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeRequirements, degree_plan_list}: {
+    deleteAllSemesters: () => void
+    setDegreeRequirements: (p: string[])=>void,
+    setDegreePlan: (p: string)=>void,
     plan: Semester[], 
-    setPlan: (p: Semester[]) => void}): JSX.Element {
+    setPlan: (p: Semester[]) => void},
+    degree_plan_list: Record<string, string[]>}): JSX.Element {
+
+
+    function updateDegree(plan: string){
+        setDegreePlan(plan);
+        setDegreeRequirements(degree_plan_list[plan]);
+    }
+    function createDegreeDropDown(plan: string){
+        return (
+            <NavDropdown.Item eventKey="changedegreeplan" onClick = {()=>updateDegree(plan)}>{plan}</NavDropdown.Item>
+        );
+    } 
+
     return (
         <Navbar
             data-testid="scheduler-navbar"
@@ -40,6 +55,9 @@ export function SchedulerNavbar({deleteAllSemesters, plan, setPlan}: {
                             onClick = {() => deleteAllSemesters()}
                         >Delete All Semesters</Nav.Link>
                     </Nav.Item>
+                    <NavDropdown title="Set Degree Plan">
+                        {Object.keys(degree_plan_list).map(createDegreeDropDown)} 
+                    </NavDropdown>
                     <NavDropdown title="scheduleDropdown" id="sch-dropdown">
                         <NavDropdown.Item 
                             eventKey="downloadcsv"
@@ -49,8 +67,6 @@ export function SchedulerNavbar({deleteAllSemesters, plan, setPlan}: {
                             eventKey="uploadcsv"
                             onClick = {() => CSVImport()}
                         >Upload .csv</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item eventKey="loadgeneric">Load Generic Plan</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
                 <Nav.Link
