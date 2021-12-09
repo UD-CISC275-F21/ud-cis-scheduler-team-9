@@ -1,9 +1,9 @@
 import React from "react";
 import { Semester } from "../interface/semester";
 //import { Course } from "../interface/course";
-import { useState } from "react";
+//import { useState } from "react";
 import { downloadBlob } from "./downloads";
-import { Button, Form } from "react-bootstrap";
+//import { Button, Form } from "react-bootstrap";
 
 export function CSVExport(plan: Semester[]): void{
     if(plan !== []){
@@ -12,7 +12,7 @@ export function CSVExport(plan: Semester[]): void{
 }
 
 export function CSVImport(): JSX.Element{
-    const [file, setFile] = useState<File>();
+    /*const [file, setFile] = useState<File>();
 
     return (
         <Form id='csv-form'>
@@ -31,7 +31,11 @@ export function CSVImport(): JSX.Element{
             <Button className="button" type="submit" data-testid="file-input-button" id="file-input-button">
                 Submit
             </Button>
-        </Form>
+        </Form>*/
+    return (
+        <div>
+            <p>This feature is not yet implemented</p>
+        </div>
     );
 }
 
