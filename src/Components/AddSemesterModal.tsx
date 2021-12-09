@@ -45,7 +45,6 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     }
 
     function validateTable() {
-        console.log(semesterInfo);
         return Object.values(courseRecord).length > 0 && checkSemester(semesterInfo) === -1;
     }
 
@@ -271,10 +270,10 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                     </div>}
                 <Row>
                     <Col>
-                        {showCard && <CourseCardDisplay data-testid="course-card-display" courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} showCard={showCard} validatePreRequirements={validatePreRequirements}></CourseCardDisplay>}
+                        {showCard && <CourseCardDisplay courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} showCard={showCard} validatePreRequirements={validatePreRequirements}></CourseCardDisplay>}
                     </Col>
                     <Col>
-                        <CardPool data-testid="card-pool" showCard={showCard}></CardPool>
+                        <CardPool showCard={showCard}></CardPool>
                     </Col>
                 </Row>
                 <Row>

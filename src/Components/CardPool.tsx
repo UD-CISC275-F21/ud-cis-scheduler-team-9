@@ -25,7 +25,7 @@ export function CardPool({showCard}: {showCard: boolean}): JSX.Element{
     }
 
     return (
-        <div id = "card-pool" ref={addToPoolRef}>
+        <div data-testid="card-pool" id = "card-pool" ref={addToPoolRef}>
             {pool.map((courseCard, i) => 
                 <div key={i}>
                     <CourseCard data-testid="course-card" cardInfo={courseCard} setDeleteCard={setDeleteCard} showCard={showCard} hide={true} hideButton={false}/>

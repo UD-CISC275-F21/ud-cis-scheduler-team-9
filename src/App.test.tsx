@@ -2,6 +2,7 @@ import React from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 import App from "./App";
 import userEvent from "@testing-library/user-event";
+import { CardPool } from "./Components/CardPool";
 
 
 test("renders UD CIS Scheduler text", () => {
@@ -284,7 +285,7 @@ describe("card-display", () => {
         userEvent.click(button);
     });
 
-    it("does not render right when the modal when the modal is shown", async () => {
+    it("does not render right when the modal is shown", async () => {
         const cardDisplay = screen.queryByTestId("course-card-display");
         expect(cardDisplay).not.toBeInTheDocument();
     });
@@ -302,6 +303,47 @@ describe("card-display", () => {
         expect(cardDisplay).not.toBeInTheDocument();
     });
 
+    it("can drag and accept cards", () => {
+        const searchButton = screen.getByTestId("search-course-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
 
+        userEvent.type(department, "CISC");
+        userEvent.type(courseId, "101");
+        userEvent.click(searchButton);
+
+        const createBubbledEvent = (type: string, props = {}) => {
+            const event = new Event(type, { bubbles: true });
+            Object.assign(event, props);
+            return event;
+        };
+        const startingNode = screen.getByTestId("card-pool");
+        const endingNode = screen.getByTestId("course-card-display");
+        startingNode.dispatchEvent(
+            createBubbledEvent("dragstart", { clientX: 970, clientY: 386 })
+        );
+        endingNode.dispatchEvent(
+            createBubbledEvent("drop", { clientX: 357, clientY: 422 })
+        );
+        expect();
+    })
+
+});
+
+describe("card-pool", () => {
+    beforeEach(() => {
+        render(<App />);
+        const button = screen.getByTestId("add-semester-button-plan-table");
+        userEvent.click(button);
+    });
+
+    it("is rendered right when the modal is shown", async () => {
+        const cardPool = screen.queryByTestId("card-pool");
+        expect(cardPool).toBeInTheDocument();
+    });
+
+    /*it("deletes the card on click of the delete button",{
+        
+    });*/
 
 });
