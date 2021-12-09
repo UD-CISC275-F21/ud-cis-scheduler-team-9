@@ -21,9 +21,7 @@ export function CourseCardDisplay({courseInfo, setCourseInfo, showCard}: {
             title: courseInfo.title, 
             description: courseInfo.description, 
             credits: courseInfo.credits, 
-            preReqs: courseInfo.preReqs, 
-            coReqs: courseInfo.coReqs, 
-            semestersOffered: courseInfo.semestersOffered
+            preReqs: courseInfo.preReqs
         },
         dropEffect: "move",
         drop: (item: Course) =>  handleDisplay(item),

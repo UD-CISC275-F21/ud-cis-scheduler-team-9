@@ -102,16 +102,50 @@ describe("add-semester-modal", ()=>{
     });
 
     it("shows winter is checked by default for the season radio buttons", () => {
-        const radios: HTMLElement = screen.getByTestId("season-radio-buttons");
-        const winterLabel = radios.children[0];
-        const springLabel = radios.children[1];
-        const summerLabel = radios.children[2];
-        const fallLabel = radios.children[3];
+        const winterLabel = screen.getByTestId("winter-radio");
+        const springLabel = screen.getByTestId("spring-radio");
+        const summerLabel = screen.getByTestId("summer-radio");
+        const fallLabel = screen.getByTestId("fall-radio");
 
-        expect(winterLabel).toBeChecked;
-        expect(springLabel).not.toBeChecked;
-        expect(summerLabel).not.toBeChecked;
-        expect(fallLabel).not.toBeChecked;
+        expect(winterLabel).toBeChecked();
+        expect(springLabel).not.toBeChecked();
+        expect(summerLabel).not.toBeChecked();
+        expect(fallLabel).not.toBeChecked();
+    });
+
+    it("shows as checked when clicked", () => {
+        const winterLabel = screen.getByTestId("winter-radio");
+        const springLabel = screen.getByTestId("spring-radio");
+        const summerLabel = screen.getByTestId("summer-radio");
+        const fallLabel = screen.getByTestId("fall-radio");
+
+        userEvent.click(summerLabel);
+
+        expect(winterLabel).not.toBeChecked();
+        expect(springLabel).not.toBeChecked();
+        expect(summerLabel).toBeChecked();
+        expect(fallLabel).not.toBeChecked();
+
+        userEvent.click(winterLabel);
+
+        expect(winterLabel).toBeChecked();
+        expect(springLabel).not.toBeChecked();
+        expect(summerLabel).not.toBeChecked();
+        expect(fallLabel).not.toBeChecked();
+
+        userEvent.click(springLabel);
+
+        expect(winterLabel).not.toBeChecked();
+        expect(springLabel).toBeChecked();
+        expect(summerLabel).not.toBeChecked();
+        expect(fallLabel).not.toBeChecked();
+
+        userEvent.click(fallLabel);
+
+        expect(winterLabel).not.toBeChecked();
+        expect(springLabel).not.toBeChecked();
+        expect(summerLabel).not.toBeChecked();
+        expect(fallLabel).toBeChecked();
     });
 
     it("only allows numbers in year-input", () => {
@@ -148,8 +182,8 @@ describe("add-semester-modal", ()=>{
         expect(winterRadio).toBeChecked;
         expect(year.textContent === "");
         userEvent.click(addButton);
-        //this is teting that the dynamic table is empty
-        expect(screen.findByText("CISC108")).toEqual({});
+        //this is testing that the dynamic table is empty
+        expect(screen.queryByText("CISC108")).toBeNull();
 
         //tests that the table has a course when the add button is clicked
         userEvent.type(department, "CISC");
@@ -159,6 +193,57 @@ describe("add-semester-modal", ()=>{
         userEvent.click(addButton);
         //this is testing that the dynamic table has one row of content
         expect(screen.getAllByText("CISC108")).toHaveLength(1);
+    });
+
+    it("clears the semseter table on press of the clear-course-list-button", () => {
+        const searchButton = screen.getByTestId("search-course-button");
+        const addButton = screen.getByTestId("add-course-button");
+        const clearButton = screen.getByTestId("clear-course-list-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
+        const year = screen.getByTestId("year-input");
+
+        //puts a CISC108 in the table
+        userEvent.type(department, "CISC");
+        userEvent.type(courseId, "108");
+        userEvent.click(searchButton);
+        userEvent.type(year, "2022");
+        userEvent.click(addButton);
+        expect(screen.getAllByText("CISC108")).toHaveLength(1);
+
+        userEvent.click(clearButton);
+        expect(screen.queryByText("CISC108")).toBeNull();
+    });
+
+    it("saves the semseter, clears the input fields, and hides the modal on press of the save-semester-button", async () => {
+        const searchButton = screen.getByTestId("search-course-button");
+        const addButton = screen.getByTestId("add-course-button");
+        const saveButton = screen.getByTestId("save-semester-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
+        const year = screen.getByTestId("year-input");
+
+        //puts a CISC108 in the table
+        userEvent.type(department, "CISC");
+        userEvent.type(courseId, "108");
+        userEvent.click(searchButton);
+        userEvent.type(year, "2022");
+        userEvent.click(addButton);
+        expect(screen.getAllByText("CISC108")).toHaveLength(1);
+
+        userEvent.click(saveButton);
+        
+        //clears the fields
+        expect(department.textContent === "");
+        expect(courseId.textContent === "");
+        expect(year.textContent === "");
+
+        //hides the modal
+        const element = await screen.findByTestId("add-semester-modal");
+        expect(element).not.toBeInTheDocument();
+
+        //sees a semester on the screen
+        expect(screen.getAllByText("Semester: Winter 2022")).toHaveLength(1);
     });
 });
 
@@ -190,4 +275,33 @@ describe("semester-table", () => {
         const element = await screen.findByTestId("semester-table");
         expect(element).toBeInTheDocument();
     });
+});
+
+describe("card-display", () => {
+    beforeEach(() => {
+        render(<App />);
+        const button = screen.getByTestId("add-semester-button-plan-table");
+        userEvent.click(button);
+    });
+
+    it("does not render right when the modal when the modal is shown", async () => {
+        const cardDisplay = screen.queryByTestId("course-card-display");
+        expect(cardDisplay).not.toBeInTheDocument();
+    });
+
+    it("does not render the card when an invalid course is searched", async () => {
+        const searchButton = screen.getByTestId("search-course-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
+
+        userEvent.type(department, "ARTS");
+        userEvent.type(courseId, "101");
+        userEvent.click(searchButton);
+
+        const cardDisplay = screen.queryByTestId("course-card-display");
+        expect(cardDisplay).not.toBeInTheDocument();
+    });
+
+
+
 });

@@ -138,8 +138,7 @@ function extractAsCSV(rows: Semester[]): string{
             courseData = courseData + emptyRow + emptyRow + courseHeaders.join(",") + "\n" + 
             determineSeason(rows[i].season) + " " + rows[i].year + "," + Object.values(rows[i].courseRecord).map(course => {
                 return course.department + "," + course.courseID + "," + course.title + "," + `"${course.description}"` + "," + 
-                reqFormatter(course.preReqs) + "," + reqFormatter(course.coReqs) + "," + `"${course.semestersOffered.map(
-                    (offered)=> determineSeason(offered)).join(", ")}"` + "\n";
+                reqFormatter(course.preReqs) + "," + "\n";
             });
         }
         return courseData;
