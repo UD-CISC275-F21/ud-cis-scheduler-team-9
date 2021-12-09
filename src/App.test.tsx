@@ -132,6 +132,7 @@ describe("add-semester-modal", ()=>{
         expect(winterRadio).toBeChecked;
         expect(year.textContent === "");
         userEvent.click(addButton);
+        //this is teting that the dynamic table is empty
         expect(semesterTable.getElementsByTagName("tBody")[0].children).toHaveLength(0);
 
         //tests that the table has a course when the add button is clicked
@@ -142,6 +143,7 @@ describe("add-semester-modal", ()=>{
         expect(cardDisplay).toBeInTheDocument();
         userEvent.type(year, "2022");
         userEvent.click(addButton);
+        //this is teting that the dynamic table has one row of content
         expect(semesterTable.getElementsByTagName("tBody")[0].children).toHaveLength(1);
     });
 });
@@ -155,7 +157,7 @@ describe("plan-table", () => {
         const element = screen.queryByTestId("plan-table");
         expect(element).toBeInTheDocument();
     });
-    //if there a way to insert data i the modal we could test that
+    //if there is a way to insert data in the modal we could test that
 });
 
 describe("semester-table", () => {
