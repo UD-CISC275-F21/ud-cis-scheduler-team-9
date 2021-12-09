@@ -121,8 +121,6 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
             }
         }    
         if (valid_course){
-            //bypass linter, remove later
-            setFufills("Lab Requirements");
             setPreRequirements(true);
         } else {
             setShowPreWarning(true);
