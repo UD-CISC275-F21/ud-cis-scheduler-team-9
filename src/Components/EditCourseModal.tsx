@@ -34,8 +34,6 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
             description: "",
             credits: 0,
             preReqs: [[""]],
-            coReqs: [[""]],
-            semestersOffered: [],
             fufills: ""
         });
     }
@@ -61,8 +59,6 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                 description: inputValueArray[3],
                 credits: parseInt(inputValueArray[4]),
                 preReqs: course.preReqs,
-                coReqs: course.coReqs,
-                semestersOffered: course.semestersOffered,
                 fufills: ""
             };
             setNewCourse(updateNewCourse);
@@ -189,20 +185,6 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                             </Form.Control.Feedback>
                             <Form.Control.Feedback type="invalid">
                                 Please provide a valid credit total between 1 and 9.
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group as={Col} md="3" controlId="validationSemestersOffered">
-                            <Form.Label>Semesters Offered</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                defaultValue={course.semestersOffered.toString()}                            
-                            />
-                            <Form.Control.Feedback>
-                                Valid Semesters!
-                            </Form.Control.Feedback>
-                            <Form.Control.Feedback type="invalid">
-                                Please provide valid Semester(s) offered (ex. Fall, Spring).
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Row>
