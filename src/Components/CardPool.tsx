@@ -28,7 +28,7 @@ export function CardPool({showCard}: {showCard: boolean}): JSX.Element{
         <div id = "card-pool" ref={addToPoolRef}>
             {pool.map((courseCard, i) => 
                 <div key={i}>
-                    <CourseCard cardInfo={courseCard} setDeleteCard={setDeleteCard} showCard={showCard} hide={true} hideButton={false}/>
+                    <CourseCard data-testid="course-card" cardInfo={courseCard} setDeleteCard={setDeleteCard} showCard={showCard} hide={true} hideButton={false}/>
                 </div>
             )}
             {isOver && console.log("over the card pool")}

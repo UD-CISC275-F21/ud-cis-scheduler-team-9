@@ -272,7 +272,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             data-testid="add-semester-modal"
             size="xl"
         >
-            <ModalHeader closeButton data-testid="exit-button" onClick={clearData}></ModalHeader>
+            <ModalHeader closeButton onClick={clearData}></ModalHeader>
             <ModalBody>
                 <Row>
                     <Form className="d-flex" id="search-course-formm" onSubmit={handleSearch}>
@@ -329,10 +329,10 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                     </div>}
                 <Row>
                     <Col>
-                        {showCard && <CourseCardDisplay courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} showCard={showCard}></CourseCardDisplay>}
+                        {showCard && <CourseCardDisplay data-testid="course-card-display" courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} showCard={showCard}></CourseCardDisplay>}
                     </Col>
                     <Col>
-                        <CardPool showCard={showCard}></CardPool>
+                        <CardPool data-testid="card-pool" showCard={showCard}></CardPool>
                     </Col>
                 </Row>
                 <Row>
@@ -345,7 +345,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                             You cannot save this semester until you add the corequisites for your courses: {displayReqs(coReqs)}
                         </div>
                     </div>}
-                    <SemesterTable semester={{season, year, courseRecord, creditTotal, expectedTuition}} addCourse={addCourse}></SemesterTable>
+                    <SemesterTable data-testid="semester-table" semester={{season, year, courseRecord, creditTotal, expectedTuition}} addCourse={addCourse}></SemesterTable>
                 </Row>
                 <Row data-testid="Bottom Row">
                     <Col>

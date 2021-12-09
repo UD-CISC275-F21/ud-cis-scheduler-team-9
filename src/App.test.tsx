@@ -50,13 +50,6 @@ describe("add-semester-modal", ()=>{
         expect(element).toBeInTheDocument();
     });
 
-    it("exits the modal when the exit-button is clicked", async () => {
-        const element = await screen.findByTestId("add-semester-modal");
-        const exitButton = screen.getByTestId("exit-button");
-        userEvent.click(exitButton);
-        expect(element).not.toBeInTheDocument();
-    });
-
     it("automatically uppercases letters in the department input", () => {
         const element = screen.getByTestId("department-name-input");
         expect(element.textContent === "");
@@ -80,22 +73,22 @@ describe("add-semester-modal", ()=>{
         expect(element.textContent === "201");
     });
 
-    it("only enable the search button when the department and courseId inputs are filled", () => {
+    it("only enable the search button when the department and courseId inputs are filled", async () => {
         const button = screen.getByTestId("search-course-button");
         const department = screen.getByTestId("department-name-input");
         const courseId = screen.getByTestId("course-id-input");
-        const cardDisplay = screen.queryByTestId("course-card-display");
+        let cardDisplay = await screen.findByTestId("course-card-display");
 
         expect(department.textContent === "");
         expect(courseId.textContent === "");
-        expect(cardDisplay).not.toBeInTheDocument();
-
         userEvent.click(button);
+        cardDisplay = await screen.findByTestId("course-card-display");
         expect(cardDisplay).not.toBeInTheDocument();
 
         userEvent.type(department, "CISC");
         userEvent.type(courseId, "210");
         userEvent.click(button);
+        cardDisplay = await screen.findByTestId("course-card-display");
         expect(cardDisplay).toBeInTheDocument();
     });
 
@@ -123,13 +116,14 @@ describe("add-semester-modal", ()=>{
     });
 
     it("only enable the add button when the all inputs are filled and the course is displayed", () => {
-        const button = screen.getByTestId("add-course-button");
+        const searchButton = screen.getByTestId("search-course-button");
+        const addButton = screen.getByTestId("add-course-button");
         const department = screen.getByTestId("department-name-input");
         const courseId = screen.getByTestId("course-id-input");
-        const cardDisplay = screen.queryByTestId("course-card-display");
-        const winterRadio = screen.getByLabelText("Winter");
+        let cardDisplay = screen.queryByTestId("course-card-display");
+        const winterRadio = screen.getByTestId("season-radio-buttons").children[0];
         const year = screen.getByTestId("year-input");
-        const semesterTable = screen.getByTestId("semesterTable");
+        const semesterTable = screen.getByTestId("semester-table");
 
         //tests that everything is zeroed out at render
         expect(department.textContent === "");
@@ -137,16 +131,17 @@ describe("add-semester-modal", ()=>{
         expect(cardDisplay).not.toBeInTheDocument();
         expect(winterRadio).toBeChecked;
         expect(year.textContent === "");
-        userEvent.click(button);
-        expect(semesterTable).toHaveLength(0);
+        userEvent.click(addButton);
+        expect(semesterTable.getElementsByTagName("tBody")[0].children).toHaveLength(0);
 
         //tests that the table has a course when the add button is clicked
         userEvent.type(department, "CISC");
         userEvent.type(courseId, "210");
-        userEvent.type(year, "2022");
-        userEvent.click(button);
+        userEvent.click(searchButton);
+        cardDisplay = screen.queryByTestId("course-card-display");
         expect(cardDisplay).toBeInTheDocument();
-        userEvent.click(button);
-        expect(semesterTable).toHaveLength(1);
+        userEvent.type(year, "2022");
+        userEvent.click(addButton);
+        expect(semesterTable.getElementsByTagName("tBody")[0].children).toHaveLength(1);
     });
 });
