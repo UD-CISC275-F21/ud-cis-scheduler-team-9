@@ -145,3 +145,33 @@ describe("add-semester-modal", ()=>{
         expect(semesterTable.getElementsByTagName("tBody")[0].children).toHaveLength(1);
     });
 });
+
+describe("plan-table", () => {
+    beforeEach(() =>{
+        render(<App />);
+    });
+    
+    it("exists when the page loads", () => {
+        const element = screen.queryByTestId("plan-table");
+        expect(element).toBeInTheDocument();
+    });
+    //if there a way to insert data i the modal we could test that
+});
+
+describe("semester-table", () => {
+    beforeEach(() =>{
+        render(<App />);
+    });
+
+    it ("does not initially exist when website loads", ()=> {
+        const element = screen.queryByTestId("semester-table");
+        expect(element).not.toBeInTheDocument();
+    });
+
+    it ("exists when add-semester-modal button is pressed", async () => {
+        const button = screen.getByTestId("add-semester-button-plan-table");
+        button.click();
+        const element = await screen.findByTestId("semester-table");
+        expect(element).toBeInTheDocument();
+    });
+});

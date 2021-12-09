@@ -66,7 +66,7 @@ export function SemesterTable({semester, editCourseLauncher, deleteCourse, addCo
     }
 
     return (
-        <Table data-testid="semester-table" id="semester-table" ref={addToTableRef}>
+        <Table data-testid = "semester-table" id="semester-table" ref={addToTableRef}>
             <thead className="thead-dark">
                 <tr>
                     <th scope="col">Course</th>
