@@ -1,5 +1,3 @@
-import { Season } from "./semester";
-
 export interface Course {
     department: string,
     courseID: number,
