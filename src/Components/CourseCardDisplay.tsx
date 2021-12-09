@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDrop } from "react-dnd";
 import { Course } from "../interface/course";
 import { CourseCard } from "./CourseCard";
 
 
-export function CourseCardDisplay({courseInfo, setCourseInfo, setDeleteCard, showCard}: {
+export function CourseCardDisplay({courseInfo, setCourseInfo, showCard}: {
     courseInfo: Course, 
     setCourseInfo:(b: Course) => void, 
-    setDeleteCard:(c:Course) => void, 
     showCard: boolean}): JSX.Element{
+
+    const [deleteCard, setDeleteCard] = useState<Course>();
+    if(deleteCard != undefined)
+        setDeleteCard(undefined);
 
     const [{ isOver }, addToDisplay] = useDrop(() => ({
         accept: "courseCard",
