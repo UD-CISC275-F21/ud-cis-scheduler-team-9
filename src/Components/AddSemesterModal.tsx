@@ -44,8 +44,8 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
     
     const hide = ()=>setVisible(false);
 
-    function validateForm(): boolean { // Makes sure that no text field is empty before submit
-        return department.length > 0 && courseID >= 100 && year >= determineYear();
+    function validateForm(): boolean { // Makes sure that no text field related to course search is empty
+        return department.length > 0 && courseID >= 100;
     }
 
     function validateTable() {
@@ -53,7 +53,8 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
     }
 
     function validateCourse() {
-        return preRequirements && department != "" && courseID != 0 && title != "" && description != ""  && preReqs != [[]] && coReqs != [[]] && semestersOffered != []  /*&& semestersOffered.includes(season)*/;
+        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && 
+        coReqs != [[]] /*&& semestersOffered != []*/  && semestersOffered.includes(season) && year >= determineYear();
     }
 
     useEffect (() => {
@@ -110,7 +111,7 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
             //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
             for (let h = 0; h < course.preReqs[j].length; h++){
                 //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
-                console.log(course.preReqs[j][h]);
+                //console.log(course.preReqs[j][h]);
                 if (!checkCourse(course.preReqs[j][h])){
                     valid_course = false;
                 }else{
@@ -168,7 +169,7 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
         const courseKey: string = newCourse.department + newCourse.courseID;
 
         setCourseRecord({...courseRecord, [courseKey]: newCourse});
-        setCreditTotal(determineCreditTotal(courseRecord));
+        setCreditTotal(determineCreditTotal({...courseRecord, [courseKey]: newCourse}));
         setExpectedTuition(expectedTuition);
     }
 
@@ -193,7 +194,6 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
     function determineCreditTotal(record: Record<string, Course>) {
         let total = 0;
         const courses = Object.values(record);
-
         for(let i = 0; i<courses.length; i++){
             total += courses[i].credits;
         }
