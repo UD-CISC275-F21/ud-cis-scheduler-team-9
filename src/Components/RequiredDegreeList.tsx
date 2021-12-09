@@ -2,6 +2,16 @@ import React from "react";
 import { Course } from "../interface/course";
 import "bootstrap/dist/js/bootstrap.bundle";
 import { Popover, OverlayTrigger } from "react-bootstrap";
+/**
+ * @description Creates a Card containing all of the Semester information (SemesterTable), macro data such as cost of
+ * attendance and total credits, a deleteSemester button, etc.
+ * @param {(c: string)=>boolean} checkCourse Deletes a single semester from the plan.
+ * @param {({course, semester}: {course: Course, semester:Semester}) => void} catalog 
+ * Modal.
+ * @param {({course, semester}: {course: Course, semester:Semester}) => void} deleteCourse Deletes a course.
+ *
+ * @returns {JSX.Element} A JSX.Element containing a custom Navbar
+ */
 export function RequiredDegreeList({checkCourse, catalog, degree_plan, degree_list}: {
     checkCourse: (c: string)=>boolean,
     catalog: Record<string, Course>;

@@ -2,8 +2,7 @@ import React, { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import UDLogo from "../Assets/University_of_Delaware_wordmark.svg";
 /**
  * @description Creates a Navbar that contains the University of Delaware logo, a deleteAllSemesters button, a DropDown
- *  with upload and download csv. buttons, etc.
- * 
+ *  with upload and download csv. buttons, etc. 
  * @param {() => void} deleteAllSemesters Deletes all semesters from the plan.
  *
  * @returns {JSX.Element} A JSX.Element containing a custom Navbar
@@ -14,11 +13,25 @@ export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeReq
     setDegreePlan: (p: string)=>void,
     degree_plan_list: Record<string, string[]>}): JSX.Element {
 
-
+    /**
+     * @description Formats the Courses in a Semester within a Table, adds Edit and Delete buttons if called in PlanTable.
+     * @param {string} plan The degree plan, which is needed to update the degree requirements if degree type is 
+     * changed.
+     *
+     * @returns {JSX.Element} A JSX.Element containing the custom Navbar, which includes the logo, the ability to change
+     * degree plan types, a link to the UD Academic Catalog, etc.
+     */    
     function updateDegree(plan: string){
         setDegreePlan(plan);
         setDegreeRequirements(degree_plan_list[plan]);
     }
+    /**
+     * @description Renders a NavDropdown with the list of degree types.
+     * @param {string} plan The degree plan, which is needed to update the degree requirements if degree type is 
+     * changed.
+     *
+     * @returns {JSX.Element} A JSX.Element <NavDropdown.Item> containing one single degree type.
+     */   
     function createDegreeDropDown(plan: string){
         return (
             <NavDropdown.Item eventKey="changedegreeplan" onClick = {()=>updateDegree(plan)}>{plan}</NavDropdown.Item>

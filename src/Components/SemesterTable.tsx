@@ -4,8 +4,7 @@ import { useDrop } from "react-dnd";
 import { Course } from "../interface/course";
 import { Semester } from "../interface/semester";
 /**
- * Formats the Courses in a Semester within a Table, adds Edit and Delete buttons
- * if called in PlanTable.
+ * @description Formats the Courses in a Semester within a Table, adds Edit and Delete buttons if called in PlanTable.
  * @param semester A semester.
  * @param editCourseLauncher Launches the editCourse Modal.
  * @param deleteCourse Deletes a course.
@@ -29,7 +28,7 @@ export function SemesterTable({semester, editCourseLauncher, deleteCourse, addCo
     });
 
     /**
-    * Renders a single row in the table with a course's information.
+    * @description Renders a single row in the table with a course's information.
     * @param course A Course.
     * @param index The index of the Course in the Semester.
     *

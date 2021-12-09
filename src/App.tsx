@@ -74,13 +74,28 @@ function App(): JSX.Element {
             catalog[key] = course_entry;
         });
     }
-    function addSemester(semester: Semester) {
+    /**
+     * @description Adds a semester to the plan.
+     * @param {Semester} semester The semester that is to be added to the plan.
+     */
+    function addSemester(semester: Semester):void {
         setPlan([...plan, semester]);
     }
-    
+    /**
+     * @description Deletes all of the semesters, setting the plan to an empty array. 
+     */
     function deleteAllSemesters() {
         setPlan([]);
     }
+    /**
+     * @description Iterates through the entire plan to check if a given degree requirment has been fulfilled. i.e. 
+     * if a given degree  requires a course, checks for that course. If it requires one out of X number of courses,
+     * checks that AT LEAST one of those courses is in the plan.
+     * @param {string} course one or more departments + course codes. IF more than 1, separated by 
+     * an "or" (ex. "CISC210", "CISC210 or CISC181").
+     * 
+     * @returns {boolean} Whether the required course is in the degree plan.
+     */
     function checkCourse(course: string): boolean {
         let i;
         if (course.includes(" or ")){

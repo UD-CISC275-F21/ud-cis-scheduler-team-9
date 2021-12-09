@@ -49,7 +49,7 @@ export function PlanTable({ semesters, deleteSemester, showModal, editCourseLaun
     }
     
     /**
-     * Creates a SemesterCard of a single Semester
+     * Creates a SemesterCard of a single Semester.
      * @param {Semester} the_semester A Semester.
      *
      * @returns {JSX.Element} A SemesterCard for the_semester.
@@ -67,13 +67,11 @@ export function PlanTable({ semesters, deleteSemester, showModal, editCourseLaun
     }
 
     /**
-     * Renders a SemesterCard pair, or a SemesterCard and a AddSemester button
-     * on the PlanTable
-     * @param {JSX.Element} truncatedSemesterCardArray array (of size 1 or 2) of SemesterCards,
-     * containing semesters from the plan.
+     * Renders a SemesterCard pair, or a SemesterCard and a AddSemester button on the PlanTable.
+     * @param {JSX.Element} truncatedSemesterCardArray array (of size 1 or 2) of SemesterCards, containing semesters 
+     * from the plan.
      *
-     * @returns {JSX.Element} A <Row> containing the SemesterCard pair / 
-     * SemesterCard + AddSemester button.
+     * @returns {JSX.Element} A JSX>Element <Row> containing the SemesterCard pair / SemesterCard + AddSemester button.
      */
     function listDisplay(truncatedSemesterCardArray: JSX.Element[]): JSX.Element {
 
