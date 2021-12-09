@@ -325,8 +325,8 @@ describe("card-display", () => {
         endingNode.dispatchEvent(
             createBubbledEvent("drop", { clientX: 357, clientY: 422 })
         );
-        expect();
-    })
+        //expect();
+    });
 
 });
 
