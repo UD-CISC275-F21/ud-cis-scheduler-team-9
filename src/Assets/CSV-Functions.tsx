@@ -1,8 +1,9 @@
-import { Season, Semester } from "../interface/semester";
-//import fs from "fs";
-import { Course } from "../interface/course";
+import React from "react";
+import { Semester } from "../interface/semester";
+//import { Course } from "../interface/course";
 import { useState } from "react";
 import { downloadBlob } from "./downloads";
+import { Button, Form } from "react-bootstrap";
 
 export function CSVExport(plan: Semester[]): void{
     if(plan !== []){
@@ -10,9 +11,33 @@ export function CSVExport(plan: Semester[]): void{
     }
 }
 
-export function CSVImport(): Semester[]{
-    const [plan, setPlan] = useState<Semester[]>([]);
-    const [courseRecord, setCourseRecord] = useState<Record<string, Course>>({});
+export function CSVImport(): JSX.Element{
+    const [file, setFile] = useState<File>();
+
+    return (
+        <Form id='csv-form'>
+            <Form.Control 
+                data-testid="csv-import"  
+                as="input"
+                type='file'
+                accept='.csv'
+                id='csvFile'
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    if(e.target.files != null)
+                        setFile(e.target.files[0]);
+                }}
+            >
+            </Form.Control>
+            <Button className="button" type="submit" data-testid="file-input-button" id="file-input-button">
+                Submit
+            </Button>
+        </Form>
+    );
+}
+
+
+
+/*const [courseRecord, setCourseRecord] = useState<Record<string, Course>>({});
 
     function redetermineSeason(season: string): Season{
         switch(season){
@@ -28,7 +53,7 @@ export function CSVImport(): Semester[]{
         return 0;
     }
 
-    /*fs.createReadStream("degreePlan.csv")
+    
         .pipe(csv())
         .on("data", function (row) {
             const season = redetermineSeason(row.Season);
@@ -64,8 +89,7 @@ export function CSVImport(): Semester[]{
                 }
             }
         });*/
-    return plan;
-}
+//return file;
 
 function extractAsCSV(rows: Semester[]): string{
     const emptyRow = ", \n";
