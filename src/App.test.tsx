@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import App from "./App";
+import userEvent from "@testing-library/user-event";
 
 
 test("renders UD CIS Scheduler text", () => {
@@ -63,7 +64,34 @@ describe("plan-table", () => {
         const element = screen.queryByTestId("plan-table");
         expect(element).toBeInTheDocument();
     });
-    //if there a way to insert data i the modal we could test that
+
+    it("sorts the semesters in sequential order", ()=>{
+        const button = screen.getByTestId("add-semester-button-plan-table");
+        button.click();
+        const department = screen.getByTestId("department-name-input");
+        const courseID = screen.getByTestId("CourseID-input");
+        const year = screen.getByTestId("year-input");
+        
+        //Add a schedule with CISC108
+        userEvent.type(department, "CISC");
+        userEvent.type(courseID, "108");
+        userEvent.type(year, "2021");
+        const add_button = screen.getByTestId("add-course-button");
+        const search_button = screen.getByTestId("search-course-button")
+        const save_button = screen.getByTestId("save-semester-button")
+        search_button.click;
+        add_button.click;
+        save_button.click;
+        //Add another with CISC106
+        userEvent.type(department, "CISC");
+        userEvent.type(courseID, "106");
+        userEvent.type(year, "2021");
+        userEvent.click(search_button);
+        userEvent.click(add_button);
+        userEvent.click(save_button);
+
+
+    });
 });
 
 describe("semester-table", () => {
