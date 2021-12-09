@@ -28,8 +28,6 @@ function App(): JSX.Element {
         description: "",
         credits: 0,
         preReqs: [[""]],
-        coReqs: [[""]],
-        semestersOffered: [],
         fufills: ""
     });
     const [semesterIndex, setSemesterIndex] = useState<number>(0);
@@ -43,9 +41,7 @@ function App(): JSX.Element {
                 description: "",
                 credits: 0,
                 preReqs: [],
-                coReqs: [[""]],
-                fufills: "",
-                semestersOffered: []
+                fufills: ""
             };
             //Split the courseID into the number. "CISC 106" -> "CISC" + "106"
             const courseID_split: string[] = json_course.courseID.split(" ");
@@ -189,8 +185,9 @@ function App(): JSX.Element {
 
     function checkSemester(semesterToCheck: Semester): number {
         for(let semesterIndex = 0; semesterIndex<plan.length; semesterIndex++){
-            if(semesterToCheck.year === plan[semesterIndex].year && semesterToCheck.season === plan[semesterIndex].season)
+            if(semesterToCheck.year === plan[semesterIndex].year && semesterToCheck.season === plan[semesterIndex].season){
                 return semesterIndex;
+            }
         }
         return -1;
     }
@@ -211,7 +208,7 @@ function App(): JSX.Element {
                 <Row>
                     <AddSemesterModal
                         addSemester={addSemester}
-                        /*checkSemester={checkSemester}*/
+                        checkSemester={checkSemester}
                         setVisible={setVisible}
                         checkCourse={checkCourse}
                         visible={visible}

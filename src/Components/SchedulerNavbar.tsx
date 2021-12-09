@@ -41,7 +41,6 @@ export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeReq
             <NavDropdown.Item eventKey="changedegreeplan" onClick = {()=>updateDegree(plan)}>{plan}</NavDropdown.Item>
         );
     } 
-
     return (
         <Navbar
             data-testid="scheduler-navbar"

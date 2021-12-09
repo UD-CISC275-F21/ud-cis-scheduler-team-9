@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Modal, Col, Row, ModalBody, Form, Button, FormCheck, FormControl} from "react-bootstrap";
 import { Season, Semester } from "../interface/semester";
 import { Course } from "../interface/course";
@@ -9,9 +9,9 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
 
 /*Commented out the instances of checkSemester calls until we know how we want to handle it ()*/
-export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, checkCourse, visible, catalog}:{
+export function AddSemesterModal({ addSemester, checkSemester, setVisible, checkCourse, visible, catalog}:{
     addSemester: (s: Semester)=>void,
-    /*checkSemester: (c: Semester)=>number,*/
+    checkSemester: (c: Semester)=>number,
     setVisible: (v:boolean)=>void,
     checkCourse: (c: string)=>boolean,
     visible: (boolean),
@@ -30,17 +30,13 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
     const [description, setDescription] = useState<string>("");
     const [credits, setCredits] = useState<number>(0);
     const [preReqs, setPreReqs] = useState<string[][]>([[]]);
-    const [coReqs, setCoReqs] = useState<string[][]>([[]]);
-    const [semestersOffered, setSemestersOffered] = useState<Season[]>([]);
     const [preRequirements, setPreRequirements] = useState<boolean>(true);
-    const [coRequirements, setCoRequirements] = useState<boolean>(true);
     const [fufills, setFufills] = useState<string>("");
-    const [courseInfo, setCourseInfo] = useState<Course>({department, courseID, title, description, credits, preReqs, coReqs, semestersOffered, fufills});
+    const [courseInfo, setCourseInfo] = useState<Course>({department, courseID, title, description, credits, preReqs, fufills});
 
     const [showCard, setShowCard] = useState<boolean>(false);
     // add semester modal states
     const [showPreWarning, setShowPreWarning] = useState<boolean>(false);
-    const [showCoWarning, setShowCoWarning] = useState<boolean>(false);
     
     const hide = ()=>setVisible(false);
 
@@ -49,52 +45,12 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
     }
 
     function validateTable() {
-        return Object.values(courseRecord).length > 0 /*&& !checkSemester(semesterInfo)*/ && coRequirements;
+        console.log(semesterInfo);
+        return Object.values(courseRecord).length > 0 && checkSemester(semesterInfo) === -1;
     }
 
     function validateCourse() {
-        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && 
-        coReqs != [[]] /*&& semestersOffered != []*/  && semestersOffered.includes(season) && year >= determineYear();
-    }
-
-    useEffect (() => {
-        setShowCoWarning(false);
-        validateCoRequirements();
-    }, [courseRecord]);
-
-    function validateCoRequirements(){
-        //Iterate through each course  
-        const courseArray: Course[] = Object.values(courseRecord);
-        let valid_course = true;
-        for (let i = 0; i < courseArray.length; i++){
-            //If there are no prerequisites, the course is valid, you can probably just break here.
-            if (courseArray[i].coReqs[0][0] == ""){
-                setCoRequirements(true);    
-                return;
-            }
-
-            //We look in each prerequisite structure, which holds the keys we are looking for
-            for (let j = 0; j < courseArray[i].coReqs.length; j++){
-                //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
-                for (let h = 0; h < courseArray[i].coReqs[j].length; h++){
-                    //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
-                    const temp: string = courseArray[i].coReqs[j][h];
-                    if (!courseRecord[temp]){
-                        valid_course = false;
-                    }else{
-                        valid_course = true; 
-                        break;
-                    }
-                }
-            }    
-            if (valid_course){
-                setShowCoWarning(false);
-                setCoRequirements(true);
-            } else {
-                setShowCoWarning(true);
-                setCoRequirements(false);
-            }
-        }
+        return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && year >= determineYear();
     }
     
     function validatePreRequirements(course: Course){
@@ -140,9 +96,7 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
             description: "",
             credits: 0,
             preReqs: [[""]],
-            coReqs: [[""]],
-            fufills: "",
-            semestersOffered: []
+            fufills: ""
         };
         
         if(catalog[key]){
@@ -159,9 +113,7 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
         setDescription(course.description);
         setCredits(course.credits);
         setPreReqs(course.preReqs);
-        setCoReqs(course.coReqs);
         setFufills(course.fufills);
-        setSemestersOffered(course.semestersOffered);
         
     }
 
@@ -180,7 +132,6 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
     }
 
     function clearCourseRecord(){
-        setShowCoWarning(false);
         setCourseRecord({});
     }
 
@@ -247,8 +198,6 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
         setDescription("");
         setCredits(0);
         setPreReqs([[""]]);
-        setCoReqs([[""]]);
-        setSemestersOffered([]);
 
         setShowPreWarning(false);
         setShowCard(false);
@@ -281,7 +230,7 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
                             <Form.Label>
                                 Course ID
                             </Form.Label>
-                            <Form.Control data-testid="CourseID-input" id="course-id" as="input" type="number"
+                            <Form.Control data-testid="course-id-input" id="course-id" as="input" type="number"
                                 min={100}
                                 onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setCourseID(ev.target.valueAsNumber)}/>
                         </Form.Group>
@@ -295,11 +244,11 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
                 </Row>
                 <br/>
                 <Row>
-                    <Col>
-                        <FormCheck inline type="radio" value="Fall" name="season" label="Fall" checked={season === 3} onChange={(e) => determineSeason(e.target.value)}/>
-                        <FormCheck inline type="radio" value="Winter" name="season" label="Winter" checked={season === 0} onChange={(e) => determineSeason(e.target.value)}/>
-                        <FormCheck inline type="radio" value="Spring" name="season" label="Spring" checked={season === 1} onChange={(e) => determineSeason(e.target.value)}/>
-                        <FormCheck inline type="radio" value="Summer" name="season" label="Summer" checked={season === 2} onChange={(e) => determineSeason(e.target.value)}/>
+                    <Col data-testid = "season-radio-buttons">
+                        <FormCheck data-testid="winter-radio" inline type="radio" value="Winter" name="season" label="Winter" checked={season === 0} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck data-testid="spring-radio" inline type="radio" value="Spring" name="season" label="Spring" checked={season === 1} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck data-testid="summer-radio" inline type="radio" value="Summer" name="season" label="Summer" checked={season === 2} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck data-testid="fall-radio" inline type="radio" value="Fall" name="season" label="Fall" checked={season === 3} onChange={(e) => determineSeason(e.target.value)}/>
                     </Col>
                     <Col>
                         <FormControl data-testid="year-input" id="year-input" as="input" type="number" placeholder="Year"
@@ -320,31 +269,22 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
                     </div>}
                 <Row>
                     <Col>
-                        {showCard && <CourseCardDisplay courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} showCard={showCard}></CourseCardDisplay>}
+                        {showCard && <CourseCardDisplay data-testid="course-card-display" courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} showCard={showCard}></CourseCardDisplay>}
                     </Col>
                     <Col>
-                        <CardPool showCard={showCard}></CardPool>
+                        <CardPool data-testid="card-pool" showCard={showCard}></CardPool>
                     </Col>
                 </Row>
                 <Row>
-                    {showCoWarning && 
-                    <div className="alert alert-warning d-flex align-items-center" role="alert">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
-                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                        </svg>
-                        <div style = {{ paddingLeft: 10 }}>
-                            You cannot save this semester until you add the corequisites for your courses: {displayReqs(coReqs)}
-                        </div>
-                    </div>}
-                    <SemesterTable semester={{season, year, courseRecord, creditTotal, expectedTuition}} addCourse={addCourse}></SemesterTable>
+                    <SemesterTable data-testid="semester-table" semester={{season, year, courseRecord, creditTotal, expectedTuition}} addCourse={addCourse}></SemesterTable>
                 </Row>
                 <Row data-testid="Bottom Row">
                     <Col>
-                        <Button className="button" id="clear-course-list-button" variant="danger" onClick={clearCourseRecord}>Clear Semester</Button>
+                        <Button className="button" data-testid="clear-course-list-button" id="clear-course-list-button" variant="danger" onClick={clearCourseRecord}>Clear Semester</Button>
                     </Col>
                     <Col></Col>
                     <Col>
-                        <Button className="button" id="save-semester-button" onClick={saveSemester} disabled={!validateTable()}>Save Semester</Button>
+                        <Button className="button" data-testid="save-semester-button" id="save-semester-button" onClick={saveSemester} disabled={!validateTable()}>Save Semester</Button>
                     </Col>
                 </Row>
                 <Row></Row>
