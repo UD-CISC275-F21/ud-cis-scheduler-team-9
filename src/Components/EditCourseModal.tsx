@@ -63,7 +63,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                 preReqs: course.preReqs,
                 coReqs: course.coReqs,
                 semestersOffered: course.semestersOffered,
-                fufills: ""
+                fufills: inputValueArray[6]
             };
             setNewCourse(updateNewCourse);
         }
@@ -204,6 +204,14 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                             <Form.Control.Feedback type="invalid">
                                 Please provide valid Semester(s) offered (ex. Fall, Spring).
                             </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group as={Col} md="3" controlId="validationFufills">
+                            <Form.Label> Fufills </Form.Label>
+                            <Form.Control
+                                type = "text"
+                                defaultValue={course.fufills}
+                            >
+                            </Form.Control>
                         </Form.Group>
                     </Row>
                     <Button
