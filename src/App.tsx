@@ -78,7 +78,7 @@ function App(): JSX.Element {
      * @description Adds a semester to the plan.
      * @param {Semester} semester The semester that is to be added to the plan.
      */
-    function addSemester(semester: Semester):void {
+    function addSemester(semester: Semester): void {
         setPlan([...plan, semester]);
     }
     /**
@@ -134,22 +134,38 @@ function App(): JSX.Element {
             return false;
         }
     }
-    function editCourse(course: Course) {
-        const editSemesterIndex: number = semesterIndex;
-        delete plan[editSemesterIndex].courseRecord[currentCourse.department + currentCourse.courseID];
-        plan[editSemesterIndex].courseRecord = {...plan[editSemesterIndex].courseRecord, [course.department + course.courseID]: course};
+
+    /**
+     * @description "Edits" a course by deleting the old course and then adding a new one.
+     * @param {Course} course The updated course with updated information.
+     */
+    function editCourse(course: Course): void {
+        const esIndex: number = semesterIndex; //editSemesterIndex
+        delete plan[esIndex].courseRecord[currentCourse.department + currentCourse.courseID]; //deletes old course
+        plan[esIndex].courseRecord = {...plan[esIndex].courseRecord, [course.department + course.courseID]: course}; //adds new course
         setPlan([...plan]);
     }
 
+    /**
+     * @description Deletes a course from a given semester.
+     * @param {Course} course The course to be deleted.
+     * @param {Semester} semester The semester that the course is contained in.
+     * 
+     */
     function deleteCourse({course, semester}: {
         course: Course;
         semester: Semester;
     }): void {
-        const deleteSemesterIndex: number = checkSemester(semester);
-        delete plan[deleteSemesterIndex].courseRecord[course.department + course.courseID];
-        setPlan([...plan]);
+        const dSIndex: number = checkSemester(semester); //deleteSemesterIndex
+        delete plan[dSIndex].courseRecord[course.department + course.courseID]; //deletes semester from plan
+        setPlan([...plan]); //updates hook
     }
 
+    /**
+     * @description Makes the editCourseModal visible and sets predone hooks.
+     * @param {Course} course The course to be edited.
+     * @param {Semester} semester The semester that the course is contained in.
+     */
     function editCourseLauncher({course, semester}: {
         course: Course;
         semester: Semester;
@@ -159,15 +175,15 @@ function App(): JSX.Element {
         setEditCourseVisible(true);
     }
 
-    function deleteSemester(semester: Semester) {
-        let deleteSemesterIndex = 0;
-        for(let i = 0; i < plan.length; i++) {
-            if(semester.season === plan[i].season && semester.year === plan[i].year) {
-                deleteSemesterIndex = i;
-            }
-        }
+    /**
+     * @description Deletes a semster from the user's current plan.
+     * @param {Semester} semester The semester to be deleted.
+     * 
+     */
+    function deleteSemester(semester: Semester): void {
+        const dsIndex: number = checkSemester(semester); //deleteSemesterIndex
         const newPlan = [...plan];
-        newPlan.splice(deleteSemesterIndex, 1);
+        newPlan.splice(dsIndex, 1);
         setPlan([...newPlan]);
     }
 
