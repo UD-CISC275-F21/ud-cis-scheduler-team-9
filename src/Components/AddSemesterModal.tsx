@@ -123,7 +123,6 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
         if (valid_course){
             //bypass linter, remove later
             setFufills("Lab Requirements");
-            
             setPreRequirements(true);
         } else {
             setShowPreWarning(true);
@@ -197,7 +196,6 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
     function determineCreditTotal(record: Record<string, Course>) {
         let total = 0;
         const courses = Object.values(record);
-
         for(let i = 0; i<courses.length; i++){
             total += courses[i].credits;
         }

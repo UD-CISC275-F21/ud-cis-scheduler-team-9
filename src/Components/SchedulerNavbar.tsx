@@ -16,7 +16,7 @@ export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeReq
     setDegreeRequirements: (p: string[])=>void,
     setDegreePlan: (p: string)=>void,
     plan: Semester[],
-    degree_plan_list: Record<string, string[]>): JSX.Element {
+    degree_plan_list: Record<string, string[]>}): JSX.Element {
 
 
     function updateDegree(plan: string){
