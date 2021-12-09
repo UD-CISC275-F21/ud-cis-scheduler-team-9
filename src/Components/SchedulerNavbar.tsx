@@ -1,5 +1,8 @@
 import React, { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import UDLogo from "../Assets/University_of_Delaware_wordmark.svg";
+import { CSVImport } from "../Assets/CSV-Functions";
+import { CSVExport } from "../Assets/CSV-Functions";
+import { Semester } from "../interface/semester";
 /**
  * @description Creates a Navbar that contains the University of Delaware logo, a deleteAllSemesters button, a DropDown
  *  with upload and download csv. buttons, etc. 
@@ -7,10 +10,11 @@ import UDLogo from "../Assets/University_of_Delaware_wordmark.svg";
  *
  * @returns {JSX.Element} A JSX.Element containing a custom Navbar
  */
-export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeRequirements, degree_plan_list}: {
+export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeRequirements, plan, degree_plan_list}: {
     deleteAllSemesters: () => void
     setDegreeRequirements: (p: string[])=>void,
     setDegreePlan: (p: string)=>void,
+    plan: Semester[],
     degree_plan_list: Record<string, string[]>}): JSX.Element {
 
     /**
@@ -67,8 +71,14 @@ export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeReq
                         {Object.keys(degree_plan_list).map(createDegreeDropDown)} 
                     </NavDropdown>
                     <NavDropdown title="scheduleDropdown" id="sch-dropdown">
-                        <NavDropdown.Item eventKey="downloadcsv">Download as .csv</NavDropdown.Item>
-                        <NavDropdown.Item eventKey="uploadcsv">Upload .csv</NavDropdown.Item>
+                        <NavDropdown.Item 
+                            eventKey="downloadcsv"
+                            onClick = {() => CSVExport(plan)}
+                        >Download as .csv</NavDropdown.Item>
+                        <NavDropdown.Item 
+                            eventKey="uploadcsv"
+                            onClick = {() => CSVImport()}
+                        >Upload .csv</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
                 <Nav.Link

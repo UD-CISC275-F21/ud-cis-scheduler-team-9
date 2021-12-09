@@ -9,10 +9,10 @@ import { EditCourseModal } from "./Components/EditCourseModal";
 import { RequiredDegreeList } from "./Components/RequiredDegreeList";
 import courseData from "./Assets/courseData.json";
 import courseCatalog from "./Assets/testcourses.json";
+import { SchedulerNavbar } from "./Components/SchedulerNavbar";
 import degreePlanList from "./Assets/degreeplans.json";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { SchedulerNavbar } from "./Components/SchedulerNavbar";
 
 function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]);
@@ -189,6 +189,7 @@ function App(): JSX.Element {
                     deleteAllSemesters={deleteAllSemesters}
                     setDegreeRequirements = {setDegreeRequirements}
                     setDegreePlan = {setDegreePlan}
+                    plan={plan}
                     degree_plan_list = {degreePlanList}
                 ></SchedulerNavbar>
                 <Row>
