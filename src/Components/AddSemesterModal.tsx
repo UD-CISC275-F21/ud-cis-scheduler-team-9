@@ -53,11 +53,12 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && year >= determineYear();
     }
     
-    function validatePreRequirements(course: Course){
+    function validatePreRequirements(course: Course): void{
         //Iterate through each course   
         let valid_course = true;
         //If there are no prerequisites, the course is valid, you can probably just break here.
         if (course.preReqs[0][0] == ""){
+            setShowPreWarning(false);
             setPreRequirements(true);
             return;
         }
@@ -77,6 +78,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             }
         }    
         if (valid_course){
+            setShowPreWarning(false);
             setPreRequirements(true);
         } else {
             setShowPreWarning(true);
@@ -269,7 +271,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                     </div>}
                 <Row>
                     <Col>
-                        {showCard && <CourseCardDisplay data-testid="course-card-display" courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} showCard={showCard}></CourseCardDisplay>}
+                        {showCard && <CourseCardDisplay data-testid="course-card-display" courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} showCard={showCard} validatePreRequirements={validatePreRequirements}></CourseCardDisplay>}
                     </Col>
                     <Col>
                         <CardPool data-testid="card-pool" showCard={showCard}></CardPool>
