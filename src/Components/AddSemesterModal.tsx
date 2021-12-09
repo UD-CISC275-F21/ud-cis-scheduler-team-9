@@ -9,9 +9,9 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
 
 /*Commented out the instances of checkSemester calls until we know how we want to handle it ()*/
-export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, checkCourse, visible, catalog}:{
+export function AddSemesterModal({ addSemester, checkSemester, setVisible, checkCourse, visible, catalog}:{
     addSemester: (s: Semester)=>void,
-    /*checkSemester: (c: Semester)=>number,*/
+    checkSemester: (c: Semester)=>number,
     setVisible: (v:boolean)=>void,
     checkCourse: (c: string)=>boolean,
     visible: (boolean),
@@ -49,12 +49,13 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
     }
 
     function validateTable() {
-        return Object.values(courseRecord).length > 0 /*&& !checkSemester(semesterInfo)*/ && coRequirements;
+        console.log(checkSemester(semesterInfo));
+        return Object.values(courseRecord).length > 0 && checkSemester(semesterInfo) === -1;
     }
 
     function validateCourse() {
         return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && preReqs != [[]] && 
-        coReqs != [[]] /*&& semestersOffered != []*/  && semestersOffered.includes(season) && year >= determineYear();
+        coReqs != [[]]  && semestersOffered != []  /*&& semestersOffered.includes(season)*/ && year >= determineYear();
     }
 
     useEffect (() => {
@@ -111,8 +112,8 @@ export function AddSemesterModal({ addSemester, /*checkSemester,*/ setVisible, c
             //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
             for (let h = 0; h < course.preReqs[j].length; h++){
                 //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
-                //console.log(course.preReqs[j][h]);
-                if (!checkCourse(course.preReqs[j][h])){
+                console.log(course.preReqs[j][h]);
+                if (!checkCourse(course.preReqs[j][h].replace(" ", ""))){
                     valid_course = false;
                 }else{
                     valid_course = true;
