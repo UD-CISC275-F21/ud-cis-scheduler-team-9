@@ -272,7 +272,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             data-testid="add-semester-modal"
             size="xl"
         >
-            <ModalHeader closeButton onClick={clearData}></ModalHeader>
+            <ModalHeader closeButton data-testid="exit-button" onClick={clearData}></ModalHeader>
             <ModalBody>
                 <Row>
                     <Form className="d-flex" id="search-course-formm" onSubmit={handleSearch}>
@@ -290,7 +290,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                             <Form.Label>
                                 Course ID
                             </Form.Label>
-                            <Form.Control data-testid="CourseID-input" id="course-id" as="input" type="number"
+                            <Form.Control data-testid="course-id-input" id="course-id" as="input" type="number"
                                 min={100}
                                 onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setCourseID(ev.target.valueAsNumber)}/>
                         </Form.Group>
@@ -304,11 +304,11 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                 </Row>
                 <br/>
                 <Row>
-                    <Col>
-                        <FormCheck inline type="radio" value="Fall" name="season" label="Fall" checked={season === 3} onChange={(e) => determineSeason(e.target.value)}/>
+                    <Col data-testid = "season-radio-buttons">
                         <FormCheck inline type="radio" value="Winter" name="season" label="Winter" checked={season === 0} onChange={(e) => determineSeason(e.target.value)}/>
                         <FormCheck inline type="radio" value="Spring" name="season" label="Spring" checked={season === 1} onChange={(e) => determineSeason(e.target.value)}/>
                         <FormCheck inline type="radio" value="Summer" name="season" label="Summer" checked={season === 2} onChange={(e) => determineSeason(e.target.value)}/>
+                        <FormCheck inline type="radio" value="Fall" name="season" label="Fall" checked={season === 3} onChange={(e) => determineSeason(e.target.value)}/>
                     </Col>
                     <Col>
                         <FormControl data-testid="year-input" id="year-input" as="input" type="number" placeholder="Year"
@@ -349,11 +349,11 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                 </Row>
                 <Row data-testid="Bottom Row">
                     <Col>
-                        <Button className="button" id="clear-course-list-button" variant="danger" onClick={clearCourseRecord}>Clear Semester</Button>
+                        <Button className="button" data-testid="clear-course-list-button" id="clear-course-list-button" variant="danger" onClick={clearCourseRecord}>Clear Semester</Button>
                     </Col>
                     <Col></Col>
                     <Col>
-                        <Button className="button" id="save-semester-button" onClick={saveSemester} disabled={!validateTable()}>Save Semester</Button>
+                        <Button className="button" data-testid="save-semester-button" id="save-semester-button" onClick={saveSemester} disabled={!validateTable()}>Save Semester</Button>
                     </Col>
                 </Row>
                 <Row></Row>

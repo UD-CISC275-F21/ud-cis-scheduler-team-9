@@ -38,7 +38,7 @@ export function CourseCardDisplay({courseInfo, setCourseInfo, showCard}: {
     }
 
     return (
-        <div id = "course-display" ref={addToDisplay}>
+        <div data-testid="course-card-display" id = "course-display" ref={addToDisplay}>
             {<CourseCard cardInfo={courseInfo} setDeleteCard={setDeleteCard} showCard={showCard} hide={false} hideButton={true}/>}
             {isOver && console.log("over display")}
         </div>
