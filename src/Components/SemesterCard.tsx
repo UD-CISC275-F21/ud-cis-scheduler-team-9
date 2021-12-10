@@ -11,6 +11,7 @@ import { SemesterTable } from "./SemesterTable";
  * @param {({course, semester}: {course: Course, semester:Semester}) => void} editCourseLauncher Launches the editCourse Modal.
  * @param {({course, semester}: {course: Course, semester:Semester}) => void} deleteCourse Deletes a course.
  * @param {(b: boolean) => void} setVisible Makes the AddSemesterModal appear
+ * @param {Semester[]} semesterList The list of semesters in Plan Table
  * @returns {JSX.Element} A JSX.Element containing a single Semester, formatted as a Card.
  */
 export function SemesterCard({ semester, deleteSemester, editCourseLauncher, deleteCourse, setVisible, semesterList}: {
