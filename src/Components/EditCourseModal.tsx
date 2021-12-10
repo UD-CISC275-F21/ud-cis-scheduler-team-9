@@ -3,13 +3,14 @@ import { Modal, Col, Row, ModalBody, Form, Button, ModalFooter } from "react-boo
 import { Course } from "../interface/course";
 import ModalHeader from "react-bootstrap/ModalHeader";
 /**
- * Creates a Modal that contains a Form (with verification) to edit a given Course.
- * @param setEditCourseVisible Sets the visibility of EditCourseModal.
- * @param editCourseVisible Visibility of EditCourseModal.
- * @param course A course.
- * @param setCurrentCourse Sets the current course that is being edited.
- * @param editCourse Removes the course that has been edited and adds the 
- * updated course in its place.
+ * @decription Creates a Modal that contains a Form (with verification) to edit a given Course.
+ * 
+ * @param {(b:boolean) => void} setEditCourseVisible - Sets the visibility of EditCourseModal.
+ * @param {boolean} editCourseVisible - Visibility of EditCourseModal.
+ * @param {Course} course - The course to be edited.
+ * @param {(c:Course) => void} setCurrentCourse - Sets the current course that is being edited.
+ * @param {(c:Course) => void} editCourse - Removes the course that has been edited and adds the updated course in its 
+ * place.
  *
  * @returns {JSX.Element} A JSX.Element containing a custom Modal with embedded Form.
  */
@@ -26,6 +27,10 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
     const [validated, setValidated] = useState(false);
     const hide = ()=>setEditCourseVisible(false);
 
+    /**
+     * @description Sets the hooks containing the searched-for course back to their default
+     * values.
+     */
     function resetCourseHooks(): void {
         setNewCourse({
             department: "",
@@ -37,7 +42,15 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
             fufills: ""
         });
     }
- 
+
+    /**
+     * @description Checks to see if the course information on the form is valid.
+     * If so, it copies the information from the form into an Array and sets that
+     * information to the course hook. If not, it prevents the form from being 
+     * submitted.
+     * @param {React.FormEvent<HTMLFormElement>} event An HTML form submission event representing the updated course
+     * information submitted by the user.
+     */
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>):void => {
         event.preventDefault();
         const form: HTMLFormElement = event.currentTarget;
@@ -51,7 +64,6 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                 const copyElement: HTMLInputElement = form.elements[i] as HTMLInputElement;
                 inputValueArray[i] = copyElement.value;
             }
-            console.log(inputValueArray);
             const updateNewCourse: Course = {
                 department: inputValueArray[0],
                 courseID: parseInt(inputValueArray[1]),
@@ -65,9 +77,12 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
         }
         
     };
-
-    function saveCourse() {
-        console.log(newCourse);
+    /**
+     * @description Calls editCourse to update the plan, resets the hooks to 
+     * prepare for the next time a user edits a course, resets validity to false,
+     * and hides the modal.
+     */
+    function saveCourse():void {
         editCourse(newCourse);
         resetCourseHooks();
         setValidated(false);

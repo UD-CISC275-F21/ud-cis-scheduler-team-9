@@ -4,15 +4,15 @@ import { Course } from "../interface/course";
 import { Season, Semester } from "../interface/semester";
 import { SemesterTable } from "./SemesterTable";
 /**
- * Creates a Card containing all of the Semester information (SemesterTable),
- * macro data such as cost of attendance and total credits, a deleteSemester 
- * button, etc.
- * @param semester A semester.
- * @param deleteSemester Deletes a single semester from the plan.
- * @param editCourseLauncher Launches the editCourse Modal.
- * @param deleteCourse Deletes a course.
+ * @description Creates a Card containing all of the Semester information (SemesterTable), macro data such as cost of
+ * attendance and total credits, a deleteSemester button, etc.
+ * @param {Semester} semester A semester.
+ * @param {(semester: Semester) => void} deleteSemester Deletes a single semester from the plan.
+ * @param {({course, semester}: {course: Course, semester:Semester}) => void} editCourseLauncher Launches the editCourse
+ * Modal.
+ * @param {({course, semester}: {course: Course, semester:Semester}) => void} deleteCourse Deletes a course.
  *
- * @returns {JSX.Element} A JSX.Element containing a custom Navbar
+ * @returns {JSX.Element} A JSX.Element containing a single Semester, formatted as a Card.
  */
 export function SemesterCard({ semester, deleteSemester, editCourseLauncher, deleteCourse }: {
     semester: Semester;
