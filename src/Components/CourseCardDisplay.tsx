@@ -4,10 +4,11 @@ import { Course } from "../interface/course";
 import { CourseCard } from "./CourseCard";
 
 
-export function CourseCardDisplay({courseInfo, setCourseInfo, showCard}: {
+export function CourseCardDisplay({courseInfo, setCourseInfo, showCard, validatePreRequirements}: {
     courseInfo: Course, 
     setCourseInfo:(b: Course) => void, 
-    showCard: boolean}): JSX.Element{
+    showCard: boolean,
+    validatePreRequirements: (c: Course) => void}): JSX.Element{
 
     const [deleteCard, setDeleteCard] = useState<Course>();
     if(deleteCard != undefined)
@@ -31,8 +32,10 @@ export function CourseCardDisplay({courseInfo, setCourseInfo, showCard}: {
     }), [courseInfo.department, courseInfo.courseID]);
 
     function handleDisplay(item: Course){
-        if(courseInfo.department != item.department || courseInfo.courseID != item.courseID)
+        if(courseInfo.department != item.department || courseInfo.courseID != item.courseID){
             setCourseInfo(item);
+            validatePreRequirements(item);
+        }
     }
 
     return (
