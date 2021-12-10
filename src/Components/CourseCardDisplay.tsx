@@ -6,11 +6,11 @@ import { CourseCard } from "./CourseCard";
 /**
  * @description Renders the CourseCards with the necessary Drag and Drop functionality.
  * @param {Course} courseInfo A course.
- * @param {(b: Course) => void} setCourseInfo 
- * @param {boolean} showCard Launches the editCourse
- * Modal.
+ * @param {(b: Course) => void} setCourseInfo Sets the course's information in the staging area to the information from
+ * the dragged CourseCard.
+ * @param {boolean} showCard If the CourseCard should be displayed.
  * 
- * @returns {JSX.Element} A JSX.Element containing a single Semester, formatted as a Card.
+ * @returns {JSX.Element} A JSX.Element containing a CourseCard with Drag and Drop functionality.s
  */
 export function CourseCardDisplay({courseInfo, setCourseInfo, showCard}: {
     courseInfo: Course, 
@@ -39,6 +39,11 @@ export function CourseCardDisplay({courseInfo, setCourseInfo, showCard}: {
         }),
     }), [courseInfo.department, courseInfo.courseID]);
 
+    /**
+     * @description handles dragging a CourseCard back to the staging area (Where a CourseCard starts when initially 
+     * searched for).
+     * @param {Course} item A course.
+     */
     function handleDisplay(item: Course){
         if(courseInfo.department != item.department || courseInfo.courseID != item.courseID)
             setCourseInfo(item);
