@@ -277,7 +277,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                     </Col>
                 </Row>
                 <Row>
-                    <SemesterTable data-testid="semester-table" semester={{season, year, courseRecord, creditTotal, expectedTuition}} addCourse={addCourse}></SemesterTable>
+                    <SemesterTable data-testid="semester-table" semester={{season, year, courseRecord, creditTotal, expectedTuition}} addCourse={addCourse} checkCourse={checkCourse} year={year}></SemesterTable>
                 </Row>
                 <Row data-testid="Bottom Row">
                     <Col>
