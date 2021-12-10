@@ -1,5 +1,6 @@
 import React from "react";
-import { cleanup, fireEvent, getAllByAltText, getAllByRole, render, screen } from "@testing-library/react";
+
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import App from "./App";
 import userEvent from "@testing-library/user-event";
 
@@ -14,6 +15,8 @@ describe("scheduler-navbar",() => {
     beforeEach(()=>{
         render(<App />);
     });
+
+    afterEach(cleanup);
 
     it("renders the custom navbar on the document", async () => {
         const element = screen.getByTestId("scheduler-navbar");
@@ -78,12 +81,45 @@ describe("edit-course-modal",() => {
         render(<App />);
     });
 
+    afterEach(cleanup);
+
     it("does not render the edit-course-modal on start", async () => {
         const element = screen.queryByTestId("edit-course-modal");
         expect(element).not.toBeInTheDocument;
     });
 
+    it("shows the edit-course-modal when the edit-course button is clicked", async () => {
+        const button = screen.getByTestId("add-semester-button-plan-table");
+        userEvent.click(button);
 
+        const searchButton = screen.getByTestId("search-course-button");
+        const addButton = screen.getByTestId("add-course-button");
+        const saveButton = screen.getByTestId("save-semester-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
+        const year = screen.getByTestId("year-input");
+
+        //puts a CISC108 in the table
+        userEvent.type(department, "CISC");
+        userEvent.type(courseId, "108");
+        userEvent.click(searchButton);
+        userEvent.type(year, "2022");
+        userEvent.click(addButton);
+        expect(screen.getAllByText("CISC108")).toHaveLength(1);
+
+        userEvent.click(saveButton);
+        
+        //clears the fields
+        expect(department.textContent === "");
+        expect(courseId.textContent === "");
+        expect(year.textContent === "");
+
+        const editButton = screen.getByTestId("edit-course-button");
+        userEvent.click(editButton);
+
+        const editModal = await screen.findByTestId("edit-course-modal");
+        expect(editModal).toBeInTheDocument();
+    });
 });
 
 // AddSemesterModal tests
@@ -299,10 +335,14 @@ describe("add-semester-modal", ()=>{
     });
 });
 
+//tests for plan-table
+
 describe("plan-table", () => {
     beforeEach(() =>{
         render(<App />);
     });
+
+    afterEach(cleanup);
     
     it("exists when the page loads", () => {
         const element = screen.queryByTestId("plan-table");
@@ -310,10 +350,14 @@ describe("plan-table", () => {
     });
 });
 
+//tests for semester-table
+
 describe("semester-table", () => {
     beforeEach(() =>{
         render(<App />);
     });
+
+    afterEach(cleanup);
 
     it ("does not initially exist when website loads", ()=> {
         const element = screen.queryByTestId("semester-table");
@@ -328,14 +372,18 @@ describe("semester-table", () => {
     });
 });
 
-describe("card-display", () => {
+//tests for course-card-display
+
+describe("course-ard-display", () => {
     beforeEach(() => {
         render(<App />);
         const button = screen.getByTestId("add-semester-button-plan-table");
         userEvent.click(button);
     });
 
-    it("does not render right when the modal when the modal is shown", async () => {
+    afterEach(cleanup);
+
+    it("does not render right when the modal is shown", async () => {
         const cardDisplay = screen.queryByTestId("course-card-display");
         expect(cardDisplay).not.toBeInTheDocument();
     });
@@ -353,6 +401,119 @@ describe("card-display", () => {
         expect(cardDisplay).not.toBeInTheDocument();
     });
 
+    it("can accept cards that are not already displayed", () => {
+        const searchButton = screen.getByTestId("search-course-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
 
+        userEvent.type(department, "CISC");
+        userEvent.type(courseId, "108");
+        userEvent.click(searchButton);
+
+        const createBubbledEvent = (type: string, props = {}) => {
+            const event = new Event(type, { bubbles: true });
+            Object.assign(event, props);
+            return event;
+        };
+        const startingNode = screen.getByTestId("course-card");
+        const endingNode = screen.getByTestId("card-pool");
+        const endingNode2 = screen.getByTestId("course-card-display");
+        const getPoolContent = () => Array.from(endingNode.querySelectorAll("div"));
+        const getDisplayContent = () => Array.from(endingNode2.querySelectorAll("div"));
+
+        act(() => {
+            startingNode.dispatchEvent(createBubbledEvent("dragstart", { clientX: 357, clientY: 422}));
+        });
+        act(() => {
+            endingNode.dispatchEvent(createBubbledEvent("drop", { clientX: 970, clientY: 386}));
+        });
+        expect(getPoolContent().map(spot => spot.children[0])).toHaveLength(4);
+
+        fireEvent.change(courseId, "106");
+        userEvent.click(searchButton);
+
+        act(() => {
+            startingNode.dispatchEvent(createBubbledEvent("dragstart", { clientX: 970, clientY: 386}));
+        });
+        act(() => {
+            endingNode2.dispatchEvent(createBubbledEvent("drop", { clientX: 357, clientY: 422}));
+        });
+        expect(getDisplayContent().map(spot => spot.children[0])).toHaveLength(3);
+    });
+
+});
+
+//tests for card-pool
+
+describe("card-pool", () => {
+    beforeEach(() => {
+        render(<App />);
+        const button = screen.getByTestId("add-semester-button-plan-table");
+        userEvent.click(button);
+    });
+
+    afterEach(cleanup);
+
+    it("is rendered right when the modal is shown", async () => {
+        const cardPool = screen.queryByTestId("card-pool");
+        expect(cardPool).toBeInTheDocument();
+    });
+
+    it("can accept cards", () => {
+        const searchButton = screen.getByTestId("search-course-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
+
+        userEvent.type(department, "CISC");
+        userEvent.type(courseId, "108");
+        userEvent.click(searchButton);
+
+        const createBubbledEvent = (type: string, props = {}) => {
+            const event = new Event(type, { bubbles: true });
+            Object.assign(event, props);
+            return event;
+        };
+        const startingNode = screen.getByTestId("course-card");
+        const endingNode = screen.getByTestId("card-pool");
+        const getPoolContent = () => Array.from(endingNode.querySelectorAll("div"));
+
+        act(() => {
+            startingNode.dispatchEvent(createBubbledEvent("dragstart", { clientX: 357, clientY: 422}));
+        });
+        act(() => {
+            endingNode.dispatchEvent(createBubbledEvent("drop", { clientX: 970, clientY: 386}));
+        });
+        expect(getPoolContent().map(spot => spot.children[0])).toHaveLength(4);
+    });
+
+    it("deletes the card on click of the delete button", () => {
+        const searchButton = screen.getByTestId("search-course-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
+
+        userEvent.type(department, "CISC");
+        userEvent.type(courseId, "108");
+        userEvent.click(searchButton);
+
+        const createBubbledEvent = (type: string, props = {}) => {
+            const event = new Event(type, { bubbles: true });
+            Object.assign(event, props);
+            return event;
+        };
+        const startingNode = screen.getByTestId("course-card");
+        const endingNode = screen.getByTestId("card-pool");
+        const getPoolContent = () => Array.from(endingNode.querySelectorAll("div"));
+
+        act(() => {
+            startingNode.dispatchEvent(createBubbledEvent("dragstart", { clientX: 357, clientY: 422}));
+        });
+        act(() => {
+            endingNode.dispatchEvent(createBubbledEvent("drop", { clientX: 970, clientY: 386}));
+        });
+
+        const deleteButton = screen.getByTestId("delete-button");
+        userEvent.click(deleteButton);
+        expect(getPoolContent().map(spot => spot.children[0])).toHaveLength(0);
+    });
 
 });

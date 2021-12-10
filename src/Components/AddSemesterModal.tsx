@@ -8,14 +8,14 @@ import { CourseCardDisplay } from "./CourseCardDisplay";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import { SemesterTable } from "./SemesterTable";
 
-/*Commented out the instances of checkSemester calls until we know how we want to handle it ()*/
 export function AddSemesterModal({ addSemester, checkSemester, setVisible, checkCourse, visible, catalog}:{
     addSemester: (s: Semester)=>void,
     checkSemester: (c: Semester)=>number,
     setVisible: (v:boolean)=>void,
     checkCourse: (c: string)=>boolean,
     visible: (boolean),
-    catalog: (Record<string, Course>)}): JSX.Element {
+    catalog: (Record<string, Course>)
+}): JSX.Element {
 
     const [season, setSeason] = useState<Season>(0);
     const [year, setYear] = useState<number>(1);
@@ -40,23 +40,57 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     
     const hide = ()=>setVisible(false);
 
-    function validateForm(): boolean { // Makes sure that no text field related to course search is empty
-        return department.length > 0 && courseID >= 100;
+    /**
+     * @description Deletes a course from a given semester (different from one contained in App).
+     * @param {Course} course The course to be deleted.
+     * @param {Semester} semester The semester that the course is contained in.
+     */
+    function deleteCourse({course, semester}: {
+        course: Course;
+        semester: Semester;
+    }): void {
+        delete semester.courseRecord[course.department + course.courseID];
+        setCourseRecord({...semester.courseRecord});
     }
 
+    /**
+     * @description Validation for the course search form.
+     * 
+     * @returns {boolean} If the user has submitted a valid course department + course ID format 
+     * (ex. XXXX123 or XXX123).
+     */
+    function validateForm(): boolean { // Makes sure that no text field related to course search is empty
+        return department.length > 0 && courseID > 0;
+    }
+
+    /**
+     * @description Valdation for the table.
+     * 
+     * @returns {boolean} If the Semester contains courses and isn't already in the user's plan.
+     */
     function validateTable() {
         return Object.values(courseRecord).length > 0 && checkSemester(semesterInfo) === -1;
     }
 
+    /**
+     * @description Valdation for the course.
+     * 
+     * @returns {boolean} If the course has non-deafult values for all of its fields.
+     */
     function validateCourse() {
         return preRequirements && department != "" && courseID != 0 && title != "" && description != "" && credits != 0 && year >= determineYear();
     }
     
-    function validatePreRequirements(course: Course){
+    /**
+     * @description Valdation for the prerequirements (for a course).
+     * @param {Course} course A course.
+     */
+    function validatePreRequirements(course: Course): void {
         //Iterate through each course   
         let valid_course = true;
         //If there are no prerequisites, the course is valid, you can probably just break here.
         if (course.preReqs[0][0] == ""){
+            setShowPreWarning(false);
             setPreRequirements(true);
             return;
         }
@@ -75,6 +109,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             }
         }    
         if (valid_course){
+            setShowPreWarning(false);
             setPreRequirements(true);
         } else {
             setShowPreWarning(true);
@@ -82,6 +117,12 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         }
     }
    
+    /**
+     * @description Handles when a user clicks the search button. Searches for the course key the user submitted. If it 
+     * is in the catalog, sets the course hooks to the catalog's values, then shows the Coursecard (with the information
+     * ) and CardPool. If it is not, does nothing.
+     * @param {preventDefault: () => void } event An event tat is fired when the search-course-form is submitted.
+     */
     function handleSearch(event: {preventDefault: () => void; }){
         event.preventDefault();
 
@@ -115,6 +156,10 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         
     }
 
+    /**
+     * @description Adds a course to the CourseRecord.
+     * @param {Course} newCourse The course to be added.
+     */
     function addCourse(newCourse: Course){ 
         const courseKey: string = newCourse.department + newCourse.courseID;
 
@@ -123,16 +168,28 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         setExpectedTuition(expectedTuition);
     }
 
+    /**
+     * @description Obtains a course's information from the catalog.
+     * @param {string} department The course's department (ex. XXX or XXXX).
+     * @param {number} id The course's code (ex. 123)
+     */
     function getCourse(department: string, id: number): Course{
         const name = department + id;
         
         return catalog[name];
     }
 
+    /**
+     * @description Clears the CourseRecord, effectively deleting all courses from the semester.
+     */
     function clearCourseRecord(){
         setCourseRecord({});
     }
 
+    /**
+     * @description Adds the Semester to the plan, clears all of the information from the hooks, and hides both the
+     * CourseCard and the AddSemsterModal.
+     */
     function saveSemester(){
         addSemester(semesterInfo);
         clearData();
@@ -140,7 +197,13 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         hide();
     }
 
-    function determineCreditTotal(record: Record<string, Course>) {
+    /**
+     * @description Summates the total credits from all of the courses in a Semester.
+     * @param {Record<string, Course>} record All of the courses in a given semester.
+     * 
+     * @returns {number} The semester's credit total.
+     */
+    function determineCreditTotal(record: Record<string, Course>):number {
         let total = 0;
         const courses = Object.values(record);
         for(let i = 0; i<courses.length; i++){
@@ -149,11 +212,21 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         return total;
     }
 
-    function determineYear(){
+    /**
+     * @description Calculates the current year.
+     * 
+     * @returns {number} The current year.
+     */
+    function determineYear(): number{
         const today = new Date();
         return today.getFullYear();
     }
 
+    /**
+     * @description Sets the Season to its corresponding number value in chronological order. 
+     * (ex. Winter = 0, Spring = 1, etc).
+     * @param {string} word The season.
+     */
     function determineSeason(word: string){
         switch(word){
         case "Winter":
@@ -171,7 +244,13 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
         }
     }
 
-    function displayReqs(s: string[][]){
+    /**
+     * @description Formats the Prereqs or Coreqs for conventional English use with "or".
+     * @param {string[][]} s The season.
+     * 
+     * @returns The formatted phrase for pre/coreqs
+     */
+    function displayReqs(s: string[][]): string {
         let i;
         if(showCard){
             let phrase = s[0][0];
@@ -180,8 +259,12 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             }
             return phrase;
         }
+        return "";
     }
 
+    /**
+     * @description Resets all of the hooks so that they are blank the next time the modal is made visible.
+     */
     function clearData(){
         // Semester Data
         setSeason(0);
@@ -213,7 +296,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             <ModalHeader closeButton onClick={clearData}></ModalHeader>
             <ModalBody>
                 <Row>
-                    <Form className="d-flex" id="search-course-formm" onSubmit={handleSearch}>
+                    <Form className="d-flex" id="search-course-form" onSubmit={handleSearch}>
                         <Form.Group>
                             <Form.Label>
                                 Department
@@ -267,14 +350,14 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                     </div>}
                 <Row>
                     <Col>
-                        {showCard && <CourseCardDisplay data-testid="course-card-display" courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} showCard={showCard}></CourseCardDisplay>}
+                        {showCard && <CourseCardDisplay courseInfo = {courseInfo} setCourseInfo = {setCourseInfo} showCard={showCard} validatePreRequirements={validatePreRequirements}></CourseCardDisplay>}
                     </Col>
                     <Col>
-                        <CardPool data-testid="card-pool" showCard={showCard}></CardPool>
+                        <CardPool showCard={showCard}></CardPool>
                     </Col>
                 </Row>
                 <Row>
-                    <SemesterTable data-testid="semester-table" semester={{season, year, courseRecord, creditTotal, expectedTuition}} addCourse={addCourse}></SemesterTable>
+                    <SemesterTable data-testid="semester-table" semester={{season, year, courseRecord, creditTotal, expectedTuition}} deleteCourse={deleteCourse} addCourse={addCourse} checkCourse={checkCourse} year={year}></SemesterTable>
                 </Row>
                 <Row data-testid="Bottom Row">
                     <Col>
