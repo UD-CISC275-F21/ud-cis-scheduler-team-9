@@ -12,7 +12,7 @@ import { SemesterTable } from "./SemesterTable";
  * Modal.
  * @param {({course, semester}: {course: Course, semester:Semester}) => void} deleteCourse Deletes a course.
  *
- * @returns {JSX.Element} A JSX.Element containing a custom Navbar
+ * @returns {JSX.Element} A JSX.Element containing a single Semester, formatted as a Card.
  */
 export function SemesterCard({ semester, deleteSemester, editCourseLauncher, deleteCourse }: {
     semester: Semester;

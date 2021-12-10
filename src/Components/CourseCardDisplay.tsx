@@ -3,11 +3,20 @@ import { useDrop } from "react-dnd";
 import { Course } from "../interface/course";
 import { CourseCard } from "./CourseCard";
 
-
+/**
+ * @description Renders the CourseCards with the necessary Drag and Drop functionality.
+ * @param {Course} courseInfo A course.
+ * @param {(b: Course) => void} setCourseInfo 
+ * @param {boolean} showCard Launches the editCourse
+ * Modal.
+ * 
+ * @returns {JSX.Element} A JSX.Element containing a single Semester, formatted as a Card.
+ */
 export function CourseCardDisplay({courseInfo, setCourseInfo, showCard}: {
     courseInfo: Course, 
     setCourseInfo:(b: Course) => void, 
-    showCard: boolean}): JSX.Element{
+    showCard: boolean
+}): JSX.Element{
 
     const [deleteCard, setDeleteCard] = useState<Course>();
     if(deleteCard != undefined)
@@ -38,7 +47,7 @@ export function CourseCardDisplay({courseInfo, setCourseInfo, showCard}: {
     return (
         <div data-testid="course-card-display" id = "course-display" ref={addToDisplay}>
             {<CourseCard data-testid="course-card" cardInfo={courseInfo} setDeleteCard={setDeleteCard} showCard={showCard} hide={false} hideButton={true}/>}
-            {isOver && console.log("over display")}
+            {isOver && console.log("over display")} 
         </div>
     );
 }

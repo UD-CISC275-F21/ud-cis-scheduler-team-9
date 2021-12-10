@@ -3,12 +3,24 @@ import { useDrag } from "react-dnd";
 import { Course } from "../interface/course";
 import { Button, Card } from "react-bootstrap";
 
+/**
+ * @description Creates a Card containing some of the Course information (for Drag and Drop).
+ * @param {Course} cardInfo A course.
+ * @param {(c:Course | undefined) => void} setDeleteCard Sets the card to be deleted.
+ * @param {boolean} showCard Visibility of the CourseCard.
+ * @param {boolean} hide Whether the course description and credit total are visibile (based on where the CourseCard
+ * is located, in CardPool = false, in Search area = true).
+ * @param {boolean} hideButton 
+ *
+ * @returns {JSX.Element} A JSX.Element containing a single Semester, formatted as a Card.
+ */
 export function CourseCard({cardInfo, setDeleteCard, showCard, hide, hideButton}: {
     cardInfo: Course,
-    setDeleteCard:(c:Course | undefined) => void, 
+    setDeleteCard: (c:Course | undefined) => void, 
     showCard: boolean,
     hide: boolean,
-    hideButton: boolean}): JSX.Element{
+    hideButton: boolean}
+): JSX.Element{
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "courseCard",

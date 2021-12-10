@@ -15,7 +15,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     setVisible: (v:boolean)=>void,
     checkCourse: (c: string)=>boolean,
     visible: (boolean),
-    catalog: (Record<string, Course>),
+    catalog: (Record<string, Course>)
 }): JSX.Element {
 
     const [season, setSeason] = useState<Season>(0);
@@ -42,7 +42,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     const hide = ()=>setVisible(false);
 
     /**
-     * @description Deletes a course from a given semester.
+     * @description Deletes a course from a given semester (different from one contained in App).
      * @param {Course} course The course to be deleted.
      * @param {Semester} semester The semester that the course is contained in.
      * 
