@@ -37,7 +37,13 @@ export function CourseCard({cardInfo, setDeleteCard, showCard, hide, hideButton}
         }),
     }), [cardInfo.department, cardInfo.courseID]);
 
-    function displayReqs(s: string[][]): string | undefined{
+    /**
+     * @description Displays the course prereqs in a "XXXX123, XXXX124, etc" format.
+     * @param {string[][]} s Prereq(s), if applicable.
+     *
+     * @returns {string} The formatted prereqs.
+     */
+    function displayReqs(s: string[][]): string {
         let i;
         if(showCard && s != undefined){
             let phrase = s[0][0];
@@ -45,6 +51,8 @@ export function CourseCard({cardInfo, setDeleteCard, showCard, hide, hideButton}
                 phrase = phrase + ", " + s[0][i];
             }
             return phrase;
+        } else {
+            return "";
         }
     }
     
