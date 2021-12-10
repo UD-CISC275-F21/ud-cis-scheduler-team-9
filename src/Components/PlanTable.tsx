@@ -5,31 +5,32 @@ import { Semester } from "../interface/semester";
 import { SemesterCard } from "./SemesterCard";
 
 /**
- * Renders the SemesterCards as a 2xn "table" in order, effectively creating
- * a viewable plan.
+ * @description Renders the SemesterCards as a 2xn "table" in order, effectively creating a viewable plan.
  * 
- * @param semesters A list of semesters.
- * @param deleteSemester Deletes a single semester from the plan.
- * @param showModal Shows the AddSemesterModal.
- * @param editCourseLauncher Launches the editCourse Modal.
- * @param deleteCourse Deletes a course.
+ * @param {Semester[]} semesters A list of semesters.
+ * @param {function} deleteSemester Deletes a single semester from the plan.
+ * @param {function} showModal Shows the AddSemesterModal.
+ * @param {({course, semester}: {course: Course, semester:Semester}) => void} editCourseLauncher Launches the editCourse
+ *  Modal.
+ * @param {({course, semester}: {course: Course, semester:Semester}) => void} deleteCourse Deletes a course.
  *
  * @returns {JSX.Element} A JSX.Element containing the rendered plan.
  */
-export function PlanTable({ semesters, deleteSemester, showModal, editCourseLauncher, deleteCourse }: {
-    semesters: Semester[];
-    deleteSemester: (semester: Semester) => void;
-    showModal: (b:boolean) => void;
-    editCourseLauncher: ({course, semester}: {course: Course, semester:Semester}) => void;
-    deleteCourse: ({course, semester}: {course: Course, semester:Semester}) => void;
+export function PlanTable({ semesters, deleteSemester, showModal, editCourseLauncher, deleteCourse, setVisible }: {
+    semesters: Semester[],
+    deleteSemester: (semester: Semester) => void,
+    showModal: (b:boolean) => void,
+    editCourseLauncher: ({course, semester}: {course: Course, semester:Semester}) => void,
+    deleteCourse: ({course, semester}: {course: Course, semester:Semester}) => void,
+    setVisible: (b: boolean) => void
 }): JSX.Element {
 
     const sortedSemesters = semesters.sort(compareSeason).sort(compareYear);
 
     /**
-     * Calculates the difference between two semesters' years.
-     * @param a The first Semester.
-     * @param b The second Semester.
+     * @description Calculates the difference between two semesters' years.
+     * @param {Semester} a - The first Semester.
+     * @param {Semester} b - The second Semester.
      *
      * @returns {number} Number of years between Semester a and Semester b.
      */
@@ -38,9 +39,9 @@ export function PlanTable({ semesters, deleteSemester, showModal, editCourseLaun
     }
 
     /**
-     * Calculates the difference between two semesters' seasons.
-     * @param a The first Semester.
-     * @param b The second Semester.
+     * @description Calculates the difference between two semesters' seasons.
+     * @param {Semester} a The first Semester.
+     * @param {Semester} b The second Semester.
      *
      * @returns {number} Number of seasons between Semester a and Semester b.
      */
@@ -49,8 +50,8 @@ export function PlanTable({ semesters, deleteSemester, showModal, editCourseLaun
     }
     
     /**
-     * Creates a SemesterCard of a single Semester
-     * @param the_semester A Semester.
+     * Creates a SemesterCard of a single Semester.
+     * @param {Semester} the_semester A Semester.
      *
      * @returns {JSX.Element} A SemesterCard for the_semester.
      */
@@ -62,18 +63,18 @@ export function PlanTable({ semesters, deleteSemester, showModal, editCourseLaun
                 deleteSemester={deleteSemester}
                 editCourseLauncher={editCourseLauncher}
                 deleteCourse={deleteCourse}
+                setVisible={setVisible}
+                semesterList={semesters}
             ></SemesterCard>
         );
     }
 
     /**
-     * Renders a SemesterCard pair, or a SemesterCard and a AddSemester button
-     * on the PlanTable
-     * @param truncatedSemesterCardArray An array (of size 1 or 2) of SemesterCards,
-     * containing semesters from the plan.
+     * Renders a SemesterCard pair, or a SemesterCard and a AddSemester button on the PlanTable.
+     * @param {JSX.Element} truncatedSemesterCardArray array (of size 1 or 2) of SemesterCards, containing semesters 
+     * from the plan.
      *
-     * @returns {JSX.Element} A <Row> containing the SemesterCard pair / 
-     * SemesterCard + AddSemester button.
+     * @returns {JSX.Element} A JSX>Element <Row> containing the SemesterCard pair / SemesterCard + AddSemester button.
      */
     function listDisplay(truncatedSemesterCardArray: JSX.Element[]): JSX.Element {
 

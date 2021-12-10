@@ -4,10 +4,9 @@ import { CSVImport } from "../Assets/CSV-Functions";
 import { CSVExport } from "../Assets/CSV-Functions";
 import { Semester } from "../interface/semester";
 /**
- * Creates a Navbar that contains the University of Delaware logo, a 
- * deleteAllSemesters button, a DropDown with upload and download csv. buttons, 
- * etc.
- * @param deleteAllSemesters Deletes all semesters from the plan.
+ * @description Creates a Navbar that contains the University of Delaware logo, a deleteAllSemesters button, a DropDown
+ *  with upload and download csv. buttons, etc. 
+ * @param {() => void} deleteAllSemesters Deletes all semesters from the plan.
  *
  * @returns {JSX.Element} A JSX.Element containing a custom Navbar
  */
@@ -18,11 +17,25 @@ export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeReq
     plan: Semester[],
     degree_plan_list: Record<string, string[]>}): JSX.Element {
 
-
+    /**
+     * @description Formats the Courses in a Semester within a Table, adds Edit and Delete buttons if called in PlanTable.
+     * @param {string} plan The degree plan, which is needed to update the degree requirements if degree type is 
+     * changed.
+     *
+     * @returns {JSX.Element} A JSX.Element containing the custom Navbar, which includes the logo, the ability to change
+     * degree plan types, a link to the UD Academic Catalog, etc.
+     */    
     function updateDegree(plan: string){
         setDegreePlan(plan);
         setDegreeRequirements(degree_plan_list[plan]);
     }
+    /**
+     * @description Renders a NavDropdown with the list of degree types.
+     * @param {string} plan The degree plan, which is needed to update the degree requirements if degree type is 
+     * changed.
+     *
+     * @returns {JSX.Element} A JSX.Element <NavDropdown.Item> containing one single degree type.
+     */   
     function createDegreeDropDown(plan: string){
         return (
             <NavDropdown.Item datatest-id={plan} key={plan} eventKey="changedegreeplan" onClick = {()=>updateDegree(plan)}>{plan}</NavDropdown.Item>

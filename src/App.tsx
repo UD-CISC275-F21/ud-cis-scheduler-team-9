@@ -15,7 +15,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App(): JSX.Element {
-    const [plan, setPlan] = useState<Semester[]>([]);
+    const [plan, setPlan] = useState<Semester[]>([]); //User's 
     const [visible, setVisible] = useState<boolean>(false);
     const catalog: Record<string, Course> = courseCatalog;
     const [degreePlan, setDegreePlan] = useState<string>("Computer Science: (BS)");
@@ -32,7 +32,11 @@ function App(): JSX.Element {
     });
     const [semesterIndex, setSemesterIndex] = useState<number>(0);
 
-    function setUp(){
+    /**
+     * @description Parses the JSON data with the scraped course information from UD's course catalog and converts it
+     * into Course structures.
+     */
+    function setUp(): void {
         courseData.forEach((json_course)=>{
             const course_entry: Course = {
                 department: "",
@@ -70,13 +74,28 @@ function App(): JSX.Element {
             catalog[key] = course_entry;
         });
     }
-    function addSemester(semester: Semester) {
+    /**
+     * @description Adds a semester to the plan.
+     * @param {Semester} semester The semester that is to be added to the plan.
+     */
+    function addSemester(semester: Semester): void {
         setPlan([...plan, semester]);
     }
-
+    /**
+     * @description Deletes all of the semesters, setting the plan to an empty array. 
+     */
     function deleteAllSemesters() {
         setPlan([]);
     }
+    /**
+     * @description Iterates through the entire plan to check if a given degree requirment has been fulfilled. i.e. 
+     * if a given degree  requires a course, checks for that course. If it requires one out of X number of courses,
+     * checks that AT LEAST one of those courses is in the plan.
+     * @param {string} course one or more departments + course codes. IF more than 1, separated by 
+     * an "or" (ex. "CISC210", "CISC210 or CISC181").
+     * 
+     * @returns {boolean} Whether the required course is in the degree plan.
+     */
     function checkCourse(course: string): boolean {
         let i;
         if (course.includes(" or ")){
@@ -115,22 +134,38 @@ function App(): JSX.Element {
             return false;
         }
     }
-    function editCourse(course: Course) {
-        const editSemesterIndex: number = semesterIndex;
-        delete plan[editSemesterIndex].courseRecord[currentCourse.department + currentCourse.courseID];
-        plan[editSemesterIndex].courseRecord = {...plan[editSemesterIndex].courseRecord, [course.department + course.courseID]: course};
+
+    /**
+     * @description "Edits" a course by deleting the old course and then adding a new one.
+     * @param {Course} course The updated course with updated information.
+     */
+    function editCourse(course: Course): void {
+        const esIndex: number = semesterIndex; //editSemesterIndex
+        delete plan[esIndex].courseRecord[currentCourse.department + currentCourse.courseID]; //deletes old course
+        plan[esIndex].courseRecord = {...plan[esIndex].courseRecord, [course.department + course.courseID]: course}; //adds new course
         setPlan([...plan]);
     }
 
+    /**
+     * @description Deletes a course from a given semester.
+     * @param {Course} course The course to be deleted.
+     * @param {Semester} semester The semester that the course is contained in.
+     * 
+     */
     function deleteCourse({course, semester}: {
         course: Course;
         semester: Semester;
     }): void {
-        const deleteSemesterIndex: number = checkSemester(semester);
-        delete plan[deleteSemesterIndex].courseRecord[course.department + course.courseID];
-        setPlan([...plan]);
+        const dSIndex: number = checkSemester(semester); //deleteSemesterIndex
+        delete plan[dSIndex].courseRecord[course.department + course.courseID]; //deletes semester from plan
+        setPlan([...plan]); //updates hook
     }
 
+    /**
+     * @description Makes the editCourseModal visible and sets predone hooks.
+     * @param {Course} course The course to be edited.
+     * @param {Semester} semester The semester that the course is contained in.
+     */
     function editCourseLauncher({course, semester}: {
         course: Course;
         semester: Semester;
@@ -140,18 +175,23 @@ function App(): JSX.Element {
         setEditCourseVisible(true);
     }
 
-    function deleteSemester(semester: Semester) {
-        let deleteSemesterIndex = 0;
-        for(let i = 0; i < plan.length; i++) {
-            if(semester.season === plan[i].season && semester.year === plan[i].year) {
-                deleteSemesterIndex = i;
-            }
-        }
+    /**
+     * @description Deletes a semster from the user's current plan.
+     * @param {Semester} semester The semester to be deleted.
+     */
+    function deleteSemester(semester: Semester): void {
+        const dsIndex: number = checkSemester(semester); //deleteSemesterIndex
         const newPlan = [...plan];
-        newPlan.splice(deleteSemesterIndex, 1);
+        newPlan.splice(dsIndex, 1);
         setPlan([...newPlan]);
     }
 
+    /**
+     * @description Checks to see if a Semester is in the User's plan.
+     * @param {Semester} semester The semester to be checked.
+     * 
+     * @returns {number} If semester is in plan, returns the semester's index. If not, returns -1.
+     */
     function checkSemester(semesterToCheck: Semester): number {
         for(let semesterIndex = 0; semesterIndex<plan.length; semesterIndex++){
             if(semesterToCheck.year === plan[semesterIndex].year && semesterToCheck.season === plan[semesterIndex].season){
@@ -161,8 +201,7 @@ function App(): JSX.Element {
         return -1;
     }
 
-    //Adds all courses to the course catalog
-    setUp();
+    setUp(); //Adds all courses to the course catalog
     return (
         <DndProvider backend = {HTML5Backend}>
             <Container className="App">
@@ -204,6 +243,7 @@ function App(): JSX.Element {
                         showModal={setVisible}
                         editCourseLauncher={editCourseLauncher}
                         deleteCourse={deleteCourse}
+                        setVisible={setVisible}
                     ></PlanTable>
                 </Row>
                 <Row>
