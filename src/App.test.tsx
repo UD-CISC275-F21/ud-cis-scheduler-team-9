@@ -47,19 +47,17 @@ describe("scheduler-navbar",() => {
         expect(screen.getAllByText("Semester: Spring 2022")).toHaveLength(1);
         const deleteButton = screen.getByTestId("delete-all-semesters-nav");
         userEvent.click(deleteButton);
-        let semester = screen.queryByText("Semester: Winter 2022");
+        const semester = screen.queryByText("Semester: Winter 2022");
         expect(semester).not.toBeInTheDocument;
     });
 
     it("changes the plan when a degree is selected", ()=>{
         fireEvent.click(screen.getByText("Set Degree Plan"));
         const hpc = screen.queryByText("Computer Science - High Performance Computing Concentration (Data Track)");
-        expect(hpc).toBeInTheDocument
+        expect(hpc).toBeInTheDocument;
         fireEvent.click(screen.getByText("Computer Science - High Performance Computing Concentration (Data Track)"));
         const data_track = screen.queryByText("Data Track");
         expect(data_track).toBeInTheDocument;
-
-
     });
     it ("shows export/import options when button is clicked", ()=> {
         fireEvent.click(screen.getByText("scheduleDropdown"));        
