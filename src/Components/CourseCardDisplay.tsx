@@ -21,9 +21,7 @@ export function CourseCardDisplay({courseInfo, setCourseInfo, showCard}: {
             title: courseInfo.title, 
             description: courseInfo.description, 
             credits: courseInfo.credits, 
-            preReqs: courseInfo.preReqs, 
-            coReqs: courseInfo.coReqs, 
-            semestersOffered: courseInfo.semestersOffered
+            preReqs: courseInfo.preReqs
         },
         dropEffect: "move",
         drop: (item: Course) =>  handleDisplay(item),
@@ -38,8 +36,8 @@ export function CourseCardDisplay({courseInfo, setCourseInfo, showCard}: {
     }
 
     return (
-        <div id = "course-display" ref={addToDisplay}>
-            {<CourseCard cardInfo={courseInfo} setDeleteCard={setDeleteCard} showCard={showCard} hide={false} hideButton={true}/>}
+        <div data-testid="course-card-display" id = "course-display" ref={addToDisplay}>
+            {<CourseCard data-testid="course-card" cardInfo={courseInfo} setDeleteCard={setDeleteCard} showCard={showCard} hide={false} hideButton={true}/>}
             {isOver && console.log("over display")}
         </div>
     );

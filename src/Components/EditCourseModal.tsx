@@ -34,8 +34,6 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
             description: "",
             credits: 0,
             preReqs: [[""]],
-            coReqs: [[""]],
-            semestersOffered: [],
             fufills: ""
         });
     }
@@ -61,9 +59,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                 description: inputValueArray[3],
                 credits: parseInt(inputValueArray[4]),
                 preReqs: course.preReqs,
-                coReqs: course.coReqs,
-                semestersOffered: course.semestersOffered,
-                fufills: inputValueArray[6]
+                fufills: ""
             };
             setNewCourse(updateNewCourse);
         }
@@ -96,6 +92,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                         <Form.Group as={Col} md="4" controlId="validationDepartment">
                             <Form.Label>Department</Form.Label>
                             <Form.Control
+                                datatest-id="edit-department"
                                 required
                                 type="text"
                                 placeholder="ABCD or ABC"
@@ -114,6 +111,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                         <Form.Group as={Col} md="4" controlId="validationCourseID">
                             <Form.Label>Course ID</Form.Label>
                             <Form.Control
+                                datatest-id="edit-courseid"
                                 required
                                 type="number"
                                 placeholder="123"
@@ -132,6 +130,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                         <Form.Group as={Col} md="4" controlId="validationTitle">
                             <Form.Label>Title</Form.Label>
                             <Form.Control
+                                datatest-id="edit-title"
                                 required
                                 type="text"
                                 placeholder="Introduction to Course Registration"
@@ -149,6 +148,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                         <Form.Group as={Col} controlId="validationDescription">
                             <Form.Label>Description</Form.Label>
                             <Form.Control
+                                datatest-id="edit-description"
                                 required
                                 as="textarea"
                                 style={{ height: "100px" }}
@@ -170,6 +170,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                         <Form.Group as={Col} md="3" controlId="validationCredits">
                             <Form.Label>Credits</Form.Label>
                             <Form.Control
+                                datatest-id="edit-credits"
                                 required
                                 as="select"
                                 aria-label="Floating label select example"
@@ -191,30 +192,9 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                                 Please provide a valid credit total between 1 and 9.
                             </Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group as={Col} md="3" controlId="validationSemestersOffered">
-                            <Form.Label>Semesters Offered</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                defaultValue={course.semestersOffered.toString()}                            
-                            />
-                            <Form.Control.Feedback>
-                                Valid Semesters!
-                            </Form.Control.Feedback>
-                            <Form.Control.Feedback type="invalid">
-                                Please provide valid Semester(s) offered (ex. Fall, Spring).
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group as={Col} md="3" controlId="validationFufills">
-                            <Form.Label> Fufills </Form.Label>
-                            <Form.Control
-                                type = "text"
-                                defaultValue={course.fufills}
-                            >
-                            </Form.Control>
-                        </Form.Group>
                     </Row>
                     <Button
+                        datatest-id="check-course-changes"
                         variant="primary"
                         type="submit"
                     >Check Course Changes</Button>
@@ -224,6 +204,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                 {validated && <Button
                     className="button"
                     id="save-course-button"
+                    datatest-id="save-course-button"
                     onClick={saveCourse}>Save Course</Button>}
             </ModalFooter>
         </Modal>
