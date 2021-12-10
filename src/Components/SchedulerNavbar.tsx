@@ -38,7 +38,7 @@ export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeReq
      */   
     function createDegreeDropDown(plan: string){
         return (
-            <NavDropdown.Item eventKey="changedegreeplan" onClick = {()=>updateDegree(plan)}>{plan}</NavDropdown.Item>
+            <NavDropdown.Item datatest-id={plan} key={plan} eventKey="changedegreeplan" onClick = {()=>updateDegree(plan)}>{plan}</NavDropdown.Item>
         );
     } 
     return (
@@ -63,13 +63,14 @@ export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeReq
                     <Nav.Item>
                         <Nav.Link 
                             id="delete-all-semesters-nav"
+                            data-testid="delete-all-semesters-nav"
                             onClick = {() => deleteAllSemesters()}
                         >Delete All Semesters</Nav.Link>
                     </Nav.Item>
-                    <NavDropdown title="Set Degree Plan">
+                    <NavDropdown key="title" title="Set Degree Plan" data-testid="degree-plans-nav">
                         {Object.keys(degree_plan_list).map(createDegreeDropDown)} 
                     </NavDropdown>
-                    <NavDropdown title="scheduleDropdown" id="sch-dropdown">
+                    <NavDropdown key="nav" title="scheduleDropdown" id="sch-dropdown" data-testid ="sche">
                         <NavDropdown.Item 
                             eventKey="downloadcsv"
                             onClick = {() => CSVExport(plan)}

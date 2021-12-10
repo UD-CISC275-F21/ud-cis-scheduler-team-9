@@ -2,6 +2,7 @@ import React from "react";
 import { Course } from "../interface/course";
 import "bootstrap/dist/js/bootstrap.bundle";
 import { Popover, OverlayTrigger } from "react-bootstrap";
+
 /**
  * @description Creates a Modal containing each of a given degree plan's required courses. Highlights in green the
  * courses that have been included in the user's plan.
@@ -12,6 +13,7 @@ import { Popover, OverlayTrigger } from "react-bootstrap";
  *
  * @returns {JSX.Element} A JSX.Element containing a custom Modal with the degree plan's required courses.
  */
+
 export function RequiredDegreeList({checkCourse, catalog, degree_plan, degree_list}: {
     checkCourse: (c: string)=>boolean,
     catalog: Record<string, Course>;
@@ -19,6 +21,8 @@ export function RequiredDegreeList({checkCourse, catalog, degree_plan, degree_li
     degree_list: string[]
 }): JSX.Element {
     
+    let i = 0;
+
     /**
      * @description Creates an OverlayTrigger with Popover for a course. 
      * @param {string} course A course's department + course ID (i.e. a course code). 
@@ -52,14 +56,14 @@ export function RequiredDegreeList({checkCourse, catalog, degree_plan, degree_li
           
         if (checkCourse(course)){
             return(
-                <OverlayTrigger placement="right" overlay={popover}>
-                    <a className="list-group-item list-group-item-success" key = {course}> {course} </a>
+                <OverlayTrigger key={i++} placement="right" overlay={popover}>
+                    <a className="list-group-item list-group-item-success" > {course} </a>
                 </OverlayTrigger>
             );
         }else{
             return(
-                <OverlayTrigger  placement="right" overlay={popover}>
-                    <a className="list-group-item list-group-item-action" key = {course}> {course} </a>
+                <OverlayTrigger key={i++} placement="right" overlay={popover}>
+                    <a className="list-group-item list-group-item-action" > {course} </a>
                 </OverlayTrigger>
             );
         }
@@ -69,15 +73,15 @@ export function RequiredDegreeList({checkCourse, catalog, degree_plan, degree_li
             <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
                 Degree Audit
             </button>
-            <div className="modal fade" id="exampleModalLong" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div className="modal fade" id="" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLongTitle"> {degree_plan} </h5>
+                            <h5 className="modal-title" id="exampleModalLongTitle"> Major: {degree_plan} </h5>
                         </div>
                         <div className="modal-body">
                             <div id = "required_degree_list">
-                                <div className="list-group w-100" key = "degree_requirements" id = "degree_requirements">
+                                <div className="list-group w-100" id = "degree_requirements">
                                     {degree_list.map(createList)}
                                 </div>
                             </div>
