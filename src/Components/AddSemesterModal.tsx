@@ -15,7 +15,8 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     setVisible: (v:boolean)=>void,
     checkCourse: (c: string)=>boolean,
     visible: (boolean),
-    catalog: (Record<string, Course>)}): JSX.Element {
+    catalog: (Record<string, Course>),
+}): JSX.Element {
 
     const [season, setSeason] = useState<Season>(0);
     const [year, setYear] = useState<number>(1);
@@ -39,6 +40,20 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
     const [showPreWarning, setShowPreWarning] = useState<boolean>(false);
     
     const hide = ()=>setVisible(false);
+
+    /**
+     * @description Deletes a course from a given semester.
+     * @param {Course} course The course to be deleted.
+     * @param {Semester} semester The semester that the course is contained in.
+     * 
+     */
+    function deleteCourse({course, semester}: {
+        course: Course;
+        semester: Semester;
+    }): void {
+        delete semester.courseRecord[course.department + course.courseID];
+        setCourseRecord({...semester.courseRecord});
+    }
 
     function validateForm(): boolean { // Makes sure that no text field related to course search is empty
         return department.length > 0 && courseID >= 100;
@@ -276,7 +291,12 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
                     </Col>
                 </Row>
                 <Row>
-                    <SemesterTable data-testid="semester-table" semester={{season, year, courseRecord, creditTotal, expectedTuition}} addCourse={addCourse}></SemesterTable>
+                    <SemesterTable
+                        data-testid="semester-table"
+                        semester={{season, year, courseRecord, creditTotal, expectedTuition}}
+                        addCourse={addCourse}
+                        deleteCourse={deleteCourse}
+                    ></SemesterTable>
                 </Row>
                 <Row data-testid="Bottom Row">
                     <Col>

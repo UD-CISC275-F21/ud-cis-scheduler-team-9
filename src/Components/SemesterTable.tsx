@@ -73,7 +73,7 @@ export function SemesterTable({semester, editCourseLauncher, deleteCourse, addCo
                     <th scope="col">Description</th>
                     <th scope="col">Credits</th>
                     {editCourseLauncher && <th scope="col">Edit:</th>}
-                    {editCourseLauncher && <th scope="col">Delete:</th>} 
+                    <th scope="col">Delete:</th> 
                 </tr>
             </thead>
             <tbody>

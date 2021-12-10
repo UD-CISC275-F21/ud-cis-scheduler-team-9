@@ -32,6 +32,10 @@ function App(): JSX.Element {
     });
     const [semesterIndex, setSemesterIndex] = useState<number>(0);
 
+    /**
+     * @description Parses the JSON data with the scraped course information from UD's course catalog and converts it
+     * into Course structures.
+     */
     function setUp(){
         courseData.forEach((json_course)=>{
             const course_entry: Course = {
@@ -174,7 +178,6 @@ function App(): JSX.Element {
     /**
      * @description Deletes a semster from the user's current plan.
      * @param {Semester} semester The semester to be deleted.
-     * 
      */
     function deleteSemester(semester: Semester): void {
         const dsIndex: number = checkSemester(semester); //deleteSemesterIndex
@@ -183,6 +186,12 @@ function App(): JSX.Element {
         setPlan([...newPlan]);
     }
 
+    /**
+     * @description Checks to see if a Semester is in the User's plan.
+     * @param {Semester} semester The semester to be checked.
+     * 
+     * @returns {number} If semester is in plan, returns the semester's index. If not, returns -1.
+     */
     function checkSemester(semesterToCheck: Semester): number {
         for(let semesterIndex = 0; semesterIndex<plan.length; semesterIndex++){
             if(semesterToCheck.year === plan[semesterIndex].year && semesterToCheck.season === plan[semesterIndex].season){
@@ -192,8 +201,7 @@ function App(): JSX.Element {
         return -1;
     }
 
-    //Adds all courses to the course catalog
-    setUp();
+    setUp(); //Adds all courses to the course catalog
     return (
         <DndProvider backend = {HTML5Backend}>
             <Container className="App">
