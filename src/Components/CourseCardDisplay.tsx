@@ -45,8 +45,10 @@ export function CourseCardDisplay({courseInfo, setCourseInfo, showCard}: {
      * @param {Course} item A course.
      */
     function handleDisplay(item: Course){
-        if(courseInfo.department != item.department || courseInfo.courseID != item.courseID)
+        if(courseInfo.department != item.department || courseInfo.courseID != item.courseID){
             setCourseInfo(item);
+            validatePreRequirements(item);
+        }
     }
 
     return (
