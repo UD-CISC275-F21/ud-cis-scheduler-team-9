@@ -20,7 +20,10 @@ export function CardPool({showCard}: {showCard: boolean}): JSX.Element{
     });
 
     /**
-     * braxton save me
+     * @description Adds a course to the pool if the course already isn't in the pool.
+     * @param {Course} item A course to be checked.
+     * 
+     * @returns {JSX.Element} A JSX.Element containing the Pool area.
      */
     function handlePool(item: Course){
         if (!pool.find((course) => course.department === item.department && course.courseID === item.courseID)) {

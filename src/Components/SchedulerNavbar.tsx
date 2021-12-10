@@ -3,6 +3,7 @@ import UDLogo from "../Assets/University_of_Delaware_wordmark.svg";
 import { CSVImport } from "../Assets/CSV-Functions";
 import { CSVExport } from "../Assets/CSV-Functions";
 import { Semester } from "../interface/semester";
+import { IntroJSWalkthrough } from "./IntroJSWalkthrough";
 /**
  * @description Creates a Navbar that contains the University of Delaware logo, a deleteAllSemesters button, a DropDown
  *  with upload and download csv. buttons, etc. 
@@ -61,6 +62,9 @@ export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeReq
                 </Navbar.Brand>
                 <Nav className="sch-nav" justify={true}>
                     <Nav.Item>
+                        <IntroJSWalkthrough></IntroJSWalkthrough>
+                    </Nav.Item>
+                    <Nav.Item>
                         <Nav.Link 
                             id="delete-all-semesters-nav"
                             data-testid="delete-all-semesters-nav"
@@ -85,6 +89,7 @@ export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeReq
                     className="ud-catalog-link"
                     href="https://catalog.udel.edu/"
                     target="_blank"
+                    id="catalog-link"
                 >
                     <strong>UD Catalog</strong>
                 </Nav.Link>
