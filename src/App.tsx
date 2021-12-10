@@ -15,7 +15,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App(): JSX.Element {
-    const [plan, setPlan] = useState<Semester[]>([]);
+    const [plan, setPlan] = useState<Semester[]>([]); //User's 
     const [visible, setVisible] = useState<boolean>(false);
     const catalog: Record<string, Course> = courseCatalog;
     const [degreePlan, setDegreePlan] = useState<string>("Computer Science: (BS)");
@@ -36,7 +36,7 @@ function App(): JSX.Element {
      * @description Parses the JSON data with the scraped course information from UD's course catalog and converts it
      * into Course structures.
      */
-    function setUp(){
+    function setUp(): void {
         courseData.forEach((json_course)=>{
             const course_entry: Course = {
                 department: "",
