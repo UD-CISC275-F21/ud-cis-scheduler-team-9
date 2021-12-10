@@ -1,5 +1,5 @@
 import React from "react";
-import { cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import App from "./App";
 import userEvent from "@testing-library/user-event";
 import { CardPool } from "./Components/CardPool";
@@ -248,6 +248,8 @@ describe("add-semester-modal", ()=>{
     });
 });
 
+//tests for plan-table
+
 describe("plan-table", () => {
     beforeEach(() =>{
         render(<App />);
@@ -259,6 +261,8 @@ describe("plan-table", () => {
     });
     //if there is a way to insert data in the modal we could test that
 });
+
+//tests for semester-table
 
 describe("semester-table", () => {
     beforeEach(() =>{
@@ -278,7 +282,9 @@ describe("semester-table", () => {
     });
 });
 
-describe("card-display", () => {
+//tests for course-card-display
+
+describe("course-ard-display", () => {
     beforeEach(() => {
         render(<App />);
         const button = screen.getByTestId("add-semester-button-plan-table");
@@ -303,13 +309,13 @@ describe("card-display", () => {
         expect(cardDisplay).not.toBeInTheDocument();
     });
 
-    it("can drag and accept cards", () => {
+    it("can accept cards that are not already displayed", () => {
         const searchButton = screen.getByTestId("search-course-button");
         const department = screen.getByTestId("department-name-input");
         const courseId = screen.getByTestId("course-id-input");
 
         userEvent.type(department, "CISC");
-        userEvent.type(courseId, "101");
+        userEvent.type(courseId, "108");
         userEvent.click(searchButton);
 
         const createBubbledEvent = (type: string, props = {}) => {
@@ -317,18 +323,35 @@ describe("card-display", () => {
             Object.assign(event, props);
             return event;
         };
-        const startingNode = screen.getByTestId("card-pool");
-        const endingNode = screen.getByTestId("course-card-display");
-        startingNode.dispatchEvent(
-            createBubbledEvent("dragstart", { clientX: 970, clientY: 386 })
-        );
-        endingNode.dispatchEvent(
-            createBubbledEvent("drop", { clientX: 357, clientY: 422 })
-        );
-        //expect();
+        const startingNode = screen.getByTestId("course-card");
+        const endingNode = screen.getByTestId("card-pool");
+        const endingNode2 = screen.getByTestId("course-card-display");
+        const getPoolContent = () => Array.from(endingNode.querySelectorAll("div"));
+        const getDisplayContent = () => Array.from(endingNode2.querySelectorAll("div"));
+
+        act(() => {
+            startingNode.dispatchEvent(createBubbledEvent("dragstart", { clientX: 357, clientY: 422}));
+        });
+        act(() => {
+            endingNode.dispatchEvent(createBubbledEvent("drop", { clientX: 970, clientY: 386}));
+        });
+        expect(getPoolContent().map(spot => spot.children[0])).toHaveLength(4);
+
+        fireEvent.change(courseId, "106");
+        userEvent.click(searchButton);
+
+        act(() => {
+            startingNode.dispatchEvent(createBubbledEvent("dragstart", { clientX: 970, clientY: 386}));
+        });
+        act(() => {
+            endingNode2.dispatchEvent(createBubbledEvent("drop", { clientX: 357, clientY: 422}));
+        });
+        expect(getDisplayContent().map(spot => spot.children[0])).toHaveLength(3);
     });
 
 });
+
+//tests for card-pool
 
 describe("card-pool", () => {
     beforeEach(() => {
@@ -342,8 +365,61 @@ describe("card-pool", () => {
         expect(cardPool).toBeInTheDocument();
     });
 
-    /*it("deletes the card on click of the delete button",{
-        
-    });*/
+    it("can accept cards", () => {
+        const searchButton = screen.getByTestId("search-course-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
+
+        userEvent.type(department, "CISC");
+        userEvent.type(courseId, "108");
+        userEvent.click(searchButton);
+
+        const createBubbledEvent = (type: string, props = {}) => {
+            const event = new Event(type, { bubbles: true });
+            Object.assign(event, props);
+            return event;
+        };
+        const startingNode = screen.getByTestId("course-card");
+        const endingNode = screen.getByTestId("card-pool");
+        const getPoolContent = () => Array.from(endingNode.querySelectorAll("div"));
+
+        act(() => {
+            startingNode.dispatchEvent(createBubbledEvent("dragstart", { clientX: 357, clientY: 422}));
+        });
+        act(() => {
+            endingNode.dispatchEvent(createBubbledEvent("drop", { clientX: 970, clientY: 386}));
+        });
+        expect(getPoolContent().map(spot => spot.children[0])).toHaveLength(4);
+    });
+
+    it("deletes the card on click of the delete button", () => {
+        const searchButton = screen.getByTestId("search-course-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
+
+        userEvent.type(department, "CISC");
+        userEvent.type(courseId, "108");
+        userEvent.click(searchButton);
+
+        const createBubbledEvent = (type: string, props = {}) => {
+            const event = new Event(type, { bubbles: true });
+            Object.assign(event, props);
+            return event;
+        };
+        const startingNode = screen.getByTestId("course-card");
+        const endingNode = screen.getByTestId("card-pool");
+        const getPoolContent = () => Array.from(endingNode.querySelectorAll("div"));
+
+        act(() => {
+            startingNode.dispatchEvent(createBubbledEvent("dragstart", { clientX: 357, clientY: 422}));
+        });
+        act(() => {
+            endingNode.dispatchEvent(createBubbledEvent("drop", { clientX: 970, clientY: 386}));
+        });
+
+        const deleteButton = screen.getByTestId("delete-button");
+        userEvent.click(deleteButton);
+        expect(getPoolContent().map(spot => spot.children[0])).toHaveLength(0);
+    });
 
 });

@@ -39,7 +39,7 @@ export function CourseCard({cardInfo, setDeleteCard, showCard, hide, hideButton}
     return (
         <Card draggable data-testid="course-card" className = "draggable-card" ref={drag} style={{opacity: isDragging ? "50%" : "100%"}}>
             <Card.Body>
-                <Card.Title>{cardInfo.department}{cardInfo.courseID}: {cardInfo.title} {!hideButton && <Button className="Danger" onClick={()=>setDeleteCard(cardInfo)}>-</Button>}
+                <Card.Title>{cardInfo.department}{cardInfo.courseID}: {cardInfo.title} {!hideButton && <Button className="Danger" data-testid="delete-button" onClick={()=>setDeleteCard(cardInfo)}>-</Button>}
                     <Card.Text> Credits: {cardInfo.credits}</Card.Text>
                 </Card.Title> 
                 {!hide && <Card.Text>{cardInfo.description}</Card.Text>}
