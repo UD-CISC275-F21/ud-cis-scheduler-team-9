@@ -16,12 +16,13 @@ import { SemesterCard } from "./SemesterCard";
  *
  * @returns {JSX.Element} A JSX.Element containing the rendered plan.
  */
-export function PlanTable({ semesters, deleteSemester, showModal, editCourseLauncher, deleteCourse }: {
-    semesters: Semester[];
-    deleteSemester: (semester: Semester) => void;
-    showModal: (b:boolean) => void;
-    editCourseLauncher: ({course, semester}: {course: Course, semester:Semester}) => void;
-    deleteCourse: ({course, semester}: {course: Course, semester:Semester}) => void;
+export function PlanTable({ semesters, deleteSemester, showModal, editCourseLauncher, deleteCourse, setVisible }: {
+    semesters: Semester[],
+    deleteSemester: (semester: Semester) => void,
+    showModal: (b:boolean) => void,
+    editCourseLauncher: ({course, semester}: {course: Course, semester:Semester}) => void,
+    deleteCourse: ({course, semester}: {course: Course, semester:Semester}) => void,
+    setVisible: (b: boolean) => void
 }): JSX.Element {
 
     const sortedSemesters = semesters.sort(compareSeason).sort(compareYear);
@@ -62,6 +63,8 @@ export function PlanTable({ semesters, deleteSemester, showModal, editCourseLaun
                 deleteSemester={deleteSemester}
                 editCourseLauncher={editCourseLauncher}
                 deleteCourse={deleteCourse}
+                setVisible={setVisible}
+                semesterList={semesters}
             ></SemesterCard>
         );
     }

@@ -15,6 +15,8 @@ describe("scheduler-navbar",() => {
         render(<App />);
     });
 
+    afterEach(cleanup);
+
     it("renders the custom navbar on the document", async () => {
         const element = screen.getByTestId("scheduler-navbar");
         expect(element).toBeInTheDocument();
@@ -28,10 +30,46 @@ describe("edit-course-modal",() => {
         render(<App />);
     });
 
+    afterEach(cleanup);
+
     it("does not render the edit-course-modal on start", async () => {
         const element = screen.queryByTestId("edit-course-modal");
         expect(element).not.toBeInTheDocument;
     });
+
+    it("shows the edit-course-modal when the edit-course button is clicked", async () => {
+        const button = screen.getByTestId("add-semester-button-plan-table");
+        userEvent.click(button);
+
+        const searchButton = screen.getByTestId("search-course-button");
+        const addButton = screen.getByTestId("add-course-button");
+        const saveButton = screen.getByTestId("save-semester-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
+        const year = screen.getByTestId("year-input");
+
+        //puts a CISC108 in the table
+        userEvent.type(department, "CISC");
+        userEvent.type(courseId, "108");
+        userEvent.click(searchButton);
+        userEvent.type(year, "2022");
+        userEvent.click(addButton);
+        expect(screen.getAllByText("CISC108")).toHaveLength(1);
+
+        userEvent.click(saveButton);
+        
+        //clears the fields
+        expect(department.textContent === "");
+        expect(courseId.textContent === "");
+        expect(year.textContent === "");
+
+        const editButton = screen.getByTestId("edit-course-button");
+        userEvent.click(editButton);
+
+        const editModal = await screen.findByTestId("edit-course-modal");
+        expect(editModal).toBeInTheDocument();
+    });
+
 });
 
 // AddSemesterModal tests
@@ -253,6 +291,8 @@ describe("plan-table", () => {
     beforeEach(() =>{
         render(<App />);
     });
+
+    afterEach(cleanup);
     
     it("exists when the page loads", () => {
         const element = screen.queryByTestId("plan-table");
@@ -267,6 +307,8 @@ describe("semester-table", () => {
     beforeEach(() =>{
         render(<App />);
     });
+
+    afterEach(cleanup);
 
     it ("does not initially exist when website loads", ()=> {
         const element = screen.queryByTestId("semester-table");
@@ -289,6 +331,8 @@ describe("course-ard-display", () => {
         const button = screen.getByTestId("add-semester-button-plan-table");
         userEvent.click(button);
     });
+
+    afterEach(cleanup);
 
     it("does not render right when the modal is shown", async () => {
         const cardDisplay = screen.queryByTestId("course-card-display");
@@ -358,6 +402,8 @@ describe("card-pool", () => {
         const button = screen.getByTestId("add-semester-button-plan-table");
         userEvent.click(button);
     });
+
+    afterEach(cleanup);
 
     it("is rendered right when the modal is shown", async () => {
         const cardPool = screen.queryByTestId("card-pool");

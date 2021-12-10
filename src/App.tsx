@@ -243,6 +243,7 @@ function App(): JSX.Element {
                         showModal={setVisible}
                         editCourseLauncher={editCourseLauncher}
                         deleteCourse={deleteCourse}
+                        setVisible={setVisible}
                     ></PlanTable>
                 </Row>
                 <Row>

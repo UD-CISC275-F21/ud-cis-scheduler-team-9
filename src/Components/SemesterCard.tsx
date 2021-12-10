@@ -8,17 +8,19 @@ import { SemesterTable } from "./SemesterTable";
  * attendance and total credits, a deleteSemester button, etc.
  * @param {Semester} semester A semester.
  * @param {(semester: Semester) => void} deleteSemester Deletes a single semester from the plan.
- * @param {({course, semester}: {course: Course, semester:Semester}) => void} editCourseLauncher Launches the editCourse
- * Modal.
+ * @param {({course, semester}: {course: Course, semester:Semester}) => void} editCourseLauncher Launches the editCourse Modal.
  * @param {({course, semester}: {course: Course, semester:Semester}) => void} deleteCourse Deletes a course.
- *
+ * @param {(b: boolean) => void} setVisible Makes the AddSemesterModal appear
+ * @param {Semester[]} semesterList The list of semesters in Plan Table
  * @returns {JSX.Element} A JSX.Element containing a single Semester, formatted as a Card.
  */
-export function SemesterCard({ semester, deleteSemester, editCourseLauncher, deleteCourse }: {
-    semester: Semester;
-    deleteSemester: (semester: Semester) => void;
-    editCourseLauncher: ({course, semester}: {course: Course, semester:Semester}) => void;
-    deleteCourse: ({course, semester}: {course: Course, semester:Semester}) => void;
+export function SemesterCard({ semester, deleteSemester, editCourseLauncher, deleteCourse, setVisible, semesterList}: {
+    semester: Semester,
+    deleteSemester: (semester: Semester) => void,
+    editCourseLauncher: ({course, semester}: {course: Course, semester:Semester}) => void,
+    deleteCourse: ({course, semester}: {course: Course, semester:Semester}) => void,
+    setVisible: (b: boolean) => void,
+    semesterList: Semester[]
 }): JSX.Element {
     /**
      * Gets the string value of a given Season enum.
