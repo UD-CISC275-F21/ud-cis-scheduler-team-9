@@ -107,6 +107,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                         <Form.Group as={Col} md="4" controlId="validationDepartment">
                             <Form.Label>Department</Form.Label>
                             <Form.Control
+                                datatest-id="edit-department"
                                 required
                                 type="text"
                                 placeholder="ABCD or ABC"
@@ -125,6 +126,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                         <Form.Group as={Col} md="4" controlId="validationCourseID">
                             <Form.Label>Course ID</Form.Label>
                             <Form.Control
+                                datatest-id="edit-courseid"
                                 required
                                 type="number"
                                 placeholder="123"
@@ -143,6 +145,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                         <Form.Group as={Col} md="4" controlId="validationTitle">
                             <Form.Label>Title</Form.Label>
                             <Form.Control
+                                datatest-id="edit-title"
                                 required
                                 type="text"
                                 placeholder="Introduction to Course Registration"
@@ -160,6 +163,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                         <Form.Group as={Col} controlId="validationDescription">
                             <Form.Label>Description</Form.Label>
                             <Form.Control
+                                datatest-id="edit-description"
                                 required
                                 as="textarea"
                                 style={{ height: "100px" }}
@@ -181,6 +185,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                         <Form.Group as={Col} md="3" controlId="validationCredits">
                             <Form.Label>Credits</Form.Label>
                             <Form.Control
+                                datatest-id="edit-credits"
                                 required
                                 as="select"
                                 aria-label="Floating label select example"
@@ -204,6 +209,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                         </Form.Group>
                     </Row>
                     <Button
+                        datatest-id="check-course-changes"
                         variant="primary"
                         type="submit"
                     >Check Course Changes</Button>
@@ -213,6 +219,7 @@ export function EditCourseModal({ setEditCourseVisible, editCourseVisible, cours
                 {validated && <Button
                     className="button"
                     id="save-course-button"
+                    datatest-id="save-course-button"
                     onClick={saveCourse}>Save Course</Button>}
             </ModalFooter>
         </Modal>

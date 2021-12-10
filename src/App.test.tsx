@@ -1,4 +1,5 @@
 import React from "react";
+
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import App from "./App";
 import userEvent from "@testing-library/user-event";
@@ -20,6 +21,56 @@ describe("scheduler-navbar",() => {
     it("renders the custom navbar on the document", async () => {
         const element = screen.getByTestId("scheduler-navbar");
         expect(element).toBeInTheDocument();
+    });
+
+    it("deletes all the semesters when the button is pressed",  () => {
+        //make a semester with cisc108
+        const button = screen.getByTestId("add-semester-button-plan-table");
+        userEvent.click(button);
+
+        const searchButton = screen.getByTestId("search-course-button");
+        const addButton = screen.getByTestId("add-course-button");
+        const saveButton = screen.getByTestId("save-semester-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
+        const year = screen.getByTestId("year-input");
+        const springRadio = screen.getByTestId("spring-radio");
+
+        userEvent.type(department, "CISC");
+        userEvent.type(courseId, "108");
+        userEvent.click(springRadio);
+        userEvent.click(searchButton);
+        userEvent.type(year, "2022");
+        userEvent.click(addButton);
+        expect(screen.getAllByText("CISC108")).toHaveLength(1);
+
+        userEvent.click(saveButton);
+
+        //sees a semester on the screen
+        expect(screen.getAllByText("Semester: Spring 2022")).toHaveLength(1);
+        const deleteButton = screen.getByTestId("delete-all-semesters-nav");
+        userEvent.click(deleteButton);
+        const semester = screen.queryByText("Semester: Winter 2022");
+        expect(semester).not.toBeInTheDocument;
+    });
+
+    it("changes the plan when a degree is selected", ()=>{
+        fireEvent.click(screen.getByText("Set Degree Plan"));
+        const hpc = screen.queryByText("Computer Science - High Performance Computing Concentration (Data Track)");
+        expect(hpc).toBeInTheDocument;
+        fireEvent.click(screen.getByText("Computer Science - High Performance Computing Concentration (Data Track)"));
+        const data_track = screen.queryByText("Data Track");
+        expect(data_track).toBeInTheDocument;
+    });
+    it ("shows export/import options when button is clicked", ()=> {
+        fireEvent.click(screen.getByText("scheduleDropdown"));        
+        const download = screen.queryByText("Download as .csv");
+        const upload = screen.queryByText("Upload as .csv");
+        expect(download).toBeInTheDocument;
+        expect(upload).toBeInTheDocument;
+
+
+
     });
 });
 
@@ -69,7 +120,6 @@ describe("edit-course-modal",() => {
         const editModal = await screen.findByTestId("edit-course-modal");
         expect(editModal).toBeInTheDocument();
     });
-
 });
 
 // AddSemesterModal tests
@@ -298,7 +348,6 @@ describe("plan-table", () => {
         const element = screen.queryByTestId("plan-table");
         expect(element).toBeInTheDocument();
     });
-    //if there is a way to insert data in the modal we could test that
 });
 
 //tests for semester-table

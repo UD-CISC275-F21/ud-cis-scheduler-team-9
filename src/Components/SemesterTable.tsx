@@ -86,6 +86,7 @@ export function SemesterTable({semester, editCourseLauncher, deleteCourse, addCo
                 {editCourseLauncher && 
                 <td id="edit-course-button">
                     <Button
+                        datatest-id="edit-course-button"
                         variant="primary"
                         data-testid="edit-course-button"
                         size="sm"

@@ -100,8 +100,7 @@ export function AddSemesterModal({ addSemester, checkSemester, setVisible, check
             //Iterate through each key the list of prerequisites, formatted {[CISC108, CISC106], [MATH241]...}
             for (let h = 0; h < course.preReqs[j].length; h++){
                 //If the course isnt valid AND it hasnt been set true previously, then the course isnt valid.
-                //console.log(course.preReqs[j][h]);
-                if (!checkCourse(course.preReqs[j][h])){
+                if (!checkCourse(course.preReqs[j][h].replace(" ", ""))){
                     valid_course = false;
                 }else{
                     valid_course = true;
