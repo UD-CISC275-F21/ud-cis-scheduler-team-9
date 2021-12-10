@@ -71,11 +71,8 @@ export function SemesterCard({ semester, deleteSemester, editCourseLauncher, del
                         deleteCourse={deleteCourse}
                     ></SemesterTable>
                 </Row>
-                <p>PLACEHOLDER FOR SEMESTER STATS (TOT CREDITS, ESTIMATED COST, ETC)</p>
+                <p>Total Credits: {semester.creditTotal}</p>
             </Card.Body>
-            <Card.Footer>
-                {(semester.season % 2) && <Button variant="primary">Add Semester: {getSeason((semester.season + 1) % 4)}</Button>}
-            </Card.Footer>
         </Card>   
     );
 }

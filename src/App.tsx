@@ -13,7 +13,6 @@ import { SchedulerNavbar } from "./Components/SchedulerNavbar";
 import degreePlanList from "./Assets/degreeplans.json";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Steps, Hints } from "intro.js-react";
 
 function App(): JSX.Element {
     const [plan, setPlan] = useState<Semester[]>([]); //User's 
@@ -33,21 +32,6 @@ function App(): JSX.Element {
     });
     const [semesterIndex, setSemesterIndex] = useState<number>(0);
 
-
-    const intro = {
-        stepsEnabled: true,
-        initialStep: 0,
-        steps: [
-            {
-                element: ".hello",
-                intro: "Hello step"
-            },
-            {
-                element: ".world",
-                intro: "World step"
-            }
-        ]
-    };
     /**
      * @description Parses the JSON data with the scraped course information from UD's course catalog and converts it
      * into Course structures.
@@ -262,13 +246,6 @@ function App(): JSX.Element {
                     ></PlanTable>
                 </Row>
                 <Row>
-                    <Steps
-                        enabled={intro.stepsEnabled}
-                        steps={intro.steps}
-                        initialStep={intro.initialStep}
-                        onExit={onExit}
-                    />
-                    <button onClick={toggleSteps}>Toggle Steps</button>
                 </Row>
             </Container>
         </DndProvider>
