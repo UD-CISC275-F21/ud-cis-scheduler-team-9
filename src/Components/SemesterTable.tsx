@@ -84,9 +84,10 @@ export function SemesterTable({semester, editCourseLauncher, deleteCourse, addCo
                 <td id="course-description">{course.description.substring(0, 50) + "..."}</td>
                 <td id="course-credits">{course.credits}</td>
                 {editCourseLauncher && 
-                <td id="course-edit-button">
+                <td id="edit-course-button">
                     <Button
                         variant="primary"
+                        data-testid="edit-course-button"
                         size="sm"
                         onClick={() => editCourseLauncher({course, semester})}
                     >Edit Course</Button>  
