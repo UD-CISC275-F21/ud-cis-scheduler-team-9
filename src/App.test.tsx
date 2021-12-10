@@ -36,6 +36,40 @@ describe("edit-course-modal",() => {
         const element = screen.queryByTestId("edit-course-modal");
         expect(element).not.toBeInTheDocument;
     });
+
+    it("shows the edit-course-modal when the edit-course button is clicked", async () => {
+        const button = screen.getByTestId("add-semester-button-plan-table");
+        userEvent.click(button);
+
+        const searchButton = screen.getByTestId("search-course-button");
+        const addButton = screen.getByTestId("add-course-button");
+        const saveButton = screen.getByTestId("save-semester-button");
+        const department = screen.getByTestId("department-name-input");
+        const courseId = screen.getByTestId("course-id-input");
+        const year = screen.getByTestId("year-input");
+
+        //puts a CISC108 in the table
+        userEvent.type(department, "CISC");
+        userEvent.type(courseId, "108");
+        userEvent.click(searchButton);
+        userEvent.type(year, "2022");
+        userEvent.click(addButton);
+        expect(screen.getAllByText("CISC108")).toHaveLength(1);
+
+        userEvent.click(saveButton);
+        
+        //clears the fields
+        expect(department.textContent === "");
+        expect(courseId.textContent === "");
+        expect(year.textContent === "");
+
+        const editButton = screen.getByTestId("edit-course-button");
+        userEvent.click(editButton);
+
+        const editModal = await screen.findByTestId("edit-course-modal");
+        expect(editModal).toBeInTheDocument();
+    });
+
 });
 
 // AddSemesterModal tests
