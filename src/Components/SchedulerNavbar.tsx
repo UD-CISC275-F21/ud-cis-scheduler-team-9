@@ -69,7 +69,7 @@ export function SchedulerNavbar({deleteAllSemesters, setDegreePlan, setDegreeReq
                     <NavDropdown title="Set Degree Plan">
                         {Object.keys(degree_plan_list).map(createDegreeDropDown)} 
                     </NavDropdown>
-                    <NavDropdown title="scheduleDropdown" id="sch-dropdown">
+                    <NavDropdown title="Upload/Download" id="sch-dropdown">
                         <NavDropdown.Item 
                             eventKey="downloadcsv"
                             onClick = {() => CSVExport(plan)}
